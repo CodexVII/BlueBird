@@ -41,7 +41,7 @@ public class LoginFormBean implements Serializable {
         this.password = password;
     }
 
-    public String login() {
+    public void login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
@@ -50,13 +50,15 @@ public class LoginFormBean implements Serializable {
         try {
             // successful login
             request.login(username, password);
-            return "/home.xhtml?faces-redirect=true";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
         } catch (ServletException e) {
             // failed login
             FacesMessage msg = new FacesMessage("Failed to log user in");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(null, msg);
-            return "/loginerror.xhtml?faces-redirect=true";
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -65,7 +67,7 @@ public class LoginFormBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.logout();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         } catch (ServletException e) {
             FacesMessage msg = new FacesMessage("Failed to logout");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
