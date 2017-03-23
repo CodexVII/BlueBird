@@ -8,15 +8,9 @@
         <title>BlueBird</title>
     </h:head>
     <h:body>
+        <h3>Login Successful</h3>
         <h:form>
-            <h3>Login Form</h3>
-            <h:outputLabel value="Username"/>
-            <h:inputText value="#{loginFormBean.username}"/>
-            <br></br>
-            <h:outputLabel value="Password"/>
-            <h:inputSecret value="#{loginFormBean.password}"/>
-            <h:commandButton value="Login" action="#{loginFormBean.login}"/>
-            <h:messages/>
+            <h:commandButton value="Logout" action="#{loginFormBean.logout}" />
         </h:form>
     </h:body>
 </html>
