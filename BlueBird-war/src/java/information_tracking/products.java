@@ -31,6 +31,7 @@ public class products implements Serializable {
         private int index;
         private Boolean basketCase;
 
+         // <editor-fold desc="Setter and Getter Garbage.">
         public Boolean getBasketCase() {
             return basketCase;
         }
@@ -78,6 +79,7 @@ public class products implements Serializable {
         public void setDescription(String description) {
             this.description = description;
         }
+        // </editor-fold>
         
         public String buttonText(){
             if(!this.basketCase)
@@ -100,6 +102,8 @@ public class products implements Serializable {
      * Creates a new instance of products
      */
     private List<Product> allProducts;
+    
+ // <editor-fold desc="Setter and Getter Garbage.">
 
     public List<Product> getAllProducts() {
         return allProducts;
@@ -128,9 +132,11 @@ public class products implements Serializable {
     public void setAllProducts(List<Product> allProducts) {
         this.allProducts = allProducts;
     }
+// </editor-fold>
     
     public products() {
         allProducts = new ArrayList<Product>();
+        // Just some dummy data to test with
         this.addProductRow(1,"Fight Milk", "Fight Like a Crow!", 1000, 55.99);
         this.addProductRow(2,"Chicken Hut Gravy", "Forged in the fires of Mount Doom", 2, 199.00);
     }
