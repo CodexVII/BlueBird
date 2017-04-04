@@ -92,3 +92,49 @@
   background-color: #efefef;
   text-align: center;
 } 
+
+.tabelle {
+	width: 1000px; border-collapse: collapse; 
+}
+.zelle{
+	padding: 3px; 
+	background-color: SkyBlue; 
+	font-family: Verdana; 
+	font-size: 12px;
+	text-align: center; 
+	color: Black; 
+}
+th {
+	background-color: SteelBlue;
+	padding: 3px; 
+	color: White; 
+	font-size: 12px;
+	font-family: Verdana; 
+}
+.separate {
+	border-radius: 10px;
+	border-spacing: 0;
+	border-collapse: separate;
+}
+.separate td, table.separate th {
+	border-bottom: 1px solid Gray;
+	border-right: 1px solid Gray;
+}
+.separate tr:last-child td:first-child {
+	border-bottom-left-radius: 10px;
+}
+.separate tr:last-child td:last-child {
+	border-bottom-right-radius: 20;
+}
+.separate tr th:first-child, table.separate tr td:first-child {
+	border-left: 1px solid Gray;
+}
+.separate tr:first-child th, table.separate tr:first-child td {
+	border-top: 1px solid Gray;
+}
+.separate tr:first-child th:first-child, table.separate tr:first-child td:first-child {
+	border-top-left-radius: 10px
+}
+.separate tr:first-child th:last-child, table.separate tr:first-child td:last-child {
+	border-top-right-radius: 10px;	
+}
