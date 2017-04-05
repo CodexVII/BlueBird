@@ -25,18 +25,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alan
+ * @author keita
  */
 @Entity
-@Table(name = "order")
+@Table(name = "customer_order")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o")
-    , @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.id = :id")
-    , @NamedQuery(name = "Order1.findByTimestamp", query = "SELECT o FROM Order1 o WHERE o.timestamp = :timestamp")
-    , @NamedQuery(name = "Order1.findByQuantity", query = "SELECT o FROM Order1 o WHERE o.quantity = :quantity")
-    , @NamedQuery(name = "Order1.findByCost", query = "SELECT o FROM Order1 o WHERE o.cost = :cost")})
-public class Order1 implements Serializable {
+    @NamedQuery(name = "CustomerOrder.findAll", query = "SELECT c FROM CustomerOrder c")
+    , @NamedQuery(name = "CustomerOrder.findById", query = "SELECT c FROM CustomerOrder c WHERE c.id = :id")
+    , @NamedQuery(name = "CustomerOrder.findByTimestamp", query = "SELECT c FROM CustomerOrder c WHERE c.timestamp = :timestamp")
+    , @NamedQuery(name = "CustomerOrder.findByQuantity", query = "SELECT c FROM CustomerOrder c WHERE c.quantity = :quantity")
+    , @NamedQuery(name = "CustomerOrder.findByCost", query = "SELECT c FROM CustomerOrder c WHERE c.cost = :cost")})
+public class CustomerOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,14 +64,14 @@ public class Order1 implements Serializable {
     @ManyToOne(optional = false)
     private Product productId;
 
-    public Order1() {
+    public CustomerOrder() {
     }
 
-    public Order1(Integer id) {
+    public CustomerOrder(Integer id) {
         this.id = id;
     }
 
-    public Order1(Integer id, Date timestamp, int quantity, double cost) {
+    public CustomerOrder(Integer id, Date timestamp, int quantity, double cost) {
         this.id = id;
         this.timestamp = timestamp;
         this.quantity = quantity;
@@ -136,10 +136,10 @@ public class Order1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order1)) {
+        if (!(object instanceof CustomerOrder)) {
             return false;
         }
-        Order1 other = (Order1) object;
+        CustomerOrder other = (CustomerOrder) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +148,7 @@ public class Order1 implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Order1[ id=" + id + " ]";
+        return "entity.CustomerOrder[ id=" + id + " ]";
     }
     
 }
