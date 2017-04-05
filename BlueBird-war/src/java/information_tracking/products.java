@@ -108,6 +108,8 @@ public class products implements Serializable {
         
     private HtmlDataTable datatableUser;
     
+    private HtmlDataTable datatableCart;
+    
  // <editor-fold desc="Setter and Getter Garbage.">
 
     public List<Product> getAllProducts() {
@@ -124,6 +126,14 @@ public class products implements Serializable {
 
     public HtmlDataTable getDatatableUser() {
         return datatableUser;
+    }
+
+    public HtmlDataTable getDatatableCart() {
+        return datatableCart;
+    }
+
+    public void setDatatableCart(HtmlDataTable datatableCart) {
+        this.datatableCart = datatableCart;
     }
 
     public void setDatatableUser(HtmlDataTable datatableUser) {
@@ -165,6 +175,15 @@ public class products implements Serializable {
         this.shoppingList.remove(p);
     }
     
+    public void removeFromBasket(ActionEvent ev) throws IOException{
+        if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
+            HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
+            int currentRow = Integer.parseInt(button.getLabel());
+            Product p = (Product) datatableCart.getRowData();
+            removeProductFromShoppingList(p);
+        }
+    }
+    
     public void addToBasket(ActionEvent ev) throws IOException{
         if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
             HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
@@ -172,7 +191,6 @@ public class products implements Serializable {
             Product p = (Product) datatableUser.getRowData();
             if(p.basketCase) {
                 System.out.println("Removing item from basket Item " + p.name);
-                removeProductFromShoppingList(p);
             }
             else {
                 System.out.println("Adding item to basket Item " + p.name);

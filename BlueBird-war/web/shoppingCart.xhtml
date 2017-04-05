@@ -12,7 +12,7 @@
     <ui:define name="content">
         Items in your shopping cart:
         <h:dataTable class="tabelle" value="#{products.shoppingList}" var="p"
-                         binding="#{products.datatableUser}">
+                     binding="#{products.datatableCart}">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
                     #{p.name}
@@ -32,7 +32,7 @@
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Remove from Basket</f:facet>
-                        <h:commandButton label="#{p.index}" value="#{p.buttonText()}" actionListener="#{products.addToBasket}"/>
+                        <h:commandButton label="#{p.index}" value="#{p.buttonText()}" actionListener="#{products.removeFromBasket}"/>
                     </div>
                 </h:column>
         </h:dataTable>
