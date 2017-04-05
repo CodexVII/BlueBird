@@ -6,6 +6,7 @@
 package ejb;
 
 import entity.Product;
+import entity.User;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -25,17 +26,20 @@ public class UserEJB {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
-    public void addProduct(Product product){
-        em.merge(product);
-    }
-    
-    public Product getProduct(String name){
-        Query q = em.createNamedQuery("Product.findByName", Product.class);
-        return (Product)q.getSingleResult();
-    }
-    
+
     public List<Product> getAllProducts(){
         Query q = em.createNamedQuery("Product.findAll", Product.class);
         return (List<Product>)q.getResultList();
+    }
+    
+    public List<User> getAllUsers(){
+        Query q = em.createNamedQuery("User.findAll", User.class);
+        return (List<User>)q.getResultList();
+    }
+    
+    public void purchaseProduct(Product product, int amount) {
+        Product prod = em.find(Product.class, product.getName());
+        prod.setQuantityOnHand(prod.getQuantityOnHand()-amount);
+        em.merge(prod);
     }
 }

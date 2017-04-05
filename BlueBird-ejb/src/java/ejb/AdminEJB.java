@@ -6,6 +6,7 @@
 package ejb;
 
 import entity.Product;
+import entity.User;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -23,7 +24,24 @@ public class AdminEJB {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 
+    
     public void addProduct(Product product) {
         em.merge(product);
+    }
+    
+    public void updateProduct(Product product) {
+        em.merge(product);
+    }
+     
+    public void removeProduct(Product product){
+        em.remove(product);
+    }
+    
+    public void addUser(User user){
+        em.merge(user);
+    }
+    
+    public void updateUser(User user){
+        em.merge(user);
     }
 }

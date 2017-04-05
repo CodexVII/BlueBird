@@ -9,8 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author keita
+ * @author Alan
  */
 @Entity
 @Table(name = "product")
@@ -36,11 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private int id;
+    @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -58,20 +55,20 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(Integer id) {
-        this.id = id;
-    }
-
-    public Product(Integer id, String name) {
-        this.id = id;
+    public Product(String name) {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Product(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -110,7 +107,7 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
         return hash;
     }
 
@@ -121,7 +118,7 @@ public class Product implements Serializable {
             return false;
         }
         Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
         return true;
@@ -129,7 +126,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "ejb.Product[ id=" + id + " ]";
+        return "entity.Product[ name=" + name + " ]";
     }
     
 }

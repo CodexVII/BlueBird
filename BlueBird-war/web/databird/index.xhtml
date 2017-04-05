@@ -15,6 +15,8 @@
         <h:form>
             <h:commandButton value="Add Product" action="#{userBean.addProduct()}"/>
             <h:commandButton value="Get all products" action="#{userBean.getAllProducts()}"/>
+            <h:commandButton value="Testing" action="#{userBean.testing()}"/>
+            
             <h:dataTable value="#{userBean.products}" var="product">
                 <h:column>    				
                     <f:facet name = "header">Name</f:facet>    				
