@@ -30,12 +30,7 @@ public class products implements Serializable {
      */
     
     private List<Product> shoppingList;
-    
-    private HtmlDataTable datatableAdmin;
-        
-    private HtmlDataTable datatableUser;
-    
-    private HtmlDataTable datatableCart;
+  
     
  // <editor-fold desc="Setter and Getter Garbage.">
 
@@ -44,30 +39,6 @@ public class products implements Serializable {
     
     public List<Product> getAllProducts() {
         return usr.getAllProducts();
-    }
-    
-    public HtmlDataTable getDatatableAdmin() {
-        return datatableAdmin;
-    }
-
-    public void setDatatableAdmin(HtmlDataTable datatableAdmin) {
-        this.datatableAdmin = datatableAdmin;
-    }
-
-    public HtmlDataTable getDatatableUser() {
-        return datatableUser;
-    }
-
-    public HtmlDataTable getDatatableCart() {
-        return datatableCart;
-    }
-
-    public void setDatatableCart(HtmlDataTable datatableCart) {
-        this.datatableCart = datatableCart;
-    }
-
-    public void setDatatableUser(HtmlDataTable datatableUser) {
-        this.datatableUser = datatableUser;
     }
 
     public List<Product> getShoppingList() {
@@ -90,47 +61,23 @@ public class products implements Serializable {
         
     }
     
-    public void addProductToShoppingList(Product p){
-        this.shoppingList.add(p);
-    }
     
-    public void removeProductFromShoppingList(Product p){
+    public void removeFromBasket(Product p){
         this.shoppingList.remove(p);
     }
     
-    public void removeFromBasket(ActionEvent ev) throws IOException{
-        if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
-            HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
-            int currentId = Integer.parseInt(button.getLabel());
-            Product p = (Product) datatableCart.getRowData();
-            p.setId(currentId);
-            removeProductFromShoppingList(p);
+    public void addToBasket(Product p){
+        if(!shoppingList.contains(p)){
+            System.out.println("Adding item to basket Item " + p.getName());
+            this.shoppingList.add(p);
+        }
+        else{
+            System.out.println("Item already present " + p.getName());
         }
     }
     
-    public void addToBasket(ActionEvent ev) throws IOException{
-        if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
-            HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
-            int currentId = Integer.parseInt(button.getLabel());
-            Product p = (Product) datatableUser.getRowData();
-            p.setId(currentId);
-            if(!shoppingList.contains(p)){
-                System.out.println("Adding item to basket Item " + p.getName());
-                addProductToShoppingList(p); 
-            }
-            else
-                System.out.println("Item already present " + p.getName());
-        }
-    }
-    
-     public void changeItem(ActionEvent ev) throws IOException{
-        if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
-            HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
-            int currentId = Integer.parseInt(button.getLabel());
-            Product p = (Product) datatableAdmin.getRowData();
-            p.setId(currentId);
-            //Code to edit item
-        }
+     public void changeItem(Product p) {
+        
     }
     
 }

@@ -12,8 +12,7 @@
             <ui:define name="content">
                 <h:form>
             Currently Listed Items:
-            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p"
-                         binding="#{products.datatableAdmin}">
+            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
                     <h:inputText value="#{p.name}" />
@@ -33,7 +32,7 @@
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Edit Item</f:facet>
-                        <h:commandButton label="#{p.index}" value="Edit" actionListener="#{products.changeItem}"/>
+                        <h:commandButton value="Edit" action="#{products.changeItem(p)}"/>
                     </div>
                 </h:column>
             </h:dataTable>
