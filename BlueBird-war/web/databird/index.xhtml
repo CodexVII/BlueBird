@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <h:head>
@@ -13,6 +14,22 @@
     <h:body>
         <h:form>
             <h:commandButton value="Add Product" action="#{userBean.addProduct()}"/>
+            <h:commandButton value="Get all products" action="#{userBean.getAllProducts()}"/>
+            <h:dataTable value="#{userBean.products}" var="product">
+                <h:column>    				
+                    <f:facet name = "header">Name</f:facet>    				
+                        #{product.name}
+                </h:column>
+                <h:column>    				
+                    <f:facet name="header">Id</f:facet>    				
+                        #{product.id}
+                </h:column>
+                <h:column>    				
+                    <f:facet name= "header">Description</f:facet>    				
+                        #{product.description}
+                </h:column>
+            </h:dataTable>
+
         </h:form>
     </h:body>
 </html>

@@ -5,11 +5,13 @@
  */
 package databird;
 
-import ejb.AdminBean;
+import ejb.AdminEJB;
+import ejb.UserEJB;
 import entity.Product;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -20,7 +22,20 @@ import javax.inject.Inject;
 @SessionScoped
 public class UserBean implements Serializable {
     @Inject
-    private AdminBean admin;
+    private AdminEJB admin;
+    
+    @Inject
+    private UserEJB user;
+    
+    List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
     /**
      * Creates a new instance of UserBean
      */
@@ -31,6 +46,10 @@ public class UserBean implements Serializable {
         Product product = new Product();
         product.setName("Water");
         admin.addProduct(product);
+    }
+    
+    public void getAllProducts(){
+        products = user.getAllProducts();
     }
 
 }
