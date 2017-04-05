@@ -10,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
@@ -18,18 +17,13 @@ import javax.persistence.Query;
  */
 @Stateless
 @LocalBean
-public class UserBean {
+public class AdminEJB {
     @PersistenceContext
     EntityManager em;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    
-    public void addProduct(Product product){
+
+    public void addProduct(Product product) {
         em.merge(product);
-    }
-    
-    public Product getProduct(String name){
-        Query q = em.createNamedQuery("Product.findByName", Product.class);
-        return (Product)q.getSingleResult();
     }
 }
