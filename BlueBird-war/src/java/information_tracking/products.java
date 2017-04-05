@@ -104,6 +104,9 @@ public class products implements Serializable {
     private List<Product> allProducts;
     
     private List<Product> shoppingList;
+    private HtmlDataTable datatableAdmin;
+        
+    private HtmlDataTable datatableUser;
     
  // <editor-fold desc="Setter and Getter Garbage.">
 
@@ -111,10 +114,6 @@ public class products implements Serializable {
         return allProducts;
     }
     
-    private HtmlDataTable datatableAdmin;
-        
-    private HtmlDataTable datatableUser;
-
     public HtmlDataTable getDatatableAdmin() {
         return datatableAdmin;
     }
