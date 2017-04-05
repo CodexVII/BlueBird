@@ -9,7 +9,7 @@
     <ui:define name="content">
         <h:form>
             Products available:
-            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p"
+            <h:dataTable class="tabelle" value="#{products.getAllProducts()}" var="p"
                          binding="#{products.datatableUser}">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
@@ -21,7 +21,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock</f:facet> 
-                    #{p.stock}
+                    #{p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
@@ -30,7 +30,7 @@
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Add to Basket</f:facet>
-                        <h:commandButton label="#{p.index}" value="#{p.buttonText()}" actionListener="#{products.addToBasket}"/>
+                        <h:commandButton label="#{p.id}" value="Add" actionListener="#{products.addToBasket}"/>
                     </div>
                 </h:column>
             </h:dataTable>

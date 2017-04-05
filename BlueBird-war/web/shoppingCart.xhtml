@@ -23,7 +23,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock</f:facet> 
-                    #{p.stock}
+                    #{p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
@@ -32,7 +32,7 @@
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Remove from Basket</f:facet>
-                        <h:commandButton label="#{p.index}" value="#{p.buttonText()}" actionListener="#{products.removeFromBasket}"/>
+                        <h:commandButton label="#{p.id}" value="Remove" actionListener="#{products.removeFromBasket}"/>
                     </div>
                 </h:column>
         </h:dataTable>
