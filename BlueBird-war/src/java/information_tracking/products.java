@@ -103,6 +103,8 @@ public class products implements Serializable {
      */
     private List<Product> allProducts;
     
+    private List<Product> shoppingList;
+    
  // <editor-fold desc="Setter and Getter Garbage.">
 
     public List<Product> getAllProducts() {
@@ -132,10 +134,21 @@ public class products implements Serializable {
     public void setAllProducts(List<Product> allProducts) {
         this.allProducts = allProducts;
     }
+
+    public List<Product> getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(List<Product> shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+    
+    
 // </editor-fold>
     
     public products() {
         allProducts = new ArrayList<Product>();
+        shoppingList = new ArrayList<Product>();
         // Just some dummy data to test with
         this.addProductRow(1,"Fight Milk", "Fight Like a Crow!", 1000, 55.99);
         this.addProductRow(2,"Chicken Hut Gravy", "Forged in the fires of Mount Doom", 2, 199.00);
@@ -145,17 +158,27 @@ public class products implements Serializable {
         this.allProducts.add(new Product(index,name,des,stock,price));
     }
     
+    public void addProductToShoppingList(Product p){
+        this.shoppingList.add(p);
+    }
+    
+    public void removeProductFromShoppingList(Product p){
+        this.shoppingList.remove(p);
+    }
+    
     public void addToBasket(ActionEvent ev) throws IOException{
         if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
             HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
             int currentRow = Integer.parseInt(button.getLabel());
             Product p = (Product) datatableUser.getRowData();
-            if(p.basketCase)
-                //Add item to basket
+            if(p.basketCase) {
                 System.out.println("Removing item from basket Item " + p.name);
-            else
-                //remove item from basket
+                removeProductFromShoppingList(p);
+            }
+            else {
                 System.out.println("Adding item to basket Item " + p.name);
+                addProductToShoppingList(p); 
+            }                                        
             p.basketCase = !p.basketCase;
             button.setValue(p.buttonText());
             this.allProducts.set(currentRow-1,p);
