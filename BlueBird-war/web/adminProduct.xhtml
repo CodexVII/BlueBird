@@ -15,24 +15,24 @@
                 <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
                     <h:column>
                         <f:facet name = "header">Name</f:facet> 
-                        <h:inputText value="#{p.p.name}" />
+                        <h:inputText value="#{p.name}" />
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Description</f:facet>
-                        <h:inputText value="#{p.p.description}" />
+                        <h:inputText value="#{p.description}" />
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Available Stock</f:facet> 
-                        <h:inputText value="#{p.p.quantityOnHand}" />
+                        <h:inputText value="#{p.quantityOnHand}" />
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Price</f:facet>
-                        <h:inputText value="#{p.p.price}" />
+                        <h:inputText value="#{p.price}" />
                     </h:column>
                     <h:column>
                         <div align="center">
                             <f:facet name = "header">Edit Item</f:facet>
-                            <h:commandButton value="Edit" action="#{products.changeItem(p.p)}"/>
+                            <h:commandButton value="Edit" action="#{products.changeItem(p)}"/>
                         </div>
                     </h:column>
                 </h:dataTable>

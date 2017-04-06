@@ -14,27 +14,27 @@
         <h:dataTable class="tabelle" value="#{products.shoppingList}" var="p">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
-                    #{p.p.name}
+                    #{p.name}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Description</f:facet>
-                    #{p.p.description}
+                    #{p.description}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock</f:facet> 
-                    #{p.p.quantityOnHand}
+                    #{p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
-                    #{p.p.price}
+                    #{p.price}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity</f:facet>
-                    #{p.quantity}
+                    #{products.quantityOfItem.get(p.id)}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Total</f:facet>
-                    #{p.quantity*p.p.price}
+                    #{products.quantityOfItem.get(p.id)*p.price}
                 </h:column>
                 <h:column>
                     <div align="center">

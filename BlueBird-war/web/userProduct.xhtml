@@ -9,31 +9,31 @@
     <ui:define name="content">
         <h:form>
             Products available:
-            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
+            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p" binding="#{table}">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
-                    #{p.p.name}
+                    #{p.name}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Description</f:facet>
-                    #{p.p.description}
+                    #{p.description}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock</f:facet> 
-                    #{p.p.quantityOnHand}
+                    #{p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
-                    €#{p.p.price}
+                    €#{p.price}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText value="#{p.quantity}" />
+                    <h:inputText value="#{products.quantityOfItem[p.id]}" />
                 </h:column>
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Add to Basket</f:facet>
-                        <h:commandButton value="Add" action="#{products.addToBasket(p)}"/>
+                        <h:commandButton value="Add" action="#{products.addToBasket(p)}" />
                     </div>
                 </h:column>
             </h:dataTable>

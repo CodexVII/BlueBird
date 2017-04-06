@@ -12,7 +12,9 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.event.ActionEvent;
@@ -28,57 +30,40 @@ public class products implements Serializable {
     /**
      * Creates a new instance of products
      */
-    public class ShoppingItem{
-        private Product p;
-        private int quantity;
-
-        public ShoppingItem(Product p, int quantity)
-        {
-            this.p = p;
-            this.quantity = quantity;
-        }        
-        public Product getP() {
-            return p;
-        }
-
-        public void setP(Product p) {
-            this.p = p;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
-        
-        
-    }
-    private List<ShoppingItem> shoppingList;
+    private List<Product> shoppingList;
     
     private Boolean administrator;
     
+    Map<Integer, Integer> quantityOfItem;
+
  // <editor-fold desc="Setter and Getter Garbage.">
 
+    public Map<Integer, Integer> getQuantityOfItem() {
+        return quantityOfItem;
+    }
+
+    public void setQuantityOfItem(Map<Integer, Integer> quantityOfItem) {
+        this.quantityOfItem = quantityOfItem;
+    }
+    
     @Inject
     UserEJB usr;
     
-    public List<ShoppingItem> getAllProducts() {
-        List<Product> ejbProds = usr.getAllProducts();
-        List<ShoppingItem> s1 = new ArrayList<ShoppingItem>();
-        for(int i =0; i < ejbProds.size(); i++){
-            s1.add(new ShoppingItem(ejbProds.get(i),0));
+    public List<Product> getAllProducts() {
+        List<Product> allProducts = usr.getAllProducts();
+        for(int i =0; i<allProducts.size(); i++){
+            if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
+                this.quantityOfItem.put(allProducts.get(i).getId(), 0);
+            }
         }
-        return s1;
-        
+        return allProducts;
     }
 
-    public List<ShoppingItem> getShoppingList() {
+    public List<Product> getShoppingList() {
         return shoppingList;
     }
 
-    public void setShoppingList(List<ShoppingItem> shoppingList) {
+    public void setShoppingList(List<Product> shoppingList) {
         this.shoppingList = shoppingList;
     }
 
@@ -102,25 +87,26 @@ public class products implements Serializable {
 // </editor-fold>
     
     public products() {
-        this.shoppingList = new ArrayList<ShoppingItem>();
+        this.shoppingList = new ArrayList<Product>();
         this.administrator = true;
+        this.quantityOfItem = new HashMap<Integer, Integer>();
     }
     
     public void addProductRow( String name, String des, int stock, double price){
         
     }
     
-    public void removeFromBasket(ShoppingItem p){
+    public void removeFromBasket(Product p){
         this.shoppingList.remove(p);
     }
     
-    public void addToBasket(ShoppingItem p){
+    public void addToBasket(Product p){
         if(!shoppingList.contains(p)){
-            System.out.println("Adding "+ p.quantity +" of item to basket: " + p.p.getName());
+            System.out.println("Adding " + this.quantityOfItem.get(p.getId()) + " of item to basket: " + p.getName());
             this.shoppingList.add(p);
         }
         else{
-            System.out.println("Item already present " + p.p.getName());
+            System.out.println("Item already present " + p.getName());
         }
     }
     
@@ -129,11 +115,7 @@ public class products implements Serializable {
     }
      
     public double getShoppingTotal(){
-        double total=0.0;
-        for(int i =0; i<this.shoppingList.size();i++){
-            total+= this.shoppingList.get(i).p.getPrice() * this.shoppingList.get(i).quantity;
-        }
-        return total;
+        return 0.0;
     }
     
 }
