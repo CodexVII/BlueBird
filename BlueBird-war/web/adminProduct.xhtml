@@ -11,33 +11,36 @@
 
             <ui:define name="content">
                 <h:form>
-            Currently Listed Items:
-            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
-                <h:column>
-                    <f:facet name = "header">Name</f:facet> 
-                    <h:inputText value="#{p.name}" />
-                </h:column>
-                <h:column>
-                    <f:facet name = "header">Description</f:facet>
-                    <h:inputText value="#{p.description}" />
-                </h:column>
-                <h:column>
-                    <f:facet name = "header">Available Stock</f:facet> 
-                    <h:inputText value="#{p.stock}" />
-                </h:column>
-                <h:column>
-                    <f:facet name = "header">Price</f:facet>
-                    <h:inputText value="#{p.price}" />
-                </h:column>
-                <h:column>
-                    <div align="center">
-                        <f:facet name = "header">Edit Item</f:facet>
-                        <h:commandButton value="Edit" action="#{products.changeItem(p)}"/>
-                    </div>
-                </h:column>
-            </h:dataTable>
+                Currently Listed Items:
+                <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
+                    <h:column>
+                        <f:facet name = "header">Name</f:facet> 
+                        <h:inputText value="#{p.p.name}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Description</f:facet>
+                        <h:inputText value="#{p.p.description}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Available Stock</f:facet> 
+                        <h:inputText value="#{p.p.quantityOnHand}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Price</f:facet>
+                        <h:inputText value="#{p.p.price}" />
+                    </h:column>
+                    <h:column>
+                        <div align="center">
+                            <f:facet name = "header">Edit Item</f:facet>
+                            <h:commandButton value="Edit" action="#{products.changeItem(p.p)}"/>
+                        </div>
+                    </h:column>
+                </h:dataTable>
+            <br/><br/><br/><br/>
+            Add Product:
+            Name:<h:inputText/>Description<h:inputText/>Quantity on Hand<h:inputText/>Price<h:inputText/><h:commandButton value="Add"/>
         </h:form>
-            </ui:define>
+        </ui:define>
 
         </ui:composition>
 

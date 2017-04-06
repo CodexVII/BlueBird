@@ -14,28 +14,37 @@
         <h:dataTable class="tabelle" value="#{products.shoppingList}" var="p">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
-                    #{p.name}
+                    #{p.p.name}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Description</f:facet>
-                    #{p.description}
+                    #{p.p.description}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock</f:facet> 
-                    #{p.quantityOnHand}
+                    #{p.p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
-                    #{p.price}
+                    #{p.p.price}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Quantity</f:facet>
+                    #{p.quantity}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Total</f:facet>
+                    #{p.quantity*p.p.price}
                 </h:column>
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Remove from Basket</f:facet>
-                        <h:commandButton label="#{p.id}" value="Remove" actionListener="#{products.removeFromBasket(p)}"/>
+                        <h:commandButton value="Remove" action="#{products.removeFromBasket(p)}"/>
                     </div>
                 </h:column>
+
         </h:dataTable>
-        
+        <div align="right">Total Cost of Purchases: #{products.getShoppingTotal()}</div>
     </ui:define>
 
     

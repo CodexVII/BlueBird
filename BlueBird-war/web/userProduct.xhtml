@@ -9,30 +9,35 @@
     <ui:define name="content">
         <h:form>
             Products available:
-            <h:dataTable class="tabelle" value="#{products.getAllProducts()}" var="p">
+            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
-                    #{p.name}
+                    #{p.p.name}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Description</f:facet>
-                    #{p.description}
+                    #{p.p.description}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock</f:facet> 
-                    #{p.quantityOnHand}
+                    #{p.p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
-                    €#{p.price}
+                    €#{p.p.price}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Quantity to Purchase</f:facet>
+                    <h:inputText value="#{p.quantity}" />
                 </h:column>
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Add to Basket</f:facet>
-                        <h:commandButton value="Add" actionListener="#{products.addToBasket(p)}"/>
+                        <h:commandButton value="Add" action="#{products.addToBasket(p)}"/>
                     </div>
                 </h:column>
             </h:dataTable>
+            <h:commandButton action ="adminProduct" rendered="#{products.administrator}" value="Edit Products"/>
         </h:form>
    </ui:define>
     
