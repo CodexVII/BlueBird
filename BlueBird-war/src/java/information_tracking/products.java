@@ -34,8 +34,10 @@ public class products implements Serializable {
     
     private Boolean administrator;
     
-    Map<Integer, Integer> quantityOfItem;
+    private Map<Integer, Integer> quantityOfItem;
 
+    private List<Product> adminProducts;
+    
  // <editor-fold desc="Setter and Getter Garbage.">
 
     public Map<Integer, Integer> getQuantityOfItem() {
@@ -67,6 +69,14 @@ public class products implements Serializable {
         this.shoppingList = shoppingList;
     }
 
+    public List<Product> getAdminProducts() {
+        return this.adminProducts;
+    }
+
+    public void setAdminProducts(List<Product> adminProducts) {
+        this.adminProducts = adminProducts;
+    }
+
     public Boolean getAdministrator() {
         return administrator;
     }
@@ -83,13 +93,16 @@ public class products implements Serializable {
         this.usr = usr;
     }
 
-    
+    public void updateProducts(){
+        this.adminProducts = usr.getAllProducts();
+    }
 // </editor-fold>
     
     public products() {
         this.shoppingList = new ArrayList<Product>();
         this.administrator = true;
         this.quantityOfItem = new HashMap<Integer, Integer>();
+        this.adminProducts = new ArrayList<Product>();
     }
     
     public void addProductRow( String name, String des, int stock, double price){
@@ -101,13 +114,11 @@ public class products implements Serializable {
     }
     
     public void addToBasket(Product p){
-        if(!shoppingList.contains(p)){
-            System.out.println("Adding " + this.quantityOfItem.get(p.getId()) + " of item to basket: " + p.getName());
-            this.shoppingList.add(p);
+        if(this.shoppingList.contains(p)){
+            this.shoppingList.remove(p);
         }
-        else{
-            System.out.println("Item already present " + p.getName());
-        }
+        System.out.println("Adding " + this.quantityOfItem.get(p.getId()) + " of item to basket: " + p.getName());
+        this.shoppingList.add(p);
     }
     
      public void changeItem(Product p) {

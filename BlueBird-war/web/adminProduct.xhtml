@@ -12,7 +12,8 @@
             <ui:define name="content">
                 <h:form>
                 Currently Listed Items:
-                <h:dataTable class="tabelle" value="#{products.allProducts}" var="p">
+                <div align = "right"><h:commandButton value="Refresh" action="#{products.updateProducts()}" /></div>
+                <h:dataTable class="tabelle" value="#{products.adminProducts}" var="p">
                     <h:column>
                         <f:facet name = "header">Name</f:facet> 
                         <h:inputText value="#{p.name}" />
