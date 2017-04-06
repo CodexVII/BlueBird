@@ -17,7 +17,7 @@
             <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
             <h:form>
                 <div align="right">
-                    <br/><ui:insert name="top"><h:commandButton value="Shopping Cart"/></ui:insert>
+                    <br/><ui:insert name="top"><h:commandButton value="Shopping Cart: #{products.shoppingList.size()}" action="shoppingCart"/></ui:insert>
                 </div>
             </h:form>
         </div>
@@ -28,7 +28,6 @@
                         <li><h:commandButton value="My Profile"/></li>
                         <li><h:commandButton value="Browse Products" action="userProduct"/></li>
                         <li><h:commandButton value="Search for User" /></li>
-                        <li><h:commandButton value="Edit Items" action="adminProduct" /></li>
                     </ul>
                 </div>
                 <div id="content" class="left_content">
