@@ -51,5 +51,11 @@ public class UserBean implements Serializable {
     public void getAllProducts(){
         products = user.getAllProducts();
     }
-
+    
+    public void testing(){
+        Product product = new Product();
+        product.setName("Fight Milk");
+        
+        user.purchaseProduct(product, 5);
+    }
 }
