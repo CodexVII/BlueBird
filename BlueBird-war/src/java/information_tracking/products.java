@@ -5,15 +5,20 @@
  */
 package information_tracking;
 
+import ejb.UserEJB;
+import entity.Product;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 
 /**
  *
@@ -22,155 +27,106 @@ import javax.faces.event.ActionEvent;
 @Named(value = "products")
 @SessionScoped
 public class products implements Serializable {
-    
-    public class Product {
-        private double price;
-        private int stock;
-        private String name;
-        private String description;
-        private int index;
-        private Boolean basketCase;
-
-         // <editor-fold desc="Setter and Getter Garbage.">
-        public Boolean getBasketCase() {
-            return basketCase;
-        }
-
-        public void setBasketCase(Boolean basketCase) {
-            this.basketCase = basketCase;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-
-        public void setIndex(int index) {
-            this.index = index;
-        }        
-        
-        public double getPrice() {
-            return price;
-        }
-
-        public void setPrice(double price) {
-            this.price = price;
-        }
-
-        public int getStock() {
-            return stock;
-        }
-
-        public void setStock(int stock) {
-            this.stock = stock;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-        // </editor-fold>
-        
-        public String buttonText(){
-            if(!this.basketCase)
-                return "Add";
-            else
-                return "Remove";
-        }
-        
-        public Product(int index, String name, String description, int stock, double price){
-            this.price = price;
-            this.stock = stock;
-            this.description = description;
-            this.name = name;
-            this.index = index;
-            this.basketCase = false;
-        }
-    }
-
     /**
      * Creates a new instance of products
      */
-    private List<Product> allProducts;
+    private List<Product> shoppingList;
     
-    private HtmlDataTable datatableAdmin;
-        
-    private HtmlDataTable datatableUser;
+    private Boolean administrator;
+    
+    private Map<Integer, Integer> quantityOfItem;
+
+    private List<Product> adminProducts;
     
  // <editor-fold desc="Setter and Getter Garbage.">
 
+    public Map<Integer, Integer> getQuantityOfItem() {
+        return quantityOfItem;
+    }
+
+    public void setQuantityOfItem(Map<Integer, Integer> quantityOfItem) {
+        this.quantityOfItem = quantityOfItem;
+    }
+    
+    @Inject
+    UserEJB usr;
+    
     public List<Product> getAllProducts() {
+        List<Product> allProducts = usr.getAllProducts();
+        for(int i =0; i<allProducts.size(); i++){
+            if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
+                this.quantityOfItem.put(allProducts.get(i).getId(), 0);
+            }
+        }
         return allProducts;
     }
-    
-    public HtmlDataTable getDatatableAdmin() {
-        return datatableAdmin;
+
+    public List<Product> getShoppingList() {
+        return shoppingList;
     }
 
-    public void setDatatableAdmin(HtmlDataTable datatableAdmin) {
-        this.datatableAdmin = datatableAdmin;
+    public void setShoppingList(List<Product> shoppingList) {
+        this.shoppingList = shoppingList;
     }
 
-    public HtmlDataTable getDatatableUser() {
-        return datatableUser;
+    public List<Product> getAdminProducts() {
+        return this.adminProducts;
     }
 
-    public void setDatatableUser(HtmlDataTable datatableUser) {
-        this.datatableUser = datatableUser;
+    public void setAdminProducts(List<Product> adminProducts) {
+        this.adminProducts = adminProducts;
     }
-    
-    public void setAllProducts(List<Product> allProducts) {
-        this.allProducts = allProducts;
+
+    public Boolean getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Boolean administrator) {
+        this.administrator = administrator;
+    }
+
+    public UserEJB getUsr() {
+        return usr;
+    }
+
+    public void setUsr(UserEJB usr) {
+        this.usr = usr;
+    }
+
+    public void updateProducts(){
+        this.adminProducts = usr.getAllProducts();
     }
 // </editor-fold>
     
     public products() {
-        allProducts = new ArrayList<Product>();
-        // Just some dummy data to test with
-        this.addProductRow(1,"Fight Milk", "Fight Like a Crow!", 1000, 55.99);
-        this.addProductRow(2,"Chicken Hut Gravy", "Forged in the fires of Mount Doom", 2, 199.00);
+        this.shoppingList = new ArrayList<Product>();
+        this.administrator = true;
+        this.quantityOfItem = new HashMap<Integer, Integer>();
+        this.adminProducts = new ArrayList<Product>();
     }
     
-    public void addProductRow(int index, String name, String des, int stock, double price){
-        this.allProducts.add(new Product(index,name,des,stock,price));
+    public void addProductRow( String name, String des, int stock, double price){
+        
     }
     
-    public void addToBasket(ActionEvent ev) throws IOException{
-        if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
-            HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
-            int currentRow = Integer.parseInt(button.getLabel());
-            Product p = (Product) datatableUser.getRowData();
-            if(p.basketCase)
-                //Add item to basket
-                System.out.println("Removing item from basket Item " + p.name);
-            else
-                //remove item from basket
-                System.out.println("Adding item to basket Item " + p.name);
-            p.basketCase = !p.basketCase;
-            button.setValue(p.buttonText());
-            this.allProducts.set(currentRow-1,p);
+    public void removeFromBasket(Product p){
+        this.shoppingList.remove(p);
+    }
+    
+    public void addToBasket(Product p){
+        if(this.shoppingList.contains(p)){
+            this.shoppingList.remove(p);
         }
+        System.out.println("Adding " + this.quantityOfItem.get(p.getId()) + " of item to basket: " + p.getName());
+        this.shoppingList.add(p);
     }
     
-     public void changeItem(ActionEvent ev) throws IOException{
-        if (ev.getSource() != null && ev.getSource() instanceof HtmlCommandButton) {
-            HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
-            int currentRow = Integer.parseInt(button.getLabel());
-            Product p = (Product) datatableAdmin.getRowData();
-            System.out.println("Editing Item :" + p.index);
-            this.allProducts.set(currentRow-1, p);
-            //Code to edit item
-        }
+     public void changeItem(Product p) {
+        System.out.println("EJB will change: " + p.getName());
+    }
+     
+    public double getShoppingTotal(){
+        return 0.0;
     }
     
 }

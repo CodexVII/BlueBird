@@ -5,11 +5,13 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  
+    <ui:define name="top">
+        <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
+    </ui:define>
+
     <ui:define name="content">
-        <h:form>
-            Products available:
-            <h:dataTable class="tabelle" value="#{products.allProducts}" var="p" binding="#{table}">
+        Items in your shopping cart:
+        <h:dataTable class="tabelle" value="#{products.shoppingList}" var="p">
                 <h:column>
                     <f:facet name = "header">Name</f:facet> 
                     #{p.name}
@@ -24,22 +26,27 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price</f:facet>
-                    €#{p.price}
+                    #{p.price}
                 </h:column>
                 <h:column>
-                    <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText value="#{products.quantityOfItem[p.id]}" />
+                    <f:facet name = "header">Quantity</f:facet>
+                    #{products.quantityOfItem.get(p.id)}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Total</f:facet>
+                    #{products.quantityOfItem.get(p.id)*p.price}
                 </h:column>
                 <h:column>
                     <div align="center">
-                        <f:facet name = "header">Add to Basket</f:facet>
-                        <h:commandButton value="Add" action="#{products.addToBasket(p)}" />
+                        <f:facet name = "header">Remove from Basket</f:facet>
+                        <h:commandButton value="Remove" action="#{products.removeFromBasket(p)}"/>
                     </div>
                 </h:column>
-            </h:dataTable>
-            <h:commandButton action ="adminProduct" rendered="#{products.administrator}" value="Edit Products"/>
-        </h:form>
-   </ui:define>
+
+        </h:dataTable>
+        <div align="right">Total Cost of Purchases: #{products.getShoppingTotal()}</div>
+    </ui:define>
+
     
 
 </ui:composition>
