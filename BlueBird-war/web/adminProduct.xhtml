@@ -14,31 +14,31 @@
                 <h:form>
                 Currently Listed Items:
                 <div align = "right"><h:commandButton value="Refresh" action="#{products.updateProducts()}" /></div>
-                <h:dataTable class="tabelle" value="#{products.updatedProducts}" var="p">
+                <h:dataTable class="tabelle" value="#{products.adminProducts}" var="p">
                     <h:column>
-                        <f:facet name = "header">Id<h:commandButton value="Asc" action="#{products.sortingOrder(0,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(0,true)}"/></f:facet> 
+                        <f:facet name = "header">Id</f:facet> 
                         #{p.id}
                     </h:column>
                     <h:column>
-                        <f:facet name = "header">Name<h:commandButton value="Asc" action="#{products.sortingOrder(1,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(1,true)}"/></f:facet> 
+                        <f:facet name = "header">Name</f:facet> 
                         <h:inputText value="#{p.name}" />
                     </h:column>
                     <h:column>
-                        <f:facet name = "header">Description<h:commandButton value="Asc" action="#{products.sortingOrder(2,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(2,true)}"/></f:facet>
+                        <f:facet name = "header">Description</f:facet>
                         <h:inputText value="#{p.description}" />
                     </h:column>
                     <h:column>
-                        <f:facet name = "header">Available Stock<h:commandButton value="Asc" action="#{products.sortingOrder(3,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(3,true)}"/></f:facet> 
+                        <f:facet name = "header">Available Stock</f:facet> 
                         <h:inputText value="#{p.quantityOnHand}" />
                     </h:column>
                     <h:column>
-                        <f:facet name = "header">Price<h:commandButton value="Asc" action="#{products.sortingOrder(4,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(4,true)}"/></f:facet>
+                        <f:facet name = "header">Price</f:facet>
                         <h:inputText value="#{p.price}"/>
                     </h:column>
                     <h:column>
                         <div align="center">
                             <f:facet name = "header">Edit Product</f:facet>
-                            <h:commandButton value="Edit" action="#{products.changeItem(p)}"/>
+                            <h:commandButton value="Save" action="#{products.changeItem(p)}"/>
                         </div>
                     </h:column>
                     <h:column>

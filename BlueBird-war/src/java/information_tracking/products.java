@@ -109,23 +109,20 @@ public class products implements Serializable {
         this.updateProducts();
         List<Product> filteredProducts = new ArrayList<Product>();
         if(this.searchName == "" && this.searchPart==0){
-            this.sortProducts(this.sortingOption, this.sortingDirection);
-            System.out.println("Returning unfiltered items");
+            this.sortProducts(this.adminProducts,this.sortingOption, this.sortingDirection);
             return this.adminProducts;
         }
         System.out.println("Performing a search operation now");
         for(int i =0; i<this.adminProducts.size();i++){
             if(this.searchName != "" && this.adminProducts.get(i).getName().contains(this.searchName)){
-                System.out.println("Found " + this.searchName + " in "+ this.adminProducts.get(i).getName());
                 filteredProducts.add(this.adminProducts.get(i));
             }
             else if(this.searchPart != 0 && this.adminProducts.get(i).getId() == this.searchPart){
-                System.out.println("Found " + this.searchPart + " in "+ this.adminProducts.get(i).getId());
                 filteredProducts.add(this.adminProducts.get(i));            
             }
         }
         this.searchBy="";
-        System.out.println("Found " + filteredProducts.size());
+        this.sortProducts(filteredProducts, this.sortingOption, this.sortingDirection);
         return filteredProducts;
     }
     
@@ -139,22 +136,6 @@ public class products implements Serializable {
 
     public void setAdministrator(Boolean administrator) {
         this.administrator = administrator;
-    }
-
-    public UserEJB getUsr() {
-        return usr;
-    }
-
-    public void setUsr(UserEJB usr) {
-        this.usr = usr;
-    }
-
-    public AdminEJB getAd() {
-        return ad;
-    }
-
-    public void setAd(AdminEJB ad) {
-        this.ad = ad;
     }
 
     public String getNpName() {
@@ -236,7 +217,7 @@ public class products implements Serializable {
     AdminEJB ad;
     
      public void changeItem(Product p) {
-        System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId());
+        System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " +p.getDescription());
         ad.updateProduct(p);
         this.updateProducts();
     }
@@ -255,13 +236,20 @@ public class products implements Serializable {
         this.sortingDirection = dir;
     }
     
-    public void sortProducts(int option, boolean descending){
+    public List<Product> reverse(List<Product> list) {
+    for(int i = 0, j = list.size() - 1; i < j; i++) {
+        list.add(i, list.remove(j));
+    }
+    return list;
+}
+    
+    public void sortProducts(List<Product> sortThis,int option, boolean descending){
         int negOne = (descending)?(1):(-1);
         int posOne = (descending)?(-1):(1);
         
         switch(option){
                 case 0: //Id
-                    Collections.sort(this.adminProducts, new Comparator<Product>() {
+                    Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             if (c1.getId() < c2.getId()) return negOne;
                             if (c1.getId() > c2.getId()) return posOne;
@@ -269,11 +257,17 @@ public class products implements Serializable {
                           }});
                     break;
                 case 1: //Name
+                    Collections.sort(sortThis, new Comparator<Product>() {
+                        public int compare(Product c1, Product c2) {
+                            return c1.getName().compareTo(c2.getName());
+                          }});
+                    if(descending)
+                        sortThis = reverse(sortThis);
                     break;
                 case 2: //Description?
                     break;
                 case 3: //Quantity on Hand
-                    Collections.sort(this.adminProducts, new Comparator<Product>() {
+                    Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             if (c1.getQuantityOnHand()< c2.getQuantityOnHand()) return negOne;
                             if (c1.getQuantityOnHand()> c2.getQuantityOnHand()) return posOne;
@@ -281,7 +275,7 @@ public class products implements Serializable {
                           }});
                     break;
                 case 4: //Price
-                    Collections.sort(this.adminProducts, new Comparator<Product>() {
+                    Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             if (c1.getPrice() < c2.getPrice()) return negOne;
                             if (c1.getPrice() > c2.getPrice()) return posOne;
