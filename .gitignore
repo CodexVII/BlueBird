@@ -118,6 +118,5 @@ nb-configuration.xml
 # Package Files #
 *.jar
 *.war
-*.ear
 /BlueBird-ejb/nbproject/private/
 /BlueBird-war/nbproject/private/
