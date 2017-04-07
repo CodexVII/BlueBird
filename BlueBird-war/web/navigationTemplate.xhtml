@@ -19,6 +19,7 @@
                 <div align="right">
                     <br/><ui:insert name="top"><h:commandButton value="Shopping Cart: #{products.shoppingList.size()}" action="shoppingCart"/></ui:insert>
                 </div>
+                <div><ui:insert name="top">Search for Product: <h:inputText value="#{products.searchBy}"/><h:commandButton value="Search by Name" action="#{products.searchName()}"/><h:commandButton value="Search by Id" action="#{products.searchId()}"/></ui:insert></div>
             </h:form>
         </div>
         <div >
@@ -26,7 +27,7 @@
                 <div id="left" class="left_navbar" >
                     <ul class ="left">
                         <li><h:commandButton value="My Profile"/></li>
-                        <li><h:commandButton value="Browse Products" action="userProduct"/></li>
+                        <li><h:commandButton value="Browse Products" action="#{products.browseAllProducts()}"/></li>
                         <li><h:commandButton value="Search for User" /></li>
                     </ul>
                 </div>
