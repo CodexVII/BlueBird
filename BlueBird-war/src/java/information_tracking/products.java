@@ -114,7 +114,7 @@ public class products implements Serializable {
         }
         System.out.println("Performing a search operation now");
         for(int i =0; i<this.adminProducts.size();i++){
-            if(this.searchName != "" && this.adminProducts.get(i).getName().contains(this.searchName)){
+            if(this.searchName != "" && this.adminProducts.get(i).getName().toLowerCase().contains(this.searchName.toLowerCase())){
                 filteredProducts.add(this.adminProducts.get(i));
             }
             else if(this.searchPart != 0 && this.adminProducts.get(i).getId() == this.searchPart){
@@ -199,6 +199,7 @@ public class products implements Serializable {
         this.npName="";
         this.npPrice=0.00;
         this.npQuantity=0;
+        this.updateProducts();
     }
     
     public void removeFromBasket(Product p){
