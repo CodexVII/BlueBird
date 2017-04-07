@@ -16,6 +16,10 @@
                 <div align = "right"><h:commandButton value="Refresh" action="#{products.updateProducts()}" /></div>
                 <h:dataTable class="tabelle" value="#{products.updatedProducts}" var="p">
                     <h:column>
+                        <f:facet name = "header">Id<h:commandButton value="Asc" action="#{products.sortingOrder(0,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(0,true)}"/></f:facet> 
+                        #{p.id}
+                    </h:column>
+                    <h:column>
                         <f:facet name = "header">Name<h:commandButton value="Asc" action="#{products.sortingOrder(1,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(1,true)}"/></f:facet> 
                         <h:inputText value="#{p.name}" />
                     </h:column>
@@ -25,11 +29,11 @@
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Available Stock<h:commandButton value="Asc" action="#{products.sortingOrder(3,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(3,true)}"/></f:facet> 
-                        <h:inputText value="#{p.quantityOnHand}" />
+                        <h:inputText>"#{p.quantityOnHand}</h:inputText>
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Price<h:commandButton value="Asc" action="#{products.sortingOrder(4,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(4,true)}"/></f:facet>
-                        <h:inputText value="#{p.price}" />
+                        <h:inputText>#{p.price}</h:inputText>
                     </h:column>
                     <h:column>
                         <div align="center">
@@ -46,7 +50,7 @@
                 </h:dataTable>
             <br/><br/><br/><br/>
             Add Product:<br/>
-            <h:inputText a:placeholder="Product Name" value="#{products.npName}"/><h:inputText a:placeholder="Product Description" value="#{products.npDescription}"/><h:inputText a:placeholder="Product Quantity Available" value="#{products.npQuantity}"/>Price<h:inputText a:placeholder="Product Price" value="#{products.npPrice}"/><h:commandButton value="Add New Product" action="#{products.addProduct()}"/>
+            <h:inputText a:placeholder="Product Name" value="#{products.npName}"/><h:inputText a:placeholder="Product Description" value="#{products.npDescription}"/><h:inputText a:placeholder="Product Quantity Available" value="#{products.npQuantity}"/><h:inputText a:placeholder="Product Price" value="#{products.npPrice}"/><h:commandButton value="Add New Product" action="#{products.addProduct()}"/>
         </h:form>
         </ui:define>
 

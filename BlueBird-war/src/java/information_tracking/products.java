@@ -75,7 +75,7 @@ public class products implements Serializable {
         List<Product> allProducts = usr.getAllProducts();
         for(int i =0; i<allProducts.size(); i++){
             if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
-                this.quantityOfItem.put(allProducts.get(i).getId(), 0);
+                this.quantityOfItem.put(allProducts.get(i).getId(), 1);
             }
         }
         this.adminProducts = allProducts;

@@ -11,6 +11,10 @@
             Products available:
             <h:dataTable class="tabelle" value="#{products.updatedProducts}" var="p" binding="#{table}">
                 <h:column>
+                        <f:facet name = "header">Id<h:commandButton value="Asc" action="#{products.sortingOrder(0,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(0,true)}"/></f:facet> 
+                        #{p.id}
+                </h:column>
+                <h:column>
                     <f:facet name = "header">Name<h:commandButton value="Asc" action="#{products.sortingOrder(1,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(1,true)}"/></f:facet> 
                     #{p.name}
                 </h:column>
@@ -28,7 +32,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText value="#{products.quantityOfItem[p.id]}" />
+                    <h:inputText>#{products.quantityOfItem[p.id]}</h:inputText>
                 </h:column>
                 <h:column>
                     <div align="center">
