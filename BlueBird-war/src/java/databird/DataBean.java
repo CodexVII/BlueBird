@@ -8,6 +8,7 @@ package databird;
 import ejb.AdminEJB;
 import ejb.UserEJB;
 import entity.Product;
+import entity.User;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -28,7 +29,8 @@ public class DataBean implements Serializable {
     private UserEJB user;
     
     List<Product> products;
-
+    List<User> users;
+    
     public List<Product> getProducts() {
         return products;
     }
@@ -48,25 +50,38 @@ public class DataBean implements Serializable {
         admin.addProduct(product);
     }
     
-    public void getAllProducts(){
+    public void queryAllProducts(){
         products = user.getAllProducts();
     }
+
+    public void queryAllUsers(){
+        users = user.getAllUsers();
+    }
+    
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+    
     
     public void testing(){
         Product product = new Product();
         
-        product.setId(10);
-        product.setName("Fight Milk");
-        product.setQuantityOnHand(200);
-        product.setPrice(25.50);
-        product.setDescription("New description");
+        
+        
+        product.setId(1);
+        product.setName("Sparkling Water");
+        product.setQuantityOnHand(20); 
+        product.setPrice(1.50);
         
         //user.purchaseProduct(product, 5);
         //admin.removeProduct(product);
         //admin.updateProduct(product);
-        admin.removeProduct(product);
+//        admin.removeProduct(product);
         //admin.addProduct(product);
-        
         //System.out.println("Testing button pressed");
     }
 }

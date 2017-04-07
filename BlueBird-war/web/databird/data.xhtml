@@ -14,7 +14,8 @@
     <h:body>
         <h:form>
             <h:commandButton value="Add Product" action="#{dataBean.addProduct()}"/>
-            <h:commandButton value="Get all products" action="#{dataBean.getAllProducts()}"/>
+            <h:commandButton value="Get all products" action="#{dataBean.queryAllProducts()}"/>
+            <h:commandButton value="Get all users" action="#{dataBean.queryAllUsers()}"/>
             <h:commandButton value="Testing" action="#{dataBean.testing()}"/>
             
             <h:dataTable value="#{dataBean.products}" var="product">
@@ -31,7 +32,22 @@
                         #{product.description}
                 </h:column>
             </h:dataTable>
-
+            
+            <h:dataTable value="#{dataBean.users}" var="u">
+                <h:column>    				
+                    <f:facet name = "header">Name</f:facet>    				
+                        #{u.username}
+                </h:column>
+                <h:column>    				
+                    <f:facet name="header">Id</f:facet>    				
+                        #{u.id}
+                </h:column>
+                <h:column>    				
+                    <f:facet name= "header">Status</f:facet>    				
+                        #{u.statusMessage}
+                </h:column>
+            </h:dataTable>
+            
         </h:form>
     </h:body>
 </html>

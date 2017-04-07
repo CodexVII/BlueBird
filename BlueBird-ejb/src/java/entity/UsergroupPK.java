@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Alan
+ * @author keita
  */
 @Embeddable
 public class UsergroupPK implements Serializable {
