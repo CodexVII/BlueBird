@@ -42,6 +42,10 @@ public class products implements Serializable {
 
     private List<Product> adminProducts;
     
+    private String searchBy="";
+    private String searchName="";
+    private int searchPart=0;
+    
     private String npName;
     private String npDescription;
     private int npQuantity;
@@ -52,6 +56,14 @@ public class products implements Serializable {
     
  // <editor-fold desc="Setter and Getter Garbage.">
 
+    public String getSearchBy() {
+        return searchBy;
+    }
+
+    public void setSearchBy(String searchBy) {
+        this.searchBy = searchBy;
+    }
+    
     public boolean isSortingDirection() {
         return sortingDirection;
     }
@@ -95,8 +107,26 @@ public class products implements Serializable {
 
     public List<Product> getUpdatedProducts() {
         this.updateProducts();
-        this.sortProducts(this.sortingOption, this.sortingDirection);
-        return this.adminProducts;
+        List<Product> filteredProducts = new ArrayList<Product>();
+        if(this.searchName == "" && this.searchPart==0){
+            this.sortProducts(this.sortingOption, this.sortingDirection);
+            System.out.println("Returning unfiltered items");
+            return this.adminProducts;
+        }
+        System.out.println("Performing a search operation now");
+        for(int i =0; i<this.adminProducts.size();i++){
+            if(this.searchName != "" && this.adminProducts.get(i).getName().contains(this.searchName)){
+                System.out.println("Found " + this.searchName + " in "+ this.adminProducts.get(i).getName());
+                filteredProducts.add(this.adminProducts.get(i));
+            }
+            else if(this.searchPart != 0 && this.adminProducts.get(i).getId() == this.searchPart){
+                System.out.println("Found " + this.searchPart + " in "+ this.adminProducts.get(i).getId());
+                filteredProducts.add(this.adminProducts.get(i));            
+            }
+        }
+        this.searchBy="";
+        System.out.println("Found " + filteredProducts.size());
+        return filteredProducts;
     }
     
     public void setAdminProducts(List<Product> adminProducts) {
@@ -259,5 +289,26 @@ public class products implements Serializable {
                           }});
                     break;
         }
+    }
+    
+    public String searchName(){
+        this.searchName=this.searchBy;
+        this.searchPart=0;
+        System.out.println("Searching for Name: " + this.searchName);
+        return "userProduct";
+    }
+    
+    public String searchId(){
+        this.searchPart=Integer.parseInt(this.searchBy);
+        this.searchName="";
+        System.out.println("Searching for Id: " + this.searchPart);
+        return "userProduct";
+    }
+    
+    public String browseAllProducts(){
+        this.searchPart=0;
+        this.searchName="";
+        this.searchBy="";
+        return "userProduct";
     }
 }

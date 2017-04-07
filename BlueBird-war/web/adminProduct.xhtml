@@ -29,11 +29,11 @@
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Available Stock<h:commandButton value="Asc" action="#{products.sortingOrder(3,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(3,true)}"/></f:facet> 
-                        <h:inputText>"#{p.quantityOnHand}</h:inputText>
+                        <h:inputText value="#{p.quantityOnHand}" />
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Price<h:commandButton value="Asc" action="#{products.sortingOrder(4,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(4,true)}"/></f:facet>
-                        <h:inputText>#{p.price}</h:inputText>
+                        <h:inputText value="#{p.price}"/>
                     </h:column>
                     <h:column>
                         <div align="center">
