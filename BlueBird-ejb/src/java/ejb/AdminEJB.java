@@ -34,6 +34,8 @@ public class AdminEJB {
     }
      
     public void removeProduct(Product product){
+//        System.out.println("Removing product");
+//        em.merge(product);
         em.remove(product);
     }
     

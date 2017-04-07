@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,7 +20,7 @@
                 <div align="right">
                     <br/><ui:insert name="top"><h:commandButton value="Shopping Cart: #{products.shoppingList.size()}" action="shoppingCart"/></ui:insert>
                 </div>
-                <div><ui:insert name="top">Search for Product: <h:inputText value="#{products.searchBy}"/><h:commandButton value="Search by Name" action="#{products.searchName()}"/><h:commandButton value="Search by Id" action="#{products.searchId()}"/></ui:insert></div>
+                <div><ui:insert name="top"><h:inputText a:placeholder="Enter Name or Id#" value="#{products.searchBy}"/><h:commandButton value="Search by Name" action="#{products.searchName()}"/><h:commandButton value="Search by Id" action="#{products.searchId()}"/></ui:insert></div>
             </h:form>
         </div>
         <div >
@@ -27,7 +28,7 @@
                 <div id="left" class="left_navbar" >
                     <ul class ="left">
                         <li><h:commandButton value="My Profile"/></li>
-                        <li><h:commandButton value="Browse Products" action="#{products.browseAllProducts()}"/></li>
+                        <li><h:commandButton value="Browse All Products" action="#{products.browseAllProducts()}"/></li>
                         <li><h:commandButton value="Search for User" /></li>
                     </ul>
                 </div>

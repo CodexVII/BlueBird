@@ -19,7 +19,7 @@
                     #{p.name}
                 </h:column>
                 <h:column>
-                    <f:facet name = "header">Description<h:commandButton value="Asc" action="#{products.sortingOrder(2,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(2,true)}"/></f:facet>
+                    <f:facet name = "header">Description</f:facet>
                     #{p.description}
                 </h:column>
                 <h:column>
@@ -32,7 +32,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText>#{products.quantityOfItem[p.id]}</h:inputText>
+                    <h:inputText value="#{products.quantityOfItem[p.id]}" />
                 </h:column>
                 <h:column>
                     <div align="center">
