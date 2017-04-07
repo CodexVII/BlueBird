@@ -107,7 +107,7 @@ local.properties
 nbproject/private/
 build/
 nbbuild/
-dist/
+dist/gfdeploy
 nbdist/
 nbactions.xml
 nb-configuration.xml
