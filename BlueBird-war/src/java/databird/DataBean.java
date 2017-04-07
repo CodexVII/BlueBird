@@ -54,8 +54,19 @@ public class DataBean implements Serializable {
     
     public void testing(){
         Product product = new Product();
-        product.setName("Fight Milk");
         
-        user.purchaseProduct(product, 5);
+        product.setId(10);
+        product.setName("Fight Milk");
+        product.setQuantityOnHand(200);
+        product.setPrice(25.50);
+        product.setDescription("New description");
+        
+        //user.purchaseProduct(product, 5);
+        //admin.removeProduct(product);
+        //admin.updateProduct(product);
+        admin.removeProduct(product);
+        //admin.addProduct(product);
+        
+        //System.out.println("Testing button pressed");
     }
 }

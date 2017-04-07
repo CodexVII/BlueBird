@@ -30,11 +30,19 @@ public class AdminEJB {
     }
     
     public void updateProduct(Product product) {
-        em.merge(product);
+        Product prod = em.find(Product.class, product.getId());
+        
+        prod.setName(product.getName());
+        prod.setQuantityOnHand(product.getQuantityOnHand());
+        prod.setPrice(product.getPrice());
+        prod.setDescription(product.getDescription());
+        
+        em.merge(prod);
     }
      
     public void removeProduct(Product product){
-        em.remove(product);
+        Product prod = em.find(Product.class, product.getId());
+        em.remove(prod);
     }
     
     public void addUser(User user){
