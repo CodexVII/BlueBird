@@ -9,15 +9,15 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alan
+ * @author keita
  */
 @Entity
 @Table(name = "usergroup")
@@ -32,7 +32,7 @@ public class Usergroup implements Serializable {
     @EmbeddedId
     protected UsergroupPK usergroupPK;
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private User user;
 
     public Usergroup() {

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <title>BlueBird</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:commandButton value="Add Product" action="#{dataBean.addProduct()}"/>
+            <h:commandButton value="Get all products" action="#{dataBean.queryAllProducts()}"/>
+            <h:commandButton value="Get all users" action="#{dataBean.queryAllUsers()}"/>
+            <h:commandButton value="Testing" action="#{dataBean.testing()}"/>
+            
+            <h:dataTable value="#{dataBean.products}" var="product">
+                <h:column>    				
+                    <f:facet name = "header">Name</f:facet>    				
+                        #{product.name}
+                </h:column>
+                <h:column>    				
+                    <f:facet name="header">Id</f:facet>    				
+                        #{product.id}
+                </h:column>
+                <h:column>    				
+                    <f:facet name= "header">Description</f:facet>    				
+                        #{product.description}
+                </h:column>
+            </h:dataTable>
+            
+            <h:dataTable value="#{dataBean.users}" var="u">
+                <h:column>    				
+                    <f:facet name = "header">Name</f:facet>    				
+                        #{u.username}
+                </h:column>
+                <h:column>    				
+                    <f:facet name="header">Id</f:facet>    				
+                        #{u.id}
+                </h:column>
+                <h:column>    				
+                    <f:facet name= "header">Status</f:facet>    				
+                        #{u.statusMessage}
+                </h:column>
+            </h:dataTable>
+            
+        </h:form>
+    </h:body>
+</html>

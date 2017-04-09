@@ -6,20 +6,26 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alan
+ * @author keita
  */
 @Entity
 @Table(name = "product")
@@ -34,10 +40,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private int id;
-    @Id
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -51,24 +58,26 @@ public class Product implements Serializable {
     @Size(max = 200)
     @Column(name = "description")
     private String description;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    private Collection<CustomerOrder> customerOrderCollection;
 
     public Product() {
     }
 
-    public Product(String name) {
-        this.name = name;
-    }
-
-    public Product(String name, int id) {
-        this.name = name;
+    public Product(Integer id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Product(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -104,10 +113,19 @@ public class Product implements Serializable {
         this.description = description;
     }
 
+    @XmlTransient
+    public Collection<CustomerOrder> getCustomerOrderCollection() {
+        return customerOrderCollection;
+    }
+
+    public void setCustomerOrderCollection(Collection<CustomerOrder> customerOrderCollection) {
+        this.customerOrderCollection = customerOrderCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -118,7 +136,7 @@ public class Product implements Serializable {
             return false;
         }
         Product other = (Product) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -126,7 +144,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Product[ name=" + name + " ]";
+        return "entity.Product[ id=" + id + " ]";
     }
     
 }
