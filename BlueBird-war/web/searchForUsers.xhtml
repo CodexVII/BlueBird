@@ -7,7 +7,7 @@
 
     <ui:define name="content">
         <h:form>
-            This is where the user profile can be edited
+            This is where you can search for users
             <h:dataTable value="#{Profile.users}" var="u">
                 <h:column>    				
                     <f:facet name = "header">Username</f:facet>    				
@@ -23,8 +23,6 @@
                 </h:column>
             </h:dataTable>
             <h:commandButton value="Home" action="userProduct"/>
-            <h:commandButton value="Save Changes?" action="userProfile"/>
-
         </h:form>
     </ui:define>
 </ui:composition>

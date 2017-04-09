@@ -10,6 +10,9 @@ import entity.User;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+
+import java.util.ArrayList;
+
 import java.util.List;
 import javax.inject.Inject;
 
@@ -20,26 +23,27 @@ import javax.inject.Inject;
 @Named(value = "profile")
 @SessionScoped
 public class Profile implements Serializable {
-
-    private List<User> userList;
-
     @Inject
-    UserEJB usr;
+    private UserEJB user;
+    
+    List<User> users;
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = user.getAllUsers();
+    }
+
+    public void queryAllUsers(){
+        users = user.getAllUsers();
+    }
+    
     /**
-     * Creates a new instance of User
+     * Creates a new instance of Profile
      */
     public Profile() {
-        userList = usr.getAllUsers();
     }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-    
-    
     
 }

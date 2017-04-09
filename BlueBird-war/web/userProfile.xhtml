@@ -1,39 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./navigationTemplate.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <ui:define name="top">
-        <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
-    </ui:define>
-    
-    <ui:define name="content">
-        This is your user profile
-        <h:dataTable class="tabelle" value="#{products.usr}" var="u">
-                <h:column>
-                    <f:facet name = "header">User Name</f:facet>
-                    #{u.username}
-                </h:column>
-                <h:column>
-                    <f:facet name = "header">ID</f:facet>
-                    #{u.id}
-                </h:column>
-                <h:column>
-                    <f:facet name = "header">Message</f:facet> 
-                    #{u.statusMessage}
-                </h:column>
-                <h:column>
-                    <f:facet name = "header">Balance</f:facet>
-                    #{u.balance}
-                </h:column>
-        </h:dataTable>
+    <h:body>
         <h:form>
-            <h:body>
-                <h:commandButton value="Edit Profile" action="editUserProfile"/><br />
-                <h:commandButton value="Return" action="userProduct"/><br />
-            </h:body>
+            <h:dataTable value="#{profile.users}" var="u">
+                <h:column>    				
+                    <f:facet name = "header">Name</f:facet>    				
+                        #{u.username}
+                </h:column>
+                <h:column>    				
+                    <f:facet name="header">Id</f:facet>    				
+                        #{u.id}
+                </h:column>
+                <h:column>    				
+                    <f:facet name= "header">Status</f:facet>    				
+                        #{u.statusMessage}
+                </h:column>
+            </h:dataTable>
+            <h:commandButton value="Get all users" action="#{profile.queryAllUsers()}"/>
+            <h:commandButton value="Home" action="userProducts"/>
+            <h:commandButton value="Edit Profile" action="editUserProfile"/>
         </h:form>
-    </ui:define>
-</ui:composition>
+    </h:body>
+</html>
