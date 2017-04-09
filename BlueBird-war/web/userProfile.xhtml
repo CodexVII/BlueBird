@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./navigationTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  
+    <ui:define name="content">
+        <h:form>
+            Products available:
+            <h:dataTable class="tabelle" value="#{products.updatedProducts}" var="p" binding="#{table}">
+                <h:column>
+                        <f:facet name = "header">Id<h:commandButton value="Asc" action="#{products.sortingOrder(0,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(0,true)}"/></f:facet> 
+                        #{p.id}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Name<h:commandButton value="Asc" action="#{products.sortingOrder(1,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(1,true)}"/></f:facet> 
+                    #{p.name}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Description</f:facet>
+                    #{p.description}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Available Stock<h:commandButton value="Asc" action="#{products.sortingOrder(3,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(3,true)}"/></f:facet> 
+                    #{p.quantityOnHand}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Price<h:commandButton value="Asc" action="#{products.sortingOrder(4,false)}"/><h:commandButton value="Dsc" action="#{products.sortingOrder(4,true)}"/></f:facet>
+                    €#{p.price}
+                </h:column>
+                <h:column>
+                    <f:facet name = "header">Quantity to Purchase</f:facet>
+                    <h:inputText value="#{products.quantityOfItem[p.id]}" />
+                </h:column>
+                <h:column>
+                    <div align="center">
+                        <f:facet name = "header">Add to Basket</f:facet>
+                        <h:commandButton value="Add" action="#{products.addToBasket(p)}" />
+                    </div>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton action ="adminProduct" rendered="#{products.administrator}" value="Edit Products"/>
+        </h:form>
+   </ui:define>
+    
+
+</ui:composition>
