@@ -229,7 +229,11 @@ public class products implements Serializable {
         this.updateProducts();
     }
     public double getShoppingTotal(){
-        return 0.0;
+        double total = 0.0;
+        for (Product p : shoppingList) {
+            total += p.getPrice();
+        }
+        return total;
     }
     
     public void sortingOrder(int ord, boolean dir){
