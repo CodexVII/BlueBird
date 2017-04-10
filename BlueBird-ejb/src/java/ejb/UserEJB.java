@@ -36,6 +36,18 @@ public class UserEJB {
         Query q = em.createNamedQuery("User.findAll", User.class);
         return (List<User>)q.getResultList();
     }
+
+    public List<User> getUserByID(int ID){
+        Query q = em.createNamedQuery("User.findById", User.class);
+        q.setParameter("id", ID);
+        return (List<User>)q.getResultList();
+    }
+    
+    public List<User> getUserByName(String name){
+        Query q = em.createNamedQuery("User.findByUsername", User.class);
+        q.setParameter("username", name);
+        return (List<User>)q.getResultList();
+    }
     
     public void purchaseProduct(Product product, int amount) {
         Product prod = em.find(Product.class, product.getName());
