@@ -217,7 +217,8 @@ public class products implements Serializable {
     @Inject
     AdminEJB ad;
     
-     public void changeItem(Product p) {
+    
+    public void changeItem(Product p) {
         System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " +p.getDescription());
         ad.updateProduct(p);
         this.updateProducts();
@@ -230,12 +231,21 @@ public class products implements Serializable {
     }
     public double getShoppingTotal(){
         double total = 0.0;
+        int quant;
+        int id = 0;
         for (Product p : shoppingList) {
-            total += p.getPrice();
+            id = p.getId();
+            quant = this.quantityOfItem.get(id).intValue();
+            total += p.getPrice()*quant;
         }
         return total;
     }
     
+    public void processOrder(){
+        for (Product p : shoppingList) {
+            usr.purchaseProduct(p, 2);
+        }
+    }
     public void sortingOrder(int ord, boolean dir){
         this.sortingOption = ord;
         this.sortingDirection = dir;
