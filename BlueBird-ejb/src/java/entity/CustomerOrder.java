@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author keita
  */
 @Entity
+@Cacheable(false)
 @Table(name = "customer_order")
 @XmlRootElement
 @NamedQueries({
