@@ -9,15 +9,22 @@
         <ui:composition template="/resources/templates/userTemplate.xhtml">
             <ui:define name="content">
                 <h:form>
-                    This is where you can edit your profile:<br/>
-                    <h:body>
-                        Username:  #{profile.username}<br/>
-                        New Username:  <h:inputText value="#{profile.newUsername}"/><br/>
-                        Password:  #{profile.password}<br/>
-                        New Password:  <h:inputText value="#{profile.newPassword}"/><br/>
-                        Status Message:  #{profile.statusMessage}<br/>
+                    <div>
+                        Welcome #{profile.username}! This is where you can edit your profile:<br /><br />
+                    </div>
+                    <div>
+                        Profile message:<br />
+                        #{profile.statusMessage}<br /><br />
+                    </div>
+                    <div>
+                        Account details:<br />
+                        ID:       #{profile.id}<br />
+                        Password: #{profile.password}<br />
+                        Balance : #{profile.balance}<br /><br />
+                    </div>
+                    <div>
                         New Message:  <h:inputText value="#{profile.newStatusMessage}"/><br/>
-                    </h:body>
+                    </div>
                     <h:commandButton value="Save Changes?" action="#{profile.saveChanges()}"/>
                     <h:commandButton value="Home" action="userProduct"/>
                 </h:form>

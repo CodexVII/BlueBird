@@ -8,20 +8,15 @@ package information_tracking;
 import ejb.AdminEJB;
 import ejb.UserEJB;
 import entity.Product;
-import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import static java.util.Collections.list;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlDataTable;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 /**
@@ -54,7 +49,8 @@ public class products implements Serializable {
     private int sortingOption = 0;
     private boolean sortingDirection = true;
     
- // <editor-fold desc="Setter and Getter Garbage.">
+    // Constants for navigating to webpages
+    static final String userProduct = "userProduct";
 
     public String getSearchBy() {
         return searchBy;
@@ -80,6 +76,21 @@ public class products implements Serializable {
         this.quantityOfItem = quantityOfItem;
     }
     
+    @Inject
+    UserEJB usr;
+    
+    public void updateProducts() {
+        List<Product> allProducts = usr.getAllProducts();
+        
+        for(int i =0; i<allProducts.size(); i++){
+            if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
+                this.quantityOfItem.put(allProducts.get(i).getId(), 1);
+            }
+        }
+        
+        this.adminProducts = allProducts;
+    }
+  
     public List<Product> getShoppingList() {
         return shoppingList;
     }
@@ -95,11 +106,14 @@ public class products implements Serializable {
     public List<Product> getUpdatedProducts() {
         this.updateProducts();
         List<Product> filteredProducts = new ArrayList<Product>();
+        
         if(this.searchName == "" && this.searchPart==0){
             this.sortProducts(this.adminProducts,this.sortingOption, this.sortingDirection);
             return this.adminProducts;
         }
+        
         System.out.println("Performing a search operation now");
+        
         for(int i =0; i<this.adminProducts.size();i++){
             if(this.searchName != "" && this.adminProducts.get(i).getName().toLowerCase().contains(this.searchName.toLowerCase())){
                 filteredProducts.add(this.adminProducts.get(i));
@@ -108,6 +122,7 @@ public class products implements Serializable {
                 filteredProducts.add(this.adminProducts.get(i));            
             }
         }
+        
         this.searchBy="";
         this.sortProducts(filteredProducts, this.sortingOption, this.sortingDirection);
         return filteredProducts;
@@ -165,8 +180,6 @@ public class products implements Serializable {
         this.sortingOption = sortingOption;
     }
     
-// </editor-fold>
-    
     public products() {
         this.shoppingList = new ArrayList<Product>();
         this.administrator = true;
@@ -210,6 +223,7 @@ public class products implements Serializable {
         if(this.shoppingList.contains(p)){
             this.shoppingList.remove(p);
         }
+        
         System.out.println("Adding " + this.quantityOfItem.get(p.getId()) + " of item to basket: " + p.getName());
         this.shoppingList.add(p);
     }
@@ -251,10 +265,11 @@ public class products implements Serializable {
     }
     
     public List<Product> reverse(List<Product> list) {
-    for(int i = 0, j = list.size() - 1; i < j; i++) {
-        list.add(i, list.remove(j));
-    }
-    return list;
+        for(int i = 0, j = list.size() - 1; i < j; i++) {
+            list.add(i, list.remove(j));
+        }
+        
+        return list;
 }
     
     public void sortProducts(List<Product> sortThis,int option, boolean descending){
@@ -303,20 +318,26 @@ public class products implements Serializable {
         this.searchName=this.searchBy;
         this.searchPart=0;
         System.out.println("Searching for Name: " + this.searchName);
-        return "userProduct";
+        
+        // Return userProduct page
+        return this.userProduct;
     }
     
     public String searchId(){
         this.searchPart=Integer.parseInt(this.searchBy);
         this.searchName="";
         System.out.println("Searching for Id: " + this.searchPart);
-        return "userProduct";
+        
+        // Return userProduct page
+        return this.userProduct;
     }
     
     public String browseAllProducts(){
         this.searchPart=0;
         this.searchName="";
         this.searchBy="";
-        return "userProduct";
+        
+        // Return userProduct page
+        return this.userProduct;
     }
 }

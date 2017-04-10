@@ -159,7 +159,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.User[ id=" + id + " ]";
+        return "User{" + "id="  + '}';
     }
     
 }
