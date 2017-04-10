@@ -62,6 +62,7 @@ public class Profile implements Serializable {
 
         for(int i = 0; i < users.size(); i++){
             if(this.users.get(i).getUsername().equals(this.username) && this.users.get(i).getPassword().equals(this.password)){
+                this.loggedInUser = this.users.get(i);
                 this.id = this.users.get(i).getId();
                 this.statusMessage = this.users.get(i).getStatusMessage();
                 this.balance = this.users.get(i).getBalance();
@@ -72,7 +73,7 @@ public class Profile implements Serializable {
                 this.newStatusMessage = this.statusMessage;
 
                 // Return userProduct page
-                result = "userProduct";
+                result = this.USER_PRODUCT;
             }
         }
         
@@ -218,7 +219,6 @@ public class Profile implements Serializable {
      * Creates a new instance of Profile
      */
     public Profile() {
-        setUsers();
         
     }
     
