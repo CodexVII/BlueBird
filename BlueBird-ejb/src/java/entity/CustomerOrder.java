@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author keita
  */
 @Entity
+@Cacheable(false)
 @Table(name = "customer_order")
 @XmlRootElement
 @NamedQueries({
@@ -44,7 +46,7 @@ public class CustomerOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "timestamp", updatable= false, insertable=false)
+    @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
     @Basic(optional = false)
