@@ -80,20 +80,7 @@ public class products implements Serializable {
         this.quantityOfItem = quantityOfItem;
     }
     
-    @Inject
-    UserEJB usr;
-    
-    public void updateProducts() {
-        List<Product> allProducts = usr.getAllProducts();
-        for(int i =0; i<allProducts.size(); i++){
-            if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
-                this.quantityOfItem.put(allProducts.get(i).getId(), 1);
-            }
-        }
-        this.adminProducts = allProducts;
-    }
-
-    public List<Product> getShoppingList() {
+        public List<Product> getShoppingList() {
         return shoppingList;
     }
 
@@ -187,6 +174,19 @@ public class products implements Serializable {
         this.adminProducts = new ArrayList<Product>();
     }
     
+    @Inject
+    UserEJB usr;
+    
+    public void updateProducts() {
+        List<Product> allProducts = usr.getAllProducts();
+        for(int i =0; i<allProducts.size(); i++){
+            if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
+                this.quantityOfItem.put(allProducts.get(i).getId(), 1);
+            }
+        }
+        this.adminProducts = allProducts;
+    }
+    
     public void addProduct(){
         System.out.println("Adding a new product: " + this.npName);
         Product newProduct = new Product();
@@ -241,7 +241,8 @@ public class products implements Serializable {
     
     public void processOrder(){
         for (Product p : shoppingList) {
-            usr.purchaseProduct(p, 2);
+            usr.purchaseProduct(p, Integer.parseInt(""+this.quantityOfItem.get(p.getId())));
+            shoppingList.remove(p);
         }
     }
     public void sortingOrder(int ord, boolean dir){
