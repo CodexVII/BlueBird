@@ -51,14 +51,4 @@ public class UserEJB {
         em.merge(u);
     }
     
-    public void updateProduct(Product product) {
-        Product prod = em.find(Product.class, product.getId());
-        
-        prod.setName(product.getName());
-        prod.setQuantityOnHand(product.getQuantityOnHand());
-        prod.setPrice(product.getPrice());
-        prod.setDescription(product.getDescription());
-        
-        em.merge(prod);
-    }
 }
