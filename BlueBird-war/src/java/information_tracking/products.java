@@ -249,6 +249,7 @@ public class products implements Serializable {
             shoppingList.remove(p);
         }
     }
+
     public void sortingOrder(int ord, boolean dir){
         this.sortingOption = ord;
         this.sortingDirection = dir;

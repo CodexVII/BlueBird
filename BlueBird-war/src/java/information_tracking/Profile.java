@@ -80,7 +80,7 @@ public class Profile implements Serializable {
         return result;
     }
     
-    // Login method
+    // Proper login method, not yet implemented
     public String login(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -89,13 +89,14 @@ public class Profile implements Serializable {
             request.login(this.username, this.password);
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
-            return "index";
+
+            return this.INDEX;
         }
         
-        return "userProduct";
+        return this.USER_PRODUCT;
     }
-    
-    // Logout method
+
+    // Proper logout method, not yet implemented
     public void logout(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -117,6 +118,7 @@ public class Profile implements Serializable {
         // Return editUserProfile page
         return this.EDIT_USER_PROFILE;
     }
+    
     // This will return a list of all users
     public List<User> queryAllUsers(){
         return user.getAllUsers();
