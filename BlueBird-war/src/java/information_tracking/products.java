@@ -232,10 +232,8 @@ public class products implements Serializable {
     public double getShoppingTotal(){
         double total = 0.0;
         int quant;
-        int id = 0;
         for (Product p : shoppingList) {
-            id = p.getId();
-            quant = this.quantityOfItem.get(id).intValue();
+            quant = Integer.parseInt(""+this.quantityOfItem.get(p.getId()));
             total += p.getPrice()*quant;
         }
         return total;
