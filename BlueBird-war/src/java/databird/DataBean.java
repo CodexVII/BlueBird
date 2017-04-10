@@ -7,6 +7,7 @@ package databird;
 
 import ejb.AdminEJB;
 import ejb.UserEJB;
+import entity.CustomerOrder;
 import entity.Product;
 import entity.User;
 import javax.inject.Named;
@@ -30,6 +31,15 @@ public class DataBean implements Serializable {
     
     List<Product> products;
     List<User> users;
+    List<CustomerOrder> orders;
+
+    public List<CustomerOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<CustomerOrder> orders) {
+        this.orders = orders;
+    }
     
     public List<Product> getProducts() {
         return products;
@@ -58,6 +68,9 @@ public class DataBean implements Serializable {
         users = user.getAllUsers();
     }
     
+    public void queryAllOrders(){
+        orders = user.getAllOrders();
+    }
     public List<User> getUsers() {
         return users;
     }
@@ -67,8 +80,18 @@ public class DataBean implements Serializable {
     }
     
     public void updateUser(User u){
+        System.out.println("BEAN UPDATE USR");
+        System.out.println(u);
         user.updateUser(u);
     }
+    
+    public void buyProduct(Product prod, int amount){
+        System.out.println(prod);
+        System.out.println(amount);
+        user.purchaseProduct(prod, amount, users.get(0));
+    }
+    
+    
     public void testing(){
         Product product = new Product();
         

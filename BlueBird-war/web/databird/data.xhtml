@@ -16,8 +16,11 @@
             <h:commandButton value="Add Product" action="#{dataBean.addProduct()}"/>
             <h:commandButton value="Get all products" action="#{dataBean.queryAllProducts()}"/>
             <h:commandButton value="Get all users" action="#{dataBean.queryAllUsers()}"/>
+            <h:commandButton value="Get all orders" action="#{dataBean.queryAllOrders()}"/>
             <h:commandButton value="Testing" action="#{dataBean.testing()}"/>
-            
+        </h:form>
+
+        <h:form>
             <h:dataTable value="#{dataBean.products}" var="product">
                 <h:column>    				
                     <f:facet name = "header">Name</f:facet>    				
@@ -31,8 +34,42 @@
                     <f:facet name= "header">Description</f:facet>    				
                         #{product.description}
                 </h:column>
+                <h:column>
+                    <f:facet name="header">Buy</f:facet>
+
+                    <h:commandButton value="Buy" action="#{dataBean.buyProduct(product, 5)}"/>
+
+                </h:column>
             </h:dataTable>
-            
+        </h:form>
+        
+        <h:dataTable value="#{dataBean.orders}" var="order">
+            <h:column>    				
+                <f:facet name = "header">ID</f:facet>    				
+                    #{order.id}
+            </h:column>
+            <h:column>    				
+                <f:facet name="header">Timestamp</f:facet>    				
+                    #{order.timestamp}
+            </h:column>
+            <h:column>    				
+                <f:facet name= "header">Buyer</f:facet>    				
+                    #{order.customerId}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Product</f:facet>
+                    #{order.productId}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantity</f:facet>
+                    #{order.quantity}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cost</f:facet>
+                    #{order.cost}
+            </h:column>
+        </h:dataTable>
+        <h:form>
             <h:dataTable value="#{dataBean.users}" var="u">
                 <h:column>    				
                     <f:facet name = "header">Name</f:facet>    				
@@ -52,14 +89,13 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Update</f:facet>
-                    <h:form>
-                        <h:commandButton value="Goo" action="#{dataBean.updateUser(u)}"/>
-                    </h:form>
+
+                    <h:commandButton value="Goo" action="#{dataBean.updateUser(u)}"/>
+
                 </h:column>
+
             </h:dataTable>
-            
-            
-            
         </h:form>
+
     </h:body>
 </html>

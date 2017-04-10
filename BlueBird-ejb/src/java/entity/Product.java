@@ -144,7 +144,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Product[ id=" + id + " ]";
+        return "Product{" + "id=" + id +'}';
     }
-    
+
 }
