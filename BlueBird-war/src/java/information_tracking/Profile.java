@@ -49,15 +49,10 @@ public class Profile implements Serializable {
     private String newPassword = null;
     private String newStatusMessage = null;
     
-    // This will verify the user login
-    public String verifyLogin(){
-        this.users = user.getAllUsers();
-        String result = "index";
-    
     // Constants for navigating to webpages
-    static final String INDEX = "index";
-    static final String USER_PRODUCT = "userProduct";
-    static final String EDIT_USER_PROFILE = "editUserProfile";
+    private final String INDEX = "index";
+    private final String USER_PRODUCT = "userProduct";
+    private final String EDIT_USER_PROFILE = "editUserProfile";
     
     // This will verify the user login
     public String verifyLogin(){
@@ -67,6 +62,7 @@ public class Profile implements Serializable {
 
         for(int i = 0; i < users.size(); i++){
             if(this.users.get(i).getUsername().equals(this.username) && this.users.get(i).getPassword().equals(this.password)){
+                this.loggedInUser = this.users.get(i);
                 this.id = this.users.get(i).getId();
                 this.statusMessage = this.users.get(i).getStatusMessage();
                 this.balance = this.users.get(i).getBalance();
@@ -75,56 +71,6 @@ public class Profile implements Serializable {
                 this.newUsername = this.username;
                 this.newPassword = this.password;
                 this.newStatusMessage = this.statusMessage;
-
-                // Return userProduct page
-                result = "userProduct";
-            }
-        }
-        
-        return result;
-    }
-    
-    // Login method
-    public String login(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
-        try{
-            request.login(this.username, this.password);
-        } catch (ServletException se) {
-            context.addMessage(null, new FacesMessage("Login failed"));
-            return "index";
-        }
-        
-        return "userProduct";
-    }
-    
-    // Logout method
-    public void logout(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
-        try{
-            request.login(this.username, this.password);
-        } catch (ServletException se) {
-            context.addMessage(null, new FacesMessage("Login failed"));
-        }
-    }
-    
-    // Method to save changes to user profile
-    public String saveChanges(){
-        this.username = this.newUsername;
-        this.password = this.newPassword;
-        this.statusMessage = this.newStatusMessage;
-        
-        
-        
-        return "editUserProfile";
-    }
-                this.newStatusMessage = this.statusMessage;
-                
-                // Logged in user
-                this.loggedInUser = this.users.get(i);
 
                 // Return userProduct page
                 result = this.USER_PRODUCT;
@@ -143,15 +89,13 @@ public class Profile implements Serializable {
             request.login(this.username, this.password);
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
-            
-            // Return index page
+
             return this.INDEX;
         }
         
-        // Return userProduct page
         return this.USER_PRODUCT;
     }
-    
+
     // Proper logout method, not yet implemented
     public void logout(){
         FacesContext context = FacesContext.getCurrentInstance();
@@ -163,7 +107,7 @@ public class Profile implements Serializable {
             context.addMessage(null, new FacesMessage("Login failed"));
         }
     }
-    
+
     // Method to save changes to user profile
     public String saveChanges(){
         this.statusMessage = this.newStatusMessage;
@@ -174,6 +118,7 @@ public class Profile implements Serializable {
         // Return editUserProfile page
         return this.EDIT_USER_PROFILE;
     }
+    
     // This will return a list of all users
     public List<User> queryAllUsers(){
         return user.getAllUsers();
@@ -276,7 +221,6 @@ public class Profile implements Serializable {
      * Creates a new instance of Profile
      */
     public Profile() {
-        setUsers();
         
     }
     
