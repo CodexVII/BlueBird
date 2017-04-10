@@ -71,6 +71,8 @@ public class UserEJB {
     }
 
     public void updateUser(User user) {
+        User u = em.find(User.class, user.getId());
+
         u.setStatusMessage(user.getStatusMessage());
         System.out.println("Updating user");
         System.out.println(u);
