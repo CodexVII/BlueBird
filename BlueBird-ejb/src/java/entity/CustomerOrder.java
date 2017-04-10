@@ -145,7 +145,8 @@ public class CustomerOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CustomerOrder[ id=" + id + " ]";
+        return "CustomerOrder{" + "id=" + id + ", timestamp=" + timestamp + ", quantity=" + quantity + ", cost=" + cost + ", customerId=" + customerId + ", productId=" + productId + '}';
     }
+
     
 }
