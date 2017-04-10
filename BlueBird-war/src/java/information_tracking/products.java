@@ -187,19 +187,6 @@ public class products implements Serializable {
         this.adminProducts = new ArrayList<Product>();
     }
     
-    @Inject
-    UserEJB usr;
-    
-    public void updateProducts() {
-        List<Product> allProducts = usr.getAllProducts();
-        for(int i =0; i<allProducts.size(); i++){
-            if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
-                this.quantityOfItem.put(allProducts.get(i).getId(), 1);
-            }
-        }
-        this.adminProducts = allProducts;
-    }
-    
     public void addProduct(){
         System.out.println("Adding a new product: " + this.npName);
         Product newProduct = new Product();
@@ -233,7 +220,7 @@ public class products implements Serializable {
     
     
     public void changeItem(Product p) {
-        System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " +p.getDescription());
+        System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " + p.getDescription());
         ad.updateProduct(p);
         this.updateProducts();
     }
@@ -254,11 +241,15 @@ public class products implements Serializable {
     }
     
     public void processOrder(){
+        // TODO - Fix this function!
+        String username = "Alan";
+        
         for (Product p : shoppingList) {
-            usr.purchaseProduct(p, Integer.parseInt(""+this.quantityOfItem.get(p.getId())));
+            usr.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), usr.getUserByName(username).get(0));
             shoppingList.remove(p);
         }
     }
+
     public void sortingOrder(int ord, boolean dir){
         this.sortingOption = ord;
         this.sortingDirection = dir;

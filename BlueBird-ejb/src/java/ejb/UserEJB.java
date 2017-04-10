@@ -8,16 +8,12 @@ package ejb;
 import entity.CustomerOrder;
 import entity.Product;
 import entity.User;
-import java.util.Iterator;
 import java.util.List;
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -52,18 +48,6 @@ public class UserEJB {
         Query q = em.createNamedQuery("User.findById", User.class);
         q.setParameter("id", ID);
         return (List<User>)q.getResultList();
-    }
-    
-    public List<User> getUserByName(String name){
-        Query q = em.createNamedQuery("User.findByUsername", User.class);
-        q.setParameter("username", name);
-        return (List<User>)q.getResultList();
-    }
-    
-    public List<User> getUserByID(int id){
-        Query q = em.createNamedQuery("User.findById", User.class);
-        q.setParameter("id", id);
-        return (List<User>) q.getResultList();
     }
 
     public void purchaseProduct(Product product, int amount, User user) {
