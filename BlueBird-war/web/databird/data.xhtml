@@ -46,7 +46,19 @@
                     <f:facet name= "header">Status</f:facet>    				
                         #{u.statusMessage}
                 </h:column>
+                <h:column>
+                    <f:facet name="header">New Status</f:facet>
+                    <h:inputText value="#{u.statusMessage}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Update</f:facet>
+                    <h:form>
+                        <h:commandButton value="Goo" action="#{dataBean.updateUser(u)}"/>
+                    </h:form>
+                </h:column>
             </h:dataTable>
+            
+            
             
         </h:form>
     </h:body>
