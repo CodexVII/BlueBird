@@ -2,27 +2,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
     <h:body>
-        <h:form>
-            <h:dataTable value="#{profile.users}" var="u">
-                <h:column>    				
-                    <f:facet name = "header">Name</f:facet>    				
-                        #{u.username}
-                </h:column>
-                <h:column>    				
-                    <f:facet name="header">Id</f:facet>    				
-                        #{u.id}
-                </h:column>
-                <h:column>    				
-                    <f:facet name= "header">Status</f:facet>    				
-                        #{u.statusMessage}
-                </h:column>
-            </h:dataTable>
-            <h:commandButton value="Get all users" action="#{profile.queryAllUsers()}"/>
-            <h:commandButton value="Home" action="userProducts"/>
-            <h:commandButton value="Edit Profile" action="editUserProfile"/>
-        </h:form>
+        <ui:composition template="/resources/templates/userTemplate.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div>
+                        Welcome #{profile.username}! This is your profile.<br />
+                    </div>
+                    <div>
+                        Profile message:<br />
+                        #{profile.statusMessage}<br /><br />
+                    </div>
+                    <div>
+                        Account details:<br />
+                        ID:       #{profile.id}<br />
+                        Password: #{profile.password}<br />
+                        Balance : #{profile.balance}<br />
+                    </div>
+                    <h:commandButton value="Home" action="userProduct"/>
+                    <h:commandButton value="Edit Profile" action="editUserProfile"/>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

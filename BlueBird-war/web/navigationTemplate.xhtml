@@ -27,9 +27,9 @@
             <h:form>
                 <div id="left" class="left_navbar" >
                     <ul class ="left">
-                        <li><h:commandButton value="My Profile"/></li>
+                        <li><h:commandButton value="My Profile" action="userProfile"/></li>
                         <li><h:commandButton value="Browse All Products" action="#{products.browseAllProducts()}"/></li>
-                        <li><h:commandButton value="Search for User" /></li>
+                        <li><h:commandButton value="Search for User" action="searchForUsers"/></li>
                     </ul>
                 </div>
                 <div id="content" class="left_content">
@@ -38,7 +38,7 @@
             </h:form>
         </div>
         <div id="footer" align="center">
-            <ui:insert name="bottom">By Gearoid Cremin, Dylan O Conner Desmond, Trevor McSweeney, Alan Noonan and Ian Lodovica</ui:insert>
+            <ui:insert name="bottom">By Gearoid Cremin, Dylan O Connor Desmond, Trevor McSweeney, Alan Noonan and Ian Lodovica</ui:insert>
         </div>
 
     </h:body>

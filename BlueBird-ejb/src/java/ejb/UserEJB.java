@@ -32,16 +32,29 @@ public class UserEJB {
         return (List<Product>)q.getResultList();
     }
     
-    public List<User> getAllUsers(){
-        Query q = em.createNamedQuery("User.findAll", User.class);
-        return (List<User>)q.getResultList();
-    }
-    
     public void purchaseProduct(Product product, int amount) {
         Product prod = em.find(Product.class, product.getName());
         prod.setQuantityOnHand(prod.getQuantityOnHand()-amount);
         em.merge(prod);
     }
+    
+    public List<User> getAllUsers(){
+        Query q = em.createNamedQuery("User.findAll", User.class);
+        return (List<User>)q.getResultList();
+    }
+    
+    public List<User> getUserByID(int ID){
+        Query q = em.createNamedQuery("User.findById", User.class);
+        q.setParameter("id", ID);
+        return (List<User>)q.getResultList();
+    }
+    
+    public List<User> getUserByName(String name){
+        Query q = em.createNamedQuery("User.findByUsername", User.class);
+        q.setParameter("username", name);
+        return (List<User>)q.getResultList();
+    }
+
     
     public void updateUser(User user){
         User u = em.find(User.class, user.getId());

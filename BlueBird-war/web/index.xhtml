@@ -22,13 +22,13 @@
         <h:form>
             <div class="login">
                 Please Log In:<br/>
-                Enter Username: <h:inputText></h:inputText><br/>
-                Enter Password: <h:inputSecret></h:inputSecret><br/>
+                Enter Username: <h:inputText value="#{profile.username}"></h:inputText><br/>
+                Enter Password: <h:inputSecret value="#{profile.password}"></h:inputSecret><br/>
                 <h:commandButton value="Login" action="userProduct"/>
             </div>
         </h:form>
         <div id="footer">
-            <ui:insert name="bottom">By Gearoid Cremin, Dylan O Conner Desmond, Trevor McSweeney, Alan Noonan and Ian Lodovica</ui:insert>
+            <ui:insert name="bottom">By Gearoid Cremin, Dylan O Connor Desmond, Trevor McSweeney, Alan Noonan and Ian Lodovica</ui:insert>
         </div>
     </h:body>
 </html>
