@@ -42,30 +42,33 @@ public class UserEJB {
         return (List<User>) q.getResultList();
     }
 
-    public List<User> getUserByName(String username){
+    public List<User> getUserByName(String username) {
         Query q = em.createNamedQuery("User.findByUsername", User.class);
         q.setParameter("username", username);
-        return (List<User>)q.getResultList();
+        return (List<User>) q.getResultList();
     }
-    public void purchaseProduct(Product product, int amount, User user) {
-            Product prod = em.find(Product.class, product.getId());
-            System.out.println(prod);
-            User u = em.find(User.class, user.getId());
-            System.out.println(u);
-            prod.setQuantityOnHand(prod.getQuantityOnHand() - amount);
-            em.merge(prod);
-//
+    
+    public List<User> getUserByID(int id){
+        Query q = em.createNamedQuery("User.findById", User.class);
+        q.setParameter("id", id);
+        return (List<User>) q.getResultList();
+    }
 
-//        System.out.println(u);
-//        System.out.println(prod);
+    public void purchaseProduct(Product product, int amount, User user) {
+        Product prod = em.find(Product.class, product.getId());
+        System.out.println(prod);
+        User u = em.find(User.class, user.getId());
+        System.out.println(u);
+        prod.setQuantityOnHand(prod.getQuantityOnHand() - amount);
+        em.merge(prod);
+        
         CustomerOrder order = new CustomerOrder();
         order.setCustomerId(u);
         order.setProductId(prod);
         order.setCost(product.getPrice() * amount);
         order.setQuantity(amount);
-        
+
         System.out.println(order);
-//
         em.persist(order);
 
     }

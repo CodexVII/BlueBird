@@ -44,7 +44,7 @@ public class CustomerOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "timestamp", updatable= false, insertable=false)
+    @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
     @Basic(optional = false)
