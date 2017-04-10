@@ -70,6 +70,7 @@ public class DataBean implements Serializable {
     
     public void queryAllOrders(){
         orders = user.getAllOrders();
+        System.out.println(orders);
     }
     public List<User> getUsers() {
         return users;
