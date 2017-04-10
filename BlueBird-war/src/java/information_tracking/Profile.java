@@ -49,11 +49,6 @@ public class Profile implements Serializable {
     private String newPassword = null;
     private String newStatusMessage = null;
     
-    // This will verify the user login
-    public String verifyLogin(){
-        this.users = user.getAllUsers();
-        String result = "index";
-    
     // Constants for navigating to webpages
     static final String INDEX = "index";
     static final String USER_PRODUCT = "userProduct";
@@ -84,55 +79,55 @@ public class Profile implements Serializable {
         return result;
     }
     
-    // Login method
-    public String login(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
-        try{
-            request.login(this.username, this.password);
-        } catch (ServletException se) {
-            context.addMessage(null, new FacesMessage("Login failed"));
-            return "index";
-        }
-        
-        return "userProduct";
-    }
-    
-    // Logout method
-    public void logout(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
-        try{
-            request.login(this.username, this.password);
-        } catch (ServletException se) {
-            context.addMessage(null, new FacesMessage("Login failed"));
-        }
-    }
-    
-    // Method to save changes to user profile
-    public String saveChanges(){
-        this.username = this.newUsername;
-        this.password = this.newPassword;
-        this.statusMessage = this.newStatusMessage;
-        
-        
-        
-        return "editUserProfile";
-    }
-                this.newStatusMessage = this.statusMessage;
-                
-                // Logged in user
-                this.loggedInUser = this.users.get(i);
-
-                // Return userProduct page
-                result = this.USER_PRODUCT;
-            }
-        }
-        
-        return result;
-    }
+//    // Login method
+//    public String login(){
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+//        
+//        try{
+//            request.login(this.username, this.password);
+//        } catch (ServletException se) {
+//            context.addMessage(null, new FacesMessage("Login failed"));
+//            return "index";
+//        }
+//        
+//        return "userProduct";
+//    }
+//    
+//    // Logout method
+//    public void logout(){
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+//        
+//        try{
+//            request.login(this.username, this.password);
+//        } catch (ServletException se) {
+//            context.addMessage(null, new FacesMessage("Login failed"));
+//        }
+//    }
+//    
+//    // Method to save changes to user profile
+//    public String saveChanges(){
+//        this.username = this.newUsername;
+//        this.password = this.newPassword;
+//        this.statusMessage = this.newStatusMessage;
+//        
+//        
+//        
+//        return "editUserProfile";
+//    }
+//                this.newStatusMessage = this.statusMessage;
+//                
+//                // Logged in user
+//                this.loggedInUser = this.users.get(i);
+//
+//                // Return userProduct page
+//                result = this.USER_PRODUCT;
+//            }
+//        }
+//        
+//        return result;
+//    }
     
     // Proper login method, not yet implemented
     public String login(){
@@ -174,6 +169,7 @@ public class Profile implements Serializable {
         // Return editUserProfile page
         return this.EDIT_USER_PROFILE;
     }
+    
     // This will return a list of all users
     public List<User> queryAllUsers(){
         return user.getAllUsers();
