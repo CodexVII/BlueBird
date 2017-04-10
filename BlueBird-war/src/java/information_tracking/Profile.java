@@ -5,16 +5,18 @@
  */
 package information_tracking;
 
+import ejb.AdminEJB;
 import ejb.UserEJB;
 import entity.User;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-
-import java.util.ArrayList;
-
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -22,22 +24,184 @@ import javax.inject.Inject;
  */
 @Named(value = "profile")
 @SessionScoped
+
 public class Profile implements Serializable {
     @Inject
     private UserEJB user;
     
+    @Inject
+    private AdminEJB admin;
+    
+    // List of all users in datatable
     List<User> users;
+    
+    // List of logged in user
+    private User loggedInUser;
+    
+    // Fields for this user that is logged in
+    private int id = 0;
+    private String username = null;
+    private String password = null;
+    private String statusMessage = null;
+    private double balance  = 0.0;
+    
+    // Variables for editing profile
+    private String newStatusMessage = null;
+    
+    // Constants for navigating to webpages
+    static final String INDEX = "index";
+    static final String USER_PRODUCT = "userProduct";
+    static final String EDIT_USER_PROFILE = "editUserProfile";
+    
+    // This will verify the user login
+    public String verifyLogin(){
+        this.users = user.getAllUsers();
+        String result = this.INDEX;
+        
+        System.out.printf("\n\nSize of users = %d\n\n", users.size());
 
+        for(int i = 0; i < users.size(); i++){
+            if(this.users.get(i).getUsername().equals(this.username) && this.users.get(i).getPassword().equals(this.password)){
+                this.id = this.users.get(i).getId();
+                this.statusMessage = this.users.get(i).getStatusMessage();
+                this.balance = this.users.get(i).getBalance();
+                
+                // Copy current fields into new fields
+                this.newStatusMessage = this.statusMessage;
+                
+                // Logged in user
+                this.loggedInUser = this.users.get(i);
+
+                // Return userProduct page
+                result = this.USER_PRODUCT;
+            }
+        }
+        
+        return result;
+    }
+    
+    // Proper login method, not yet implemented
+    public String login(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
+        try{
+            request.login(this.username, this.password);
+        } catch (ServletException se) {
+            context.addMessage(null, new FacesMessage("Login failed"));
+            
+            // Return index page
+            return this.INDEX;
+        }
+        
+        // Return userProduct page
+        return this.USER_PRODUCT;
+    }
+    
+    // Proper logout method, not yet implemented
+    public void logout(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
+        try{
+            request.login(this.username, this.password);
+        } catch (ServletException se) {
+            context.addMessage(null, new FacesMessage("Login failed"));
+        }
+    }
+    
+    // Method to save changes to user profile
+    public String saveChanges(){
+        this.statusMessage = this.newStatusMessage;
+        this.loggedInUser.setStatusMessage(this.newStatusMessage);
+        
+        user.updateUser(this.loggedInUser);
+        
+        // Return editUserProfile page
+        return this.EDIT_USER_PROFILE;
+    }
+
+    // This will return a list of all users
+    public List<User> queryAllUsers(){
+        return user.getAllUsers();
+    }
+    
+    // This will return the logged in user
+    public List<User> getThisUserByName(){
+        return user.getUserByName(this.username);
+    }
+    
+    // This will return the logged in user
+    public List<User> getThisUserByID(){
+        return user.getUserByID(this.id);
+    }
+    
+    // Getter for users
     public List<User> getUsers() {
         return users;
     }
 
+    // Setter for users
     public void setUsers(List<User> users) {
         this.users = user.getAllUsers();
     }
 
-    public void queryAllUsers(){
-        users = user.getAllUsers();
+    public String getNewStatusMessage() {
+        return newStatusMessage;
+    }
+
+    public void setNewStatusMessage(String newStatusMessage) {
+        this.newStatusMessage = newStatusMessage;
+    }
+
+    // Getter for id
+    public int getId() {
+        return id;
+    }
+
+    // Setter for id
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    // Getter for username
+    public String getUsername() {
+        return username;
+    }
+
+    // Setter for username
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Getter for password
+    public String getPassword() {
+        return password;
+    }
+
+    // Setter for password
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Getter for statusMessage
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    // Setter for statusMessage
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    // Getter for balance
+    public double getBalance() {
+        return balance;
+    }
+
+    // Setter for balance
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
     
     /**
