@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Profile implements Serializable {
     @Inject
-    private UserEJB user;
+    UserEJB user;
     
     @Inject
     private AdminEJB admin;
@@ -37,7 +37,6 @@ public class Profile implements Serializable {
     
     // List of logged in user
     private User loggedInUser;
-    
     // Fields for this user that is logged in
     private int id = 0;
     private String username = null;
@@ -46,7 +45,14 @@ public class Profile implements Serializable {
     private double balance  = 0.0;
     
     // Variables for editing profile
+    private String newUsername = null;
+    private String newPassword = null;
     private String newStatusMessage = null;
+    
+    // This will verify the user login
+    public String verifyLogin(){
+        this.users = user.getAllUsers();
+        String result = "index";
     
     // Constants for navigating to webpages
     static final String INDEX = "index";
@@ -57,7 +63,6 @@ public class Profile implements Serializable {
     public String verifyLogin(){
         this.users = user.getAllUsers();
         String result = this.INDEX;
-        
         System.out.printf("\n\nSize of users = %d\n\n", users.size());
 
         for(int i = 0; i < users.size(); i++){
@@ -67,6 +72,55 @@ public class Profile implements Serializable {
                 this.balance = this.users.get(i).getBalance();
                 
                 // Copy current fields into new fields
+                this.newUsername = this.username;
+                this.newPassword = this.password;
+                this.newStatusMessage = this.statusMessage;
+
+                // Return userProduct page
+                result = "userProduct";
+            }
+        }
+        
+        return result;
+    }
+    
+    // Login method
+    public String login(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
+        try{
+            request.login(this.username, this.password);
+        } catch (ServletException se) {
+            context.addMessage(null, new FacesMessage("Login failed"));
+            return "index";
+        }
+        
+        return "userProduct";
+    }
+    
+    // Logout method
+    public void logout(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
+        try{
+            request.login(this.username, this.password);
+        } catch (ServletException se) {
+            context.addMessage(null, new FacesMessage("Login failed"));
+        }
+    }
+    
+    // Method to save changes to user profile
+    public String saveChanges(){
+        this.username = this.newUsername;
+        this.password = this.newPassword;
+        this.statusMessage = this.newStatusMessage;
+        
+        
+        
+        return "editUserProfile";
+    }
                 this.newStatusMessage = this.statusMessage;
                 
                 // Logged in user
@@ -120,7 +174,6 @@ public class Profile implements Serializable {
         // Return editUserProfile page
         return this.EDIT_USER_PROFILE;
     }
-
     // This will return a list of all users
     public List<User> queryAllUsers(){
         return user.getAllUsers();
@@ -141,9 +194,24 @@ public class Profile implements Serializable {
         return users;
     }
 
-    // Setter for users
-    public void setUsers(List<User> users) {
+    public void setUsers() {
         this.users = user.getAllUsers();
+    }
+
+    public String getNewUsername() {
+        return newUsername;
+    }
+
+    public void setNewUsername(String newUsername) {
+        this.newUsername = newUsername;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public String getNewStatusMessage() {
@@ -208,6 +276,8 @@ public class Profile implements Serializable {
      * Creates a new instance of Profile
      */
     public Profile() {
+        setUsers();
+        
     }
     
 }

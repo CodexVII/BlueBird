@@ -43,6 +43,10 @@
                 </div>
             </h:column>
         </h:dataTable>
-        <div align="right">Total Cost of Purchases: #{products.getShoppingTotal()}</div>
+        <div align="right">
+            Total Cost of Purchases: #{products.getShoppingTotal()}
+            <br></br>
+            <h:commandButton value="Order Items" action="#{products.processOrder()}"/>
+        </div>
     </ui:define>
 </ui:composition>
