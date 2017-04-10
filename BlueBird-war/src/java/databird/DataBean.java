@@ -66,7 +66,9 @@ public class DataBean implements Serializable {
         this.users = users;
     }
     
-    
+    public void updateUser(User u){
+        user.updateUser(u);
+    }
     public void testing(){
         Product product = new Product();
         

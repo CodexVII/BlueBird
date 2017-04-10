@@ -42,4 +42,23 @@ public class UserEJB {
         prod.setQuantityOnHand(prod.getQuantityOnHand()-amount);
         em.merge(prod);
     }
+    
+    public void updateUser(User user){
+        User u = em.find(User.class, user.getId());
+        
+        u.setStatusMessage(user.getStatusMessage());
+        
+        em.merge(u);
+    }
+    
+    public void updateProduct(Product product) {
+        Product prod = em.find(Product.class, product.getId());
+        
+        prod.setName(product.getName());
+        prod.setQuantityOnHand(product.getQuantityOnHand());
+        prod.setPrice(product.getPrice());
+        prod.setDescription(product.getDescription());
+        
+        em.merge(prod);
+    }
 }
