@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Named(value = "profile")
 @SessionScoped
+
 public class Profile implements Serializable {
     @Inject
     private UserEJB user;
@@ -34,6 +35,9 @@ public class Profile implements Serializable {
     // List of all users in datatable
     List<User> users;
     
+    // List of logged in user
+    private User loggedInUser;
+    
     // Fields for this user that is logged in
     private int id = 0;
     private String username = null;
@@ -42,14 +46,18 @@ public class Profile implements Serializable {
     private double balance  = 0.0;
     
     // Variables for editing profile
-    private String newUsername = null;
-    private String newPassword = null;
     private String newStatusMessage = null;
+    
+    // Constants for navigating to webpages
+    static final String INDEX = "index";
+    static final String USER_PRODUCT = "userProduct";
+    static final String EDIT_USER_PROFILE = "editUserProfile";
     
     // This will verify the user login
     public String verifyLogin(){
         this.users = user.getAllUsers();
-        String result = "index";
+        String result = this.INDEX;
+        
         System.out.printf("\n\nSize of users = %d\n\n", users.size());
 
         for(int i = 0; i < users.size(); i++){
@@ -59,19 +67,20 @@ public class Profile implements Serializable {
                 this.balance = this.users.get(i).getBalance();
                 
                 // Copy current fields into new fields
-                this.newUsername = this.username;
-                this.newPassword = this.password;
                 this.newStatusMessage = this.statusMessage;
+                
+                // Logged in user
+                this.loggedInUser = this.users.get(i);
 
                 // Return userProduct page
-                result = "userProduct";
+                result = this.USER_PRODUCT;
             }
         }
         
         return result;
     }
     
-    // Login method
+    // Proper login method, not yet implemented
     public String login(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -80,13 +89,16 @@ public class Profile implements Serializable {
             request.login(this.username, this.password);
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
-            return "index";
+            
+            // Return index page
+            return this.INDEX;
         }
         
-        return "userProduct";
+        // Return userProduct page
+        return this.USER_PRODUCT;
     }
     
-    // Logout method
+    // Proper logout method, not yet implemented
     public void logout(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -100,13 +112,13 @@ public class Profile implements Serializable {
     
     // Method to save changes to user profile
     public String saveChanges(){
-        this.username = this.newUsername;
-        this.password = this.newPassword;
         this.statusMessage = this.newStatusMessage;
+        this.loggedInUser.setStatusMessage(this.newStatusMessage);
         
+        user.updateUser(this.loggedInUser);
         
-        
-        return "editUserProfile";
+        // Return editUserProfile page
+        return this.EDIT_USER_PROFILE;
     }
 
     // This will return a list of all users
@@ -132,22 +144,6 @@ public class Profile implements Serializable {
     // Setter for users
     public void setUsers(List<User> users) {
         this.users = user.getAllUsers();
-    }
-
-    public String getNewUsername() {
-        return newUsername;
-    }
-
-    public void setNewUsername(String newUsername) {
-        this.newUsername = newUsername;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
     }
 
     public String getNewStatusMessage() {

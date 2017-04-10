@@ -1,26 +1,18 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>
         <title>BlueBird</title>
     </h:head>
-
     <h:body>
         <div id="top" align="center">
             <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
-            <h:form>
-                <div align="right">
-                    <br/><ui:insert name="top"><h:commandButton value="Shopping Cart: #{products.shoppingList.size()}" action="shoppingCart"/></ui:insert>
-                </div>
-                <div><ui:insert name="top"><h:inputText a:placeholder="Enter Name or Id#" value="#{products.searchBy}"/><h:commandButton value="Search by Name" action="#{products.searchName()}"/><h:commandButton value="Search by Id" action="#{products.searchId()}"/></ui:insert></div>
-            </h:form>
         </div>
         <div >
             <h:form>

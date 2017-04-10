@@ -79,11 +79,11 @@ public class DataBean implements Serializable {
         product.setQuantityOnHand(20); 
         product.setPrice(1.50);
         
-        //user.purchaseProduct(product, 5);
-        //admin.removeProduct(product);
-        //admin.updateProduct(product);
+//        user.purchaseProduct(product, 5);
 //        admin.removeProduct(product);
-        //admin.addProduct(product);
-        //System.out.println("Testing button pressed");
+//        admin.updateProduct(product);
+//        admin.removeProduct(product);
+//        admin.addProduct(product);
+//        System.out.println("Testing button pressed");
     }
 }

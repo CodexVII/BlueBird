@@ -24,7 +24,7 @@
                 Please Log In:<br/>
                 Enter Username: <h:inputText value="#{profile.username}"></h:inputText><br/>
                 Enter Password: <h:inputSecret value="#{profile.password}"></h:inputSecret><br/>
-                <h:commandButton value="Login" action="userProduct"/>
+                <h:commandButton value="Login" action="#{profile.verifyLogin()}"/>
             </div>
         </h:form>
         <div id="footer">

@@ -7,13 +7,13 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <body>
-
         <ui:composition template="./navigationTemplate.xhtml">
-
             <ui:define name="content">
                 <h:form>
                 Currently Listed Items:
-                <div align = "right"><h:commandButton value="Refresh" action="#{products.updateProducts()}" /></div>
+                <div align = "right">
+                    <h:commandButton value="Refresh" action="#{products.updateProducts()}" />
+                </div>
                 <h:dataTable class="tabelle" value="#{products.adminProducts}" var="p">
                     <h:column>
                         <f:facet name = "header">Id</f:facet> 
@@ -48,13 +48,15 @@
                         </div>
                     </h:column>
                 </h:dataTable>
-            <br/><br/><br/><br/>
-            Add Product:<br/>
-            <h:inputText a:placeholder="Product Name" value="#{products.npName}"/><h:inputText a:placeholder="Product Description" value="#{products.npDescription}"/><h:inputText a:placeholder="Product Quantity Available" value="#{products.npQuantity}"/><h:inputText a:placeholder="Product Price" value="#{products.npPrice}"/><h:commandButton value="Add New Product" action="#{products.addProduct()}"/>
-        </h:form>
-        </ui:define>
-
+                <br/><br/><br/><br/>
+                Add Product:<br/>
+                <h:inputText a:placeholder="Product Name" value="#{products.npName}"/>
+                <h:inputText a:placeholder="Product Description" value="#{products.npDescription}"/>
+                <h:inputText a:placeholder="Product Quantity Available" value="#{products.npQuantity}"/>
+                <h:inputText a:placeholder="Product Price" value="#{products.npPrice}"/>
+                <h:commandButton value="Add New Product" action="#{products.addProduct()}"/>
+                </h:form>
+            </ui:define>
         </ui:composition>
-
     </body>
 </html>
