@@ -80,7 +80,7 @@ public class products implements Serializable {
         this.quantityOfItem = quantityOfItem;
     }
     
-        public List<Product> getShoppingList() {
+    public List<Product> getShoppingList() {
         return shoppingList;
     }
 

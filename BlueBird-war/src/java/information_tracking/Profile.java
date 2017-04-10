@@ -24,15 +24,15 @@ import javax.inject.Inject;
 @SessionScoped
 public class Profile implements Serializable {
     @Inject
-    private UserEJB user;
+    UserEJB user;
     
-    List<User> users;
+    private List<User> users;
 
     public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers() {
         this.users = user.getAllUsers();
     }
 
@@ -44,6 +44,8 @@ public class Profile implements Serializable {
      * Creates a new instance of Profile
      */
     public Profile() {
+        setUsers();
+        
     }
     
     
