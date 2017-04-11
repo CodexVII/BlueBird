@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:body>
+        <ui:composition template="/resources/templates/userTemplate.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    This is where you can search for users:
+                    <h:dataTable value="#{profile.users}" var="u">
+                        <h:column>    				
+                            <f:facet name="header">Id</f:facet>    				
+                                #{u.id}
+                        </h:column>
+                        <h:column>    				
+                            <f:facet name = "header">Name</f:facet>    				
+                                #{u.username}
+                        </h:column>
+                        <h:column>    				
+                            <f:facet name= "header">Status</f:facet>    				
+                                #{u.statusMessage}
+                        </h:column>
+                    </h:dataTable>
+                    <h:commandButton value="Get all users" action="#{profile.queryAllUsers()}"/>
+                    <h:commandButton value="Home" action="userProduct"/>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
