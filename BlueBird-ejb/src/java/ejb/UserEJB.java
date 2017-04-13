@@ -49,6 +49,12 @@ public class UserEJB {
         q.setParameter("id", ID);
         return (List<User>)q.getResultList();
     }
+    
+    public List<Product> getProductByID(int ID){
+        Query q = em.createNamedQuery("Product.findById", Product.class);
+        q.setParameter("id", ID);
+        return (List<Product>)q.getResultList();
+    }
 
     public void purchaseProduct(Product product, int amount, User user) {
         Product prod = em.find(Product.class, product.getId());
