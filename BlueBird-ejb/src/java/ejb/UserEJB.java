@@ -49,6 +49,12 @@ public class UserEJB {
         q.setParameter("id", ID);
         return (List<User>)q.getResultList();
     }
+    
+    public List<Product> getProductByID(int ID){
+        Query q = em.createNamedQuery("Product.findById", Product.class);
+        q.setParameter("id", ID);
+        return (List<Product>)q.getResultList();
+    }
 
     public void purchaseProduct(Product product, int amount, User user) {
         Product prod = em.find(Product.class, product.getId());
@@ -71,6 +77,12 @@ public class UserEJB {
 
     public List<CustomerOrder> getAllOrders() {
         Query q = em.createNamedQuery("CustomerOrder.findAll", CustomerOrder.class);
+        return (List<CustomerOrder>) q.getResultList();
+    }
+    
+    public List<CustomerOrder> getAllOrdersByUser(User user) {
+        Query q = em.createNamedQuery("CustomerOrder.findById", CustomerOrder.class);
+        q.setParameter("id", user.getId());
         return (List<CustomerOrder>) q.getResultList();
     }
 
