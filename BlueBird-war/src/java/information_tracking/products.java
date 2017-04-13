@@ -41,8 +41,6 @@ public class products implements Serializable {
     private String searchName="";
     private int searchPart=0;
     
-    private String username;
-    
     private String npName;
     private String npDescription;
     private int npQuantity;
@@ -52,7 +50,9 @@ public class products implements Serializable {
     private boolean sortingDirection = true;
     
     // Constants for navigating to webpages
-    static final String userProduct = "userProduct";
+    private final String userProduct = "userProduct";
+    private final String adminProduct = "adminProduct";
+    private final String shoppingCart = "shoppingCart";
 
     public String getSearchBy() {
         return searchBy;
@@ -76,15 +76,6 @@ public class products implements Serializable {
 
     public void setQuantityOfItem(Map<Integer, Integer> quantityOfItem) {
         this.quantityOfItem = quantityOfItem;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-        System.out.println("The username in products is" + username);
     }
     
     @Inject
@@ -198,7 +189,7 @@ public class products implements Serializable {
         this.adminProducts = new ArrayList<Product>();
     }
     
-    public void addProduct(){
+    public String addProduct(){
         System.out.println("Adding a new product: " + this.npName);
         Product newProduct = new Product();
         newProduct.setName(npName);
@@ -211,35 +202,40 @@ public class products implements Serializable {
         this.npPrice=0.00;
         this.npQuantity=0;
         this.updateProducts();
+        return this.adminProduct;
     }
     
-    public void removeFromBasket(Product p){
+    public String removeFromBasket(Product p){
         this.shoppingList.remove(p);
+        return this.shoppingCart;
     }
     
-    public void addToBasket(Product p){
+    public String addToBasket(Product p){
         if(this.shoppingList.contains(p)){
             this.shoppingList.remove(p);
         }
         
         System.out.println("Adding " + this.quantityOfItem.get(p.getId()) + " of item to basket: " + p.getName());
         this.shoppingList.add(p);
+        return this.userProduct;
     }
     
     @Inject
     AdminEJB ad;
     
     
-    public void changeItem(Product p) {
+    public String changeItem(Product p) {
         System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " + p.getDescription());
         ad.updateProduct(p);
         this.updateProducts();
+        return this.adminProduct;
     }
      
-    public void removeItem(Product p){
+    public String removeItem(Product p){
         System.out.println("Removing product # " + p.getId() + " - " + p.getName());
         ad.removeProduct(p);
         this.updateProducts();
+        return this.adminProduct;
     }
     public double getShoppingTotal(){
         double total = 0.0;
@@ -251,20 +247,22 @@ public class products implements Serializable {
         return total;
     }
     
-    public void processOrder(){
+    public String processOrder(){
         // TODO - Fix this function!
-        //String username = "Alan";
-        String username = this.username;
+        String username = "Alan";
         
         for (Product p : shoppingList) {
             usr.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), usr.getUserByName(username).get(0));
             shoppingList.remove(p);
         }
+        return this.shoppingCart;
     }
 
-    public void sortingOrder(int ord, boolean dir){
+    public String sortingOrder(int ord, boolean dir){
         this.sortingOption = ord;
         this.sortingDirection = dir;
+        
+        return this.userProduct;
     }
     
     public List<Product> reverse(List<Product> list) {
@@ -341,6 +339,6 @@ public class products implements Serializable {
         this.searchBy="";
         
         // Return userProduct page
-        return this.userProduct;
+        return this.userProduct+"?faces-redirect=true";
     }
 }
