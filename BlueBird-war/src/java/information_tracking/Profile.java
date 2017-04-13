@@ -184,7 +184,7 @@ public class Profile implements Serializable {
 
     // Setter for username
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username;                     
     }
 
     // Getter for password

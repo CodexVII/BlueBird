@@ -41,6 +41,8 @@ public class products implements Serializable {
     private String searchName="";
     private int searchPart=0;
     
+    private String username;
+    
     private String npName;
     private String npDescription;
     private int npQuantity;
@@ -74,6 +76,15 @@ public class products implements Serializable {
 
     public void setQuantityOfItem(Map<Integer, Integer> quantityOfItem) {
         this.quantityOfItem = quantityOfItem;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        System.out.println("The username in products is" + username);
     }
     
     @Inject
@@ -242,7 +253,8 @@ public class products implements Serializable {
     
     public void processOrder(){
         // TODO - Fix this function!
-        String username = "Alan";
+        //String username = "Alan";
+        String username = this.username;
         
         for (Product p : shoppingList) {
             usr.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), usr.getUserByName(username).get(0));
