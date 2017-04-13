@@ -79,6 +79,12 @@ public class UserEJB {
         Query q = em.createNamedQuery("CustomerOrder.findAll", CustomerOrder.class);
         return (List<CustomerOrder>) q.getResultList();
     }
+    
+    public List<CustomerOrder> getAllOrdersByUser(User user) {
+        Query q = em.createNamedQuery("CustomerOrder.findById", CustomerOrder.class);
+        q.setParameter("id", user.getId());
+        return (List<CustomerOrder>) q.getResultList();
+    }
 
     public void updateUser(User user) {
         User u = em.find(User.class, user.getId());
