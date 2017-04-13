@@ -94,14 +94,23 @@ public class DataBean implements Serializable {
     
     
     public void testing(){
+        System.out.println("testing() called");
         Product product = new Product();
+        User userTemp = new User();
+        userTemp.setId(1);
+        List<CustomerOrder> returnList = user.getAllOrdersByUser(userTemp);
+        //List<CustomerOrder> returnList = user.getAllOrders();
         
+        System.out.println("Length: " + returnList.size());
         
+        for(int i = 0; i < returnList.size(); i++) {
+            System.out.println("Value: " + returnList.get(i).getId());
+        }
         
-        product.setId(1);
-        product.setName("Sparkling Water");
-        product.setQuantityOnHand(20); 
-        product.setPrice(1.50);
+//        product.setId(1);
+//        product.setName("Sparkling Water");
+//        product.setQuantityOnHand(20); 
+//        product.setPrice(1.50);
         
 //        user.purchaseProduct(product, 5);
 //        admin.removeProduct(product);
