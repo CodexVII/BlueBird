@@ -17,9 +17,9 @@
             <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
             <h:form>
                 <div align="right">
-                    <br/><ui:insert name="top"><h:commandButton value="Shopping Cart: #{products.shoppingList.size()}" action="shoppingCart"/></ui:insert>
+                    <br/><ui:insert name="top"><h:commandButton value="Shopping Cart: #{profile.shoppingList.size()}" action="shoppingCart"/></ui:insert>
                 </div>
-                <div><ui:insert name="top"><h:inputText a:placeholder="Enter Name or Id#" value="#{products.searchBy}"/><h:commandButton value="Search by Name" action="#{products.searchName()}"/><h:commandButton value="Search by Id" action="#{products.searchId()}"/></ui:insert></div>
+                <div><ui:insert name="top"><h:inputText a:placeholder="Enter Name or Id#" value="#{profile.searchBy}"/><h:commandButton value="Search by Name" action="#{profile.searchName()}"/><h:commandButton value="Search by Id" action="#{profile.searchId()}"/></ui:insert></div>
             </h:form>
         </div>
         <div >
@@ -27,8 +27,8 @@
                 <div id="left" class="left_navbar" >
                     <ul class ="left">
                         <li><h:commandButton value="My Profile" action="userProfile"/></li>
-                        <li><h:commandButton value="Browse All Products" action="#{products.browseAllProducts()}"/></li>
-                        <li><h:commandButton value="Browse Users" action="searchForUsers" /></li>
+                        <li><h:commandButton value="Browse All Products" action="#{profile.browseAllProducts()}"/></li>
+                        <li><h:commandButton value="Browse Users" action="browseUsers" /></li>
                     </ul>
                 </div>
                 <div id="content" class="left_content">

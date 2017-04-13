@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
+      xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./navigationTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
-        <ui:composition template="/resources/templates/userTemplate.xhtml">
+        <ui:composition template="./navigationTemplate.xhtml">
             <ui:define name="content">
                 <h:form>
                     <div>
@@ -24,8 +25,32 @@
                     </div>
                     <h:commandButton value="Home" action="userProduct"/>
                     <h:commandButton value="Edit Profile" action="editUserProfile"/>
+                    Current Orders:
+                    <h:dataTable class="separate" value="#{profile.orders}" var="u">
+                        <h:column>
+                            <f:facet name = "header">Order Number</f:facet> 
+                            #{u.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Time of Order</f:facet> 
+                            #{u.timestamp}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Product Id</f:facet> 
+                            #{u.productId.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Quantity Ordered</f:facet> 
+                            #{u.quantity}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Cost of Order</f:facet> 
+                            #{u.cost}
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
+</ui:composition>
 </html>
