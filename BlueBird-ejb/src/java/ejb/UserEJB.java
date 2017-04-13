@@ -8,6 +8,7 @@ package ejb;
 import entity.CustomerOrder;
 import entity.Product;
 import entity.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -81,9 +82,24 @@ public class UserEJB {
     }
     
     public List<CustomerOrder> getAllOrdersByUser(User user) {
-        Query q = em.createNamedQuery("CustomerOrder.findById", CustomerOrder.class);
-        q.setParameter("id", user.getId());
-        return (List<CustomerOrder>) q.getResultList();
+        Query q = em.createNamedQuery("CustomerOrder.findAll", CustomerOrder.class);
+        List<CustomerOrder> fromDatabase, returnList;
+        int customerId;
+        
+        fromDatabase = (List<CustomerOrder>) q.getResultList();
+        returnList = new ArrayList<CustomerOrder>();
+        
+        // Loop through all results to find matches for customer_id
+        for(int i = 0; i < fromDatabase.size(); i++) {
+            customerId = fromDatabase.get(i).getCustomerId().getId();
+            
+            // If match, add to returnList
+            if(customerId == user.getId()) {
+                returnList.add(fromDatabase.get(i));
+            }
+        }
+        
+        return returnList;
     }
 
     public void updateUser(User user) {
