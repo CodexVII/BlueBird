@@ -7,18 +7,18 @@
     <ui:define name="content">
         <h:form>
             Products available:
-            <h:dataTable class="separate" value="#{products.updatedProducts}" var="p" binding="#{table}">
+            <h:dataTable class="separate" value="#{profile.updatedProducts}" var="p" binding="#{table}">
                 <h:column>
                     <f:facet name = "header">Id
-                        <h:commandButton value="Asc" action="#{products.sortingOrder(0,false)}"/>
-                        <h:commandButton value="Dsc" action="#{products.sortingOrder(0,true)}"/>
+                        <h:commandButton value="Asc" action="#{profile.sortingOrder(0,false)}"/>
+                        <h:commandButton value="Dsc" action="#{profile.sortingOrder(0,true)}"/>
                     </f:facet> 
                     #{p.id}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Name
-                        <h:commandButton value="Asc" action="#{products.sortingOrder(1,false)}"/>
-                        <h:commandButton value="Dsc" action="#{products.sortingOrder(1,true)}"/>
+                        <h:commandButton value="Asc" action="#{profile.sortingOrder(1,false)}"/>
+                        <h:commandButton value="Dsc" action="#{profile.sortingOrder(1,true)}"/>
                     </f:facet> 
                     #{p.name}
                 </h:column>
@@ -28,30 +28,30 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Available Stock
-                        <h:commandButton value="Asc" action="#{products.sortingOrder(3,false)}"/>
-                        <h:commandButton value="Dsc" action="#{products.sortingOrder(3,true)}"/>
+                        <h:commandButton value="Asc" action="#{profile.sortingOrder(3,false)}"/>
+                        <h:commandButton value="Dsc" action="#{profile.sortingOrder(3,true)}"/>
                     </f:facet> 
                     #{p.quantityOnHand}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Price
-                        <h:commandButton value="Asc" action="#{products.sortingOrder(4,false)}"/>
-                        <h:commandButton value="Dsc" action="#{products.sortingOrder(4,true)}"/>
+                        <h:commandButton value="Asc" action="#{profile.sortingOrder(4,false)}"/>
+                        <h:commandButton value="Dsc" action="#{profile.sortingOrder(4,true)}"/>
                     </f:facet>
                     €#{p.price}
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText value="#{products.quantityOfItem[p.id]}" />
+                    <h:inputText value="#{profile.quantityOfItem[p.id]}" />
                 </h:column>
                 <h:column>
                     <div align="center">
                         <f:facet name = "header">Add to Basket</f:facet>
-                        <h:commandButton value="Add" action="#{products.addToBasket(p)}" />
+                        <h:commandButton value="Add" action="#{profile.addToBasket(p)}" />
                     </div>
                 </h:column>
             </h:dataTable>
-            <h:commandButton action ="adminProduct" rendered="#{products.administrator}" value="Edit Products"/>
+            <h:commandButton action ="adminProduct" rendered="#{profile.administrator}" value="Edit Products"/>
         </h:form>
    </ui:define>
 </ui:composition>
