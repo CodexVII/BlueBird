@@ -4,11 +4,10 @@
                 template="./navigationTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-
     <ui:define name="content">
         <h:form>
             Products available:
-            <h:dataTable class="tabelle" value="#{products.updatedProducts}" var="p" binding="#{table}">
+            <h:dataTable class="separate" value="#{products.updatedProducts}" var="p" binding="#{table}">
                 <h:column>
                     <f:facet name = "header">Id
                         <h:commandButton value="Asc" action="#{products.sortingOrder(0,false)}"/>
