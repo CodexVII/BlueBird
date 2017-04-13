@@ -12,9 +12,9 @@
                 <h:form>
                 Currently Listed Items:
                 <div align = "right">
-                    <h:commandButton value="Refresh" action="#{products.updateProducts()}" />
+                    <h:commandButton value="Refresh" action="#{profile.updateProducts()}" />
                 </div>
-                <h:dataTable class="tabelle" value="#{products.adminProducts}" var="p">
+                <h:dataTable class="tabelle" value="#{profile.adminProducts}" var="p">
                     <h:column>
                         <f:facet name = "header">Id</f:facet> 
                         #{p.id}
@@ -38,23 +38,23 @@
                     <h:column>
                         <div align="center">
                             <f:facet name = "header">Edit Product</f:facet>
-                            <h:commandButton value="Save" action="#{products.changeItem(p)}"/>
+                            <h:commandButton value="Save" action="#{profile.changeItem(p)}"/>
                         </div>
                     </h:column>
                     <h:column>
                         <div align="center">
                             <f:facet name = "header">Remove Product</f:facet>
-                            <h:commandButton value="Remove" action="#{products.removeItem(p)}"/>
+                            <h:commandButton value="Remove" action="#{profile.removeItem(p)}"/>
                         </div>
                     </h:column>
                 </h:dataTable>
                 <br/><br/><br/><br/>
                 Add Product:<br/>
-                <h:inputText a:placeholder="Product Name" value="#{products.npName}"/>
-                <h:inputText a:placeholder="Product Description" value="#{products.npDescription}"/>
-                <h:inputText a:placeholder="Product Quantity Available" value="#{products.npQuantity}"/>
-                <h:inputText a:placeholder="Product Price" value="#{products.npPrice}"/>
-                <h:commandButton value="Add New Product" action="#{products.addProduct()}"/>
+                <h:inputText a:placeholder="Product Name" value="#{profile.npName}"/>
+                <h:inputText a:placeholder="Product Description" value="#{profile.npDescription}"/>
+                <h:inputText a:placeholder="Product Quantity Available" value="#{profile.npQuantity}"/>
+                <h:inputText a:placeholder="Product Price" value="#{profile.npPrice}"/>
+                <h:commandButton value="Add New Product" action="#{profile.addProduct()}"/>
                 </h:form>
             </ui:define>
         </ui:composition>
