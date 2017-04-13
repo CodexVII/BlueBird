@@ -7,6 +7,7 @@ package information_tracking;
 
 import ejb.AdminEJB;
 import ejb.UserEJB;
+import entity.CustomerOrder;
 import entity.Product;
 import entity.User;
 import javax.inject.Named;
@@ -540,5 +541,16 @@ public class Profile implements Serializable {
         // Return userProduct page
         return this.userProduct+"?faces-redirect=true";
     }
+    
+    private List<CustomerOrder> orders;
+
+    public List<CustomerOrder> getOrders() {
+        return usr.getAllOrders();
+    }
+
+    public void setOrders(List<CustomerOrder> orders) {
+        this.orders = orders;
+    }
+    
     
 }
