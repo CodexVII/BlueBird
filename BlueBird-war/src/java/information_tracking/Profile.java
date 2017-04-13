@@ -146,14 +146,17 @@ public class Profile implements Serializable {
         return users;
     }
 
+    //  Setter for Users
     public void setUsers() {
         this.users = user.getAllUsers();
     }
 
+    //  Getter for new username
     public String getNewUsername() {
         return newUsername;
     }
 
+    // Setter for new username
     public void setNewUsername(String newUsername) {
         this.newUsername = newUsername;
     }
@@ -234,7 +237,7 @@ public class Profile implements Serializable {
         this.adminProducts = new ArrayList<Product>();
     }
     
-     private List<Product> shoppingList;
+    private List<Product> shoppingList;
     
     private Boolean administrator;
     
@@ -286,6 +289,10 @@ public class Profile implements Serializable {
     @Inject
     UserEJB usr;
     
+    /**
+     * Updates the product hashmap with any new products and initializes
+     * the quantity to 0
+     */
     public void updateProducts() {
         List<Product> allProducts = usr.getAllProducts();
         
@@ -310,6 +317,11 @@ public class Profile implements Serializable {
         return this.adminProducts;
     }
 
+    /**
+     * Gets a list of filtered products if a filter is applied. Otherwise, the
+     * list is returned without any filtering
+     * @return list of products in they are to be displayed
+     */
     public List<Product> getUpdatedProducts() {
         this.updateProducts();
         List<Product> filteredProducts = new ArrayList<Product>();
@@ -387,6 +399,10 @@ public class Profile implements Serializable {
         this.sortingOption = sortingOption;
     }
       
+    /**
+     * Adds a new product to the list of products
+     * @return adminProduct redirect to the webpage 
+     */
     public String addProduct(){
         System.out.println("Adding a new product: " + this.npName);
         Product newProduct = new Product();
@@ -403,11 +419,21 @@ public class Profile implements Serializable {
         return this.adminProduct;
     }
     
+    /**
+     * Remove a product from the shopping cart
+     * @param p the product being removed
+     * @return shoppingCart redirect to webpage
+     */
     public String removeFromBasket(Product p){
         this.shoppingList.remove(p);
         return this.shoppingCart;
     }
     
+    /**
+     * Add a product to the shopping cart(basket)
+     * @param p the product being added
+     * @return userProduct redirect to webpage
+     */
     public String addToBasket(Product p){
         if(this.shoppingList.contains(p)){
             this.shoppingList.remove(p);
@@ -421,7 +447,11 @@ public class Profile implements Serializable {
     @Inject
     AdminEJB ad;
     
-    
+    /**
+     * Change information for an item that is already in the database
+     * @param p product being changed
+     * @return adminProduct redirect to webpage
+     */
     public String changeItem(Product p) {
         System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " + p.getDescription());
         ad.updateProduct(p);
@@ -429,12 +459,22 @@ public class Profile implements Serializable {
         return this.adminProduct;
     }
      
+    /**
+     * Remove an item from the database
+     * @param p product being removed
+     * @return adminProduct redirect to webpage
+     */
     public String removeItem(Product p){
         System.out.println("Removing product # " + p.getId() + " - " + p.getName());
         ad.removeProduct(p);
         this.updateProducts();
         return this.adminProduct;
     }
+    
+    /**
+     * Calculate the total value of the shopping cart
+     * @return total cost of items
+     */
     public double getShoppingTotal(){
         double total = 0.0;
         int quant;
@@ -445,9 +485,11 @@ public class Profile implements Serializable {
         return total;
     }
     
+    /**
+     * Process the order of items in the shopping from the user's profile
+     * @return shoppingCart redirect to webpage
+     */
     public String processOrder(){
-        // TODO - Fix this function!
-        String username = "Alan";
         for (Product p : shoppingList) {
             System.out.println("Sending an order");
             usr.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), usr.getUserByName(this.getUsername()).get(0));
@@ -458,6 +500,12 @@ public class Profile implements Serializable {
         return this.shoppingCart;
     }
 
+    /**
+     * Setting the sorting configuration
+     * @param ord column to be sorted
+     * @param dir direction(ascending or descending)
+     * @return userProduct redirect to webpage
+     */
     public String sortingOrder(int ord, boolean dir){
         this.sortingOption = ord;
         this.sortingDirection = dir;
@@ -465,6 +513,11 @@ public class Profile implements Serializable {
         return this.userProduct;
     }
     
+    /**
+     * Reverse a list for descending sorting
+     * @param list to be sorted
+     * @return sorted list
+     */
     public List<Product> reverse(List<Product> list) {
         for(int i = 0, j = list.size() - 1; i < j; i++) {
             list.add(i, list.remove(j));
@@ -472,7 +525,12 @@ public class Profile implements Serializable {
         
         return list;
 }
-    
+    /**
+     * Sorts the list of products
+     * @param sortThis List being sorted
+     * @param option controls which column is being sorted
+     * @param descending defines sort direction
+     */
     public void sortProducts(List<Product> sortThis,int option, boolean descending){
         int negOne = (descending)?(1):(-1);
         int posOne = (descending)?(-1):(1);
@@ -515,6 +573,10 @@ public class Profile implements Serializable {
         }
     }
     
+    /**
+     * Sets the page to search by the search box string
+     * @return userProduct redirect to webpage
+     */
     public String searchName(){
         this.searchName=this.searchBy;
         this.searchPart=0;
@@ -524,6 +586,10 @@ public class Profile implements Serializable {
         return this.userProduct;
     }
     
+    /**
+     * Sets the page to search by the id box
+     * @return userProduct redirect to webpage
+     */
     public String searchId(){
         this.searchPart=Integer.parseInt(this.searchBy);
         this.searchName="";
@@ -533,6 +599,11 @@ public class Profile implements Serializable {
         return this.userProduct;
     }
     
+    /**
+     * Sets the userProduct page to display all the products and ignore search 
+     * options
+     * @return userProduct redirect to webpage with no search options
+     */
     public String browseAllProducts(){
         this.searchPart=0;
         this.searchName="";
