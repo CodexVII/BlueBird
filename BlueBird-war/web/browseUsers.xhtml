@@ -9,9 +9,13 @@
 
         <ui:composition template="./navigationTemplate.xhtml">
 
+            <ui:define name="top">
+                <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
+            </ui:define>
+            
             <ui:define name="content">
                 Registered Users:
-                <h:dataTable class="tabelle" value="#{Profile.users}" var="u">
+                <h:dataTable class="tabelle" value="#{profile.users}" var="u">
                     <h:column>
                         <f:facet name = "header">Username</f:facet> 
                         #{u.username}
