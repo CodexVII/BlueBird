@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author keita
+ * @author Alan
  */
 @Entity
 @Table(name = "product")
@@ -144,7 +144,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id +'}';
+        return "entity.Product[ id=" + id + " ]";
     }
-
+    
 }
