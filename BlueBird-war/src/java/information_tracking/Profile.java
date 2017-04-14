@@ -87,6 +87,17 @@ public class Profile implements Serializable {
         
         try{
             request.login(this.username, this.password);
+            // Get list of all users
+            // TODO - Should this be here?
+            this.users = user.getAllUsers();
+            
+            // Get the logged-in user's details
+            this.username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+            this.loggedInUser = getThisUserByName().get(0);
+            this.id = this.loggedInUser.getId();
+            this.statusMessage = this.loggedInUser.getStatusMessage();
+            this.balance = this.loggedInUser.getBalance();
+            this.newStatusMessage = this.statusMessage;
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
 
@@ -97,15 +108,17 @@ public class Profile implements Serializable {
     }
 
     // Proper logout method, not yet implemented
-    public void logout(){
+    public String logout(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         
         try{
-            request.login(this.username, this.password);
+            request.logout();
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
         }
+        
+        return this.INDEX;
     }
 
     // Method to save changes to user profile
@@ -221,7 +234,6 @@ public class Profile implements Serializable {
      * Creates a new instance of Profile
      */
     public Profile() {
-        
     }
     
 }

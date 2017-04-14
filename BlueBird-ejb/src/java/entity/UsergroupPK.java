@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author keita
+ * @author Dylan
  */
 @Embeddable
 public class UsergroupPK implements Serializable {
@@ -22,19 +22,28 @@ public class UsergroupPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "group")
-    private String group;
+    @Column(name = "username")
+    private String username;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "user_id")
-    private int userId;
+    @Size(min = 1, max = 50)
+    @Column(name = "group")
+    private String group;
 
     public UsergroupPK() {
     }
 
-    public UsergroupPK(String group, int userId) {
+    public UsergroupPK(String username, String group) {
+        this.username = username;
         this.group = group;
-        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getGroup() {
@@ -45,19 +54,11 @@ public class UsergroupPK implements Serializable {
         this.group = group;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
+        hash += (username != null ? username.hashCode() : 0);
         hash += (group != null ? group.hashCode() : 0);
-        hash += (int) userId;
         return hash;
     }
 
@@ -68,10 +69,10 @@ public class UsergroupPK implements Serializable {
             return false;
         }
         UsergroupPK other = (UsergroupPK) object;
-        if ((this.group == null && other.group != null) || (this.group != null && !this.group.equals(other.group))) {
+        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
             return false;
         }
-        if (this.userId != other.userId) {
+        if ((this.group == null && other.group != null) || (this.group != null && !this.group.equals(other.group))) {
             return false;
         }
         return true;
@@ -79,7 +80,7 @@ public class UsergroupPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.UsergroupPK[ group=" + group + ", userId=" + userId + " ]";
+        return "entity.UsergroupPK[ username=" + username + ", group=" + group + " ]";
     }
     
 }

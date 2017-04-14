@@ -17,21 +17,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author keita
+ * @author Dylan
  */
 @Entity
 @Table(name = "usergroup")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usergroup.findAll", query = "SELECT u FROM Usergroup u")
-    , @NamedQuery(name = "Usergroup.findByGroup", query = "SELECT u FROM Usergroup u WHERE u.usergroupPK.group = :group")
-    , @NamedQuery(name = "Usergroup.findByUserId", query = "SELECT u FROM Usergroup u WHERE u.usergroupPK.userId = :userId")})
+    , @NamedQuery(name = "Usergroup.findByUsername", query = "SELECT u FROM Usergroup u WHERE u.usergroupPK.username = :username")
+    , @NamedQuery(name = "Usergroup.findByGroup", query = "SELECT u FROM Usergroup u WHERE u.usergroupPK.group = :group")})
 public class Usergroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected UsergroupPK usergroupPK;
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private User user;
 
@@ -42,8 +42,8 @@ public class Usergroup implements Serializable {
         this.usergroupPK = usergroupPK;
     }
 
-    public Usergroup(String group, int userId) {
-        this.usergroupPK = new UsergroupPK(group, userId);
+    public Usergroup(String username, String group) {
+        this.usergroupPK = new UsergroupPK(username, group);
     }
 
     public UsergroupPK getUsergroupPK() {
