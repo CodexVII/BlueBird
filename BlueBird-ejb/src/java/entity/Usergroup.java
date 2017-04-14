@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dylan
+ * @author Alan
  */
 @Entity
 @Table(name = "usergroup")

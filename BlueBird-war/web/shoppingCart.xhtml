@@ -11,7 +11,7 @@
 
     <ui:define name="content">
         Items in your shopping cart:
-        <h:dataTable class="tabelle" value="#{products.shoppingList}" var="p">
+        <h:dataTable class="tabelle" value="#{profile.shoppingList}" var="p">
             <h:column>
                 <f:facet name = "header">Name</f:facet> 
                 #{p.name}
@@ -30,23 +30,23 @@
             </h:column>
             <h:column>
                 <f:facet name = "header">Quantity</f:facet>
-                #{products.quantityOfItem.get(p.id)}
+                #{profile.quantityOfItem.get(p.id)}
             </h:column>
             <h:column>
                 <f:facet name = "header">Total</f:facet>
-                #{products.quantityOfItem.get(p.id)*p.price}
+                #{profile.quantityOfItem.get(p.id)*p.price}
             </h:column>
             <h:column>
                 <div align="center">
                     <f:facet name = "header">Remove from Basket</f:facet>
-                    <h:commandButton value="Remove" action="#{products.removeFromBasket(p)}"/>
+                    <h:commandButton value="Remove" action="#{profile.removeFromBasket(p)}"/>
                 </div>
             </h:column>
         </h:dataTable>
         <div align="right">
-            Total Cost of Order: #{products.getShoppingTotal()}
+            Total Cost of Order: #{profile.getShoppingTotal()}
             <br></br>
-            <h:commandButton value="Order Items" action="#{products.processOrder()}"/>
+            <h:commandButton value="Order Items" action="#{profile.processOrder()}"/>
         </div>
     </ui:define>
 </ui:composition>

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dylan
+ * @author Alan
  */
 @Entity
 @Table(name = "user")
@@ -151,5 +151,4 @@ public class User implements Serializable {
     public void setUsergroupCollection(Collection<Usergroup> usergroupCollection) {
         this.usergroupCollection = usergroupCollection;
     }
-    
 }

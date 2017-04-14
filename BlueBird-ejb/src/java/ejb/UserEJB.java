@@ -8,6 +8,7 @@ package ejb;
 import entity.CustomerOrder;
 import entity.Product;
 import entity.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -49,6 +50,11 @@ public class UserEJB {
         q.setParameter("id", ID);
         return (List<User>)q.getResultList();
     }
+    
+    public List<Product> getProductByID(int ID){
+        Query q = em.createNamedQuery("Product.findById", Product.class);
+        return (List<Product>)q.getResultList();
+    }
 
     public void purchaseProduct(Product product, int amount, User user) {
         Product prod = em.find(Product.class, product.getId());
@@ -72,6 +78,27 @@ public class UserEJB {
     public List<CustomerOrder> getAllOrders() {
         Query q = em.createNamedQuery("CustomerOrder.findAll", CustomerOrder.class);
         return (List<CustomerOrder>) q.getResultList();
+    }
+    
+    public List<CustomerOrder> getAllOrdersByUser(User user) {
+        Query q = em.createNamedQuery("CustomerOrder.findAll", CustomerOrder.class);
+        List<CustomerOrder> fromDatabase, returnList;
+        int customerId;
+        
+        fromDatabase = (List<CustomerOrder>) q.getResultList();
+        returnList = new ArrayList<CustomerOrder>();
+        
+        // Loop through all results to find matches for customer_id
+        for(int i = 0; i < fromDatabase.size(); i++) {
+            customerId = fromDatabase.get(i).getCustomerId().getId();
+            
+            // If match, add to returnList
+            if(customerId == user.getId()) {
+                returnList.add(fromDatabase.get(i));
+            }
+        }
+        
+        return returnList;
     }
 
     public void updateUser(User user) {

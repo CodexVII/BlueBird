@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Dylan
+ * @author Alan
  */
 @Embeddable
 public class UsergroupPK implements Serializable {
@@ -82,5 +82,4 @@ public class UsergroupPK implements Serializable {
     public String toString() {
         return "entity.UsergroupPK[ username=" + username + ", group=" + group + " ]";
     }
-    
 }
