@@ -51,7 +51,7 @@
                     </div>
                 </h:column>
             </h:dataTable>
-            <h:commandButton action ="adminProduct" rendered="#{profile.administrator}" value="Edit Products"/>
+            <h:commandButton action ="adminProduct" rendered="#{profile.isAdministrator}" value="Edit Products"/>
         </h:form>
    </ui:define>
 </ui:composition>
