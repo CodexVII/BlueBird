@@ -50,11 +50,11 @@ public class Profile implements Serializable {
     private Map<Integer, Integer> quantityOfItem;
     
     // Variables for searching for items
-    private String searchProductBy = "";
-    private String searchProductByName = "";
-    private int searchProductByID = 0;
-    private int sortingOption = 0;
-    private boolean sortingDirection = true;
+    private String searchProductBy = ""; //Store search box text
+    private String searchProductByName = ""; //current name we are searching by
+    private int searchProductByID = 0; //current product id we are searching by
+    private int sortingOption = 0; //Current column we wish to sort by
+    private boolean sortingDirection = true; //Direction we're sorting by, true-ascending, false-descending
     
     // Variables for searching for users
     private String searchUserBy = "";
@@ -62,10 +62,10 @@ public class Profile implements Serializable {
     private int searchUserByID = 0;
     
     // Variables for administrator to edit products
-    private String newProductName;
-    private String newProductDescription;
-    private int newProductQuantity;
-    private double newProductPrice;
+    private String newProductName; //Stores the name entered for a new product
+    private String newProductDescription; //Stores description entered for a new product
+    private int newProductQuantity; //store quantity on hand for new product
+    private double newProductPrice; //stores price for new product
     
     // List of logged in user
     private User loggedInUser;
@@ -165,14 +165,16 @@ public class Profile implements Serializable {
      * the quantity to 0
      */
     public void updateProducts() {
+        //Create a new list of all the products
         List<Product> allProducts = user.getAllProducts();
         
+        //Loop through lists adding new products to hash map
         for(int i =0; i<allProducts.size(); i++){
             if(!this.quantityOfItem.containsKey(allProducts.get(i).getId())){
                 this.quantityOfItem.put(allProducts.get(i).getId(), 1);
             }
         }
-        
+        //return updated product list
         this.adminProducts = allProducts;
     }
     
@@ -182,22 +184,27 @@ public class Profile implements Serializable {
      * @return filteredProducts List of products in the order they are to be displayed
      */
     public List<Product> getUpdatedProducts() {
+        //Update the product/quantity hashmap
         this.updateProducts();
+        //Create a filtered list to contain products after the search
         List<Product> filteredProducts = new ArrayList<Product>();
         
+        //If no search parameters are entered return the entire list
         if("".equals(this.searchProductByName) && this.searchProductByID == 0){
             this.sortProducts(this.adminProducts,this.sortingOption, this.sortingDirection);
-            return this.adminProducts;
+            return this.adminProducts; //return unfiltered list
         }
         
         System.out.println("Performing a product search operation now");
-        
+        //Else begin the process of searching through all the products by the search parameters
         for(int i = 0; i < this.adminProducts.size(); i++){
+            //When serachnbhByName isn't blank and the product name matches the search name
             if( !"".equals(this.searchProductByName) && this.adminProducts.get(i).getName().toLowerCase().contains(this.searchProductByName.toLowerCase())){
-                filteredProducts.add(this.adminProducts.get(i));
+                filteredProducts.add(this.adminProducts.get(i)); //add to list of filtered products
             }
+            //When serachnbhById isn't 0 and the product Id matches the search Id
             else if(this.searchProductByID != 0 && this.adminProducts.get(i).getId() == this.searchProductByID){
-                filteredProducts.add(this.adminProducts.get(i));            
+                filteredProducts.add(this.adminProducts.get(i)); //add to list of filtered products           
             }
         }
         
@@ -239,17 +246,21 @@ public class Profile implements Serializable {
      */
     public String addProduct(){
         System.out.println("Adding a new product: " + this.newProductName);
+        //Create a new product and add the user entered parameters
         Product newProduct = new Product();
         newProduct.setName(newProductName);
         newProduct.setDescription(newProductDescription);
         newProduct.setQuantityOnHand(newProductQuantity);
         newProduct.setPrice(newProductPrice);
+        //Call EJB function to add a new product
         admin.addProduct(newProduct);
+        //Reset user fields to empty
         this.newProductDescription="";
         this.newProductName="";
         this.newProductPrice=0.00;
         this.newProductQuantity=0;
         this.updateProducts();
+        //Refresh the admin product page
         return this.ADMIN_PRODUCT;
     }
     
@@ -285,8 +296,11 @@ public class Profile implements Serializable {
      */
     public String changeItem(Product p) {
         System.out.println("EJB will change: " + p.getName() + " with Id " + p.getId()+ " and description " + p.getDescription());
+        //Get product in row and call ejb merge function
         admin.updateProduct(p);
+        //Update the list of products to find the changed details
         this.updateProducts();
+        //Refresh
         return this.ADMIN_PRODUCT;
     }
      
@@ -297,9 +311,11 @@ public class Profile implements Serializable {
      */
     public String removeItem(Product p){
         System.out.println("Removing product # " + p.getId() + " - " + p.getName());
+        //Pass product and call function to remove it
         admin.removeProduct(p);
+        //Update product list to reflect changes
         this.updateProducts();
-        return this.ADMIN_PRODUCT;
+        return this.ADMIN_PRODUCT; //refresh
     }
     
     /**
@@ -338,9 +354,10 @@ public class Profile implements Serializable {
      * @return USER_PRODUCT Redirect to the userProduct web page
      */
     public String sortingOrder(int ord, boolean dir){
+        //Set the sorting order to given options
         this.sortingOption = ord;
         this.sortingDirection = dir;
-        
+        //Refresh page and sorting will be implemented on page load
         return this.USER_PRODUCT;
     }
     
@@ -363,11 +380,17 @@ public class Profile implements Serializable {
      * @param descending defines sort direction
      */
     public void sortProducts(List<Product> sortThis, int option, boolean descending){
+        //Invert positive and negative return values in order to 
+        //allow this function to sort descending or ascending
+        //i.e. when negOne =1 and posOne=-1, items will be sorted in
+        //descending order.
         int negOne = (descending)?(1):(-1);
         int posOne = (descending)?(-1):(1);
         
+        //Switch case for the column by which we wish to sort
         switch(option){
-                case 0: // Id
+                case 0: // sort by the Id number
+                    //Create a new comparator to sort by Id
                     Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             if (c1.getId() < c2.getId()) return negOne;
@@ -375,7 +398,8 @@ public class Profile implements Serializable {
                             return 0;
                           }});
                     break;
-                case 1: // Name
+                case 1: // sort by Name
+                    //create a string comparator
                     Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             return c1.getName().compareTo(c2.getName());
@@ -383,9 +407,9 @@ public class Profile implements Serializable {
                     if(descending)
                         sortThis = reverse(sortThis);
                     break;
-                case 2: // TODO - Description?
+                case 2: // No need to sort by description, legacy code
                     break;
-                case 3: // Quantity on Hand
+                case 3: //sort by  Quantity on Hand
                     Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             if (c1.getQuantityOnHand()< c2.getQuantityOnHand()) return negOne;
@@ -393,7 +417,7 @@ public class Profile implements Serializable {
                             return 0;
                           }});
                     break;
-                case 4: //Price
+                case 4: //sort by Price
                     Collections.sort(sortThis, new Comparator<Product>() {
                         public int compare(Product c1, Product c2) {
                             if (c1.getPrice() < c2.getPrice()) return negOne;
@@ -422,11 +446,13 @@ public class Profile implements Serializable {
      * @return USER_PRODUCT Redirect to the userProduct web page
      */
     public String searchForProductById(){
+        //Set the search parammeter for product Ids to the entered value
         this.searchProductByID = Integer.parseInt(this.searchProductBy);
+        //Set the search parameter for name to empty as we do not require it
         this.searchProductByName = "";
         System.out.println("Searching for Product with Id: " + this.searchProductByID);
         
-        // Return userProduct page
+        // Return userProduct page with new search details
         return this.USER_PRODUCT;
     }
     
@@ -434,9 +460,10 @@ public class Profile implements Serializable {
      * Sets the userProduct page to display all the products and ignore search 
      * options
      * @return USER_PRODUCT Redirect to the userProduct web page with no search
-     * options
+     * options. Called when the user selects the browse all menu option
      */
     public String browseAllProducts(){
+        //Clear all possible search parameters
         this.searchProductByID = 0;
         this.searchProductByName = "";
         this.searchProductBy = "";
@@ -767,6 +794,7 @@ public class Profile implements Serializable {
      * Creates a new instance of Profile
      */
     public Profile() {
+        //Initialise lists and hashmaps required to hold variables
         this.shoppingList = new ArrayList<Product>();
         this.isAdministrator = true;
         this.quantityOfItem = new HashMap<Integer, Integer>();
