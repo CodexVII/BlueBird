@@ -58,10 +58,14 @@ public class UserEJB {
 
     public void purchaseProduct(Product product, int amount, User user) {
         Product prod = em.find(Product.class, product.getId());
-        System.out.println(prod);
+        
         User u = em.find(User.class, user.getId());
-        System.out.println(u);
+         // Subtract total cost from user balance
+        double totalCost = amount * prod.getPrice();
+        u.setBalance(u.getBalance() - totalCost);
         prod.setQuantityOnHand(prod.getQuantityOnHand() - amount);
+        
+        em.merge(u);
         em.merge(prod);
         
         CustomerOrder order = new CustomerOrder();
@@ -72,7 +76,6 @@ public class UserEJB {
 
         System.out.println(order);
         em.persist(order);
-
     }
 
     public List<CustomerOrder> getAllOrders() {
