@@ -21,19 +21,19 @@
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Name</f:facet> 
-                        <h:inputText value="#{p.name}" />
+                        <h:inputText value="#{p.name}"><f:validateLength maximum="50" minimum="1"/></h:inputText>
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Description</f:facet>
-                        <h:inputText value="#{p.description}" />
+                        <h:inputText value="#{p.description}"><f:validateLength minimum="0" maximum="500"/></h:inputText>
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Available Stock</f:facet> 
-                        <h:inputText value="#{p.quantityOnHand}" />
+                        <h:inputText value="#{p.quantityOnHand}"><f:validateLongRange minimum="0"/></h:inputText>
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Price</f:facet>
-                        <h:inputText value="#{p.price}"/>
+                        <h:inputText value="#{p.price}"><f:validateDoubleRange minimum="0.0"/></h:inputText>
                     </h:column>
                     <h:column>
                         <div align="center">
@@ -50,10 +50,10 @@
                 </h:dataTable>
                 <br/><br/><br/><br/>
                 Add Product:<br/>
-                <h:inputText a:placeholder="Product Name" value="#{profile.newProductName}"/>
-                <h:inputText a:placeholder="Product Description" value="#{profile.newProductDescription}"/>
-                <h:inputText a:placeholder="Product Quantity Available" value="#{profile.newProductQuantity}"/>
-                <h:inputText a:placeholder="Product Price" value="#{profile.newProductPrice}"/>
+                <h:inputText a:placeholder="Product Name" value="#{profile.newProductName}"><f:validateLength maximum="50" minimum="1"/></h:inputText>
+                <h:inputText a:placeholder="Product Description" value="#{profile.newProductDescription}"><f:validateLength maximum="500" minimum="0"/></h:inputText>
+                <h:inputText a:placeholder="Product Quantity Available" value="#{profile.newProductQuantity}"><f:validateLongRange minimum="0"/></h:inputText>
+                <h:inputText a:placeholder="Product Price" value="#{profile.newProductPrice}"><f:validateDoubleRange minimum="0.0"/></h:inputText>
                 <h:commandButton value="Add New Product" action="#{profile.addProduct()}"/>
                 </h:form>
             </ui:define>
