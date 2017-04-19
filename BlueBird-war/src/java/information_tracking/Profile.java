@@ -62,23 +62,30 @@ public class Profile implements Serializable {
     private int searchUserByID = 0;
     
     // Variables for administrator to edit products
-    private String newProductName;  // Stores the name entered for a new product
-    private String newProductDescription;  // Stores description entered for a new product
-    private int newProductQuantity;  // Store quantity on hand for new product
-    private double newProductPrice;  // Stores price for new product
+    private String newProductName = "";  // Stores the name entered for a new product
+    private String newProductDescription = "";  // Stores description entered for a new product
+    private int newProductQuantity = 0;  // Store quantity on hand for new product
+    private double newProductPrice = 0.0;  // Stores price for new product
     
     // List of logged in user
     private User loggedInUser;
-    
-    // Flag indicating if normal user or administrator
-    private Boolean isAdministrator;
-    
+    private User viewUser;
+
     // Fields for the logged in user
     private int id = 0;
     private String username = null;
     private String password = null;
     private String statusMessage = null;
     private double balance  = 0.0;
+    private Boolean userIsAdministrator = false;
+    private String userStatus = null;
+    
+    // Fields for the user profile being viewed
+    private int viewUserId = 0;
+    private String viewUserUsername = null;
+    private String viewUserStatusMessage = null;
+    private Boolean viewUserIsAdministrator = false;
+    private String viewUserStatus = null;
     
     // Variable for new status message for editing profile
     private String newStatusMessage = null;
@@ -90,6 +97,7 @@ public class Profile implements Serializable {
     private final String INDEX = "index";
     private final String SHOPPING_CART = "shoppingCart";
     private final String USER_PRODUCT = "userProduct";
+    private final String VIEW_PROFILE = "viewProfile";
     
     // Variable for Shopping Order error message
     //private OrderErrorUI orderErrorUI;
@@ -111,17 +119,18 @@ public class Profile implements Serializable {
             request.login(this.username, this.password);
             
             // Get list of all users
-            // TODO - Should this be here?
             this.users = user.getAllUsers();
             
             // Get the logged-in user's details
             this.username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-            this.loggedInUser = queryUserByName().get(0);
+            this.loggedInUser = queryUserByName(this.username).get(0);
             this.id = this.loggedInUser.getId();
             this.statusMessage = this.loggedInUser.getStatusMessage();
             this.balance = this.loggedInUser.getBalance();
             this.newStatusMessage = this.statusMessage;
-            this.isAdministrator = true;
+            this.userIsAdministrator = user.isAdmin(this.loggedInUser);
+            this.userStatus = this.userIsAdministrator ? "Admin" : "User";
+            
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
 
@@ -357,11 +366,14 @@ public class Profile implements Serializable {
                     System.out.println("Finished sending orders");
                     shoppingList = new ArrayList<Product>();                        
             }
+            
+            this.balance = this.loggedInUser.getBalance();  
         } 
         else {
             orderErrorDisplay = true;
         }
-        
+                      
+        // Return shoppingCart page
         return this.SHOPPING_CART;
     }
     
@@ -571,11 +583,30 @@ public class Profile implements Serializable {
     }
     
     /**
+     * View another User's profile
+     * @param u The User profile to be viewed
+     * @return redirect Redirect to the viewProfile web page
+     */
+    public String viewOtherProfile(User u){
+        String redirect = this.VIEW_PROFILE;
+        
+        this.viewUser = queryUserByName(u.getUsername()).get(0);
+        this.viewUserId = this.viewUser.getId();
+        this.viewUserUsername = this.viewUser.getUsername();
+        this.viewUserStatusMessage = this.viewUser.getStatusMessage();
+        this.viewUserIsAdministrator = user.isAdmin(u);
+        this.viewUserStatus = this.viewUserIsAdministrator ? "Admin" : "User";
+
+        // Return redirect
+        return redirect;
+    }
+    
+    /**
      * Gets the logged-in user by name
      * @return userByName The logged-in user
      */
-    public List<User> queryUserByName(){
-        List<User> userByName = user.getUserByName(this.username);
+    public List<User> queryUserByName(String name){
+        List<User> userByName = user.getUserByName(name);
         
         return userByName;
     }
@@ -622,6 +653,16 @@ public class Profile implements Serializable {
     // Setter for OrderErrorDisplay
     public void setOrderErrorDisplay(Boolean orderErrorDisplay) {
         this.orderErrorDisplay = orderErrorDisplay;
+    }
+    
+    // Getter for loggedInUser
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    // Setter for loggedInUser
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
     
     // Getter for id
@@ -672,6 +713,72 @@ public class Profile implements Serializable {
     // Setter for balance
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+    
+    // Getter for userIsAdministrator
+    public Boolean getUserIsAdministrator() {
+        return userIsAdministrator;
+    }
+
+    // Setter for userIsAdministrator
+    public void setUserIsAdministrator(Boolean userIsAdministrator) {
+        this.userIsAdministrator = userIsAdministrator;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public User getViewUser() {
+        return viewUser;
+    }
+
+    public void setViewUser(User viewUser) {
+        this.viewUser = viewUser;
+    }
+
+    public int getViewUserId() {
+        return viewUserId;
+    }
+
+    public void setViewUserId(int viewUserId) {
+        this.viewUserId = viewUserId;
+    }
+
+    public String getViewUserUsername() {
+        return viewUserUsername;
+    }
+
+    public void setViewUserUsername(String viewUserUsername) {
+        this.viewUserUsername = viewUserUsername;
+    }
+
+    public String getViewUserStatusMessage() {
+        return viewUserStatusMessage;
+    }
+
+    public void setViewUserStatusMessage(String viewUserStatusMessage) {
+        this.viewUserStatusMessage = viewUserStatusMessage;
+    }
+
+    public Boolean getViewUserIsAdministrator() {
+        return viewUserIsAdministrator;
+    }
+
+    public void setViewUserIsAdministrator(Boolean viewUserIsAdministrator) {
+        this.viewUserIsAdministrator = viewUserIsAdministrator;
+    }
+
+    public String getViewUserStatus() {
+        return viewUserStatus;
+    }
+
+    public void setViewUserStatus(String viewUserStatus) {
+        this.viewUserStatus = viewUserStatus;
     }
     
     // Getter for sortingDirection
@@ -773,17 +880,7 @@ public class Profile implements Serializable {
     public void setAdminProducts(List<Product> adminProducts) {
         this.adminProducts = adminProducts;
     }
-
-    // Getter for isAdministrator
-    public Boolean getIsAdministrator() {
-        return isAdministrator;
-    }
-
-    // Setter for isAdministrator
-    public void setIsAdministrator(Boolean isAdministrator) {
-        this.isAdministrator = isAdministrator;
-    }
-
+    
     // Getter for newProductName
     public String getNewProductName() {
         return newProductName;
@@ -850,7 +947,7 @@ public class Profile implements Serializable {
     public Profile() {
         // Initialise lists and hashmaps required to hold variables
         this.shoppingList = new ArrayList<Product>();
-        this.isAdministrator = false;
+        this.userIsAdministrator = false;
         this.quantityOfItem = new HashMap<Integer, Integer>();
         this.adminProducts = new ArrayList<Product>();
     }

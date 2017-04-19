@@ -8,6 +8,7 @@ package ejb;
 import entity.CustomerOrder;
 import entity.Product;
 import entity.User;
+import entity.Usergroup;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -60,6 +61,7 @@ public class UserEJB {
         Product prod = em.find(Product.class, product.getId());
         
         User u = em.find(User.class, user.getId());
+        
          // Subtract total cost from user balance
         double totalCost = amount * prod.getPrice();
         u.setBalance(u.getBalance() - totalCost);
@@ -112,6 +114,14 @@ public class UserEJB {
         System.out.println(u);
 
         em.merge(u);
+    }
+    
+    public boolean isAdmin(User user){
+        Usergroup group = em.find(Usergroup.class, user.getUsername());
+        if (group.getDomain().toLowerCase().equals("admin")){
+            return true;
+        }
+        return false;
     }
 
 }
