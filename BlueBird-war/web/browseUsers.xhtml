@@ -24,6 +24,10 @@
                     Registered Users:
                     <h:dataTable class="separate" value="#{profile.updatedUserSearch}" var="u">
                         <h:column>
+                            <f:facet name = "header">ID</f:facet> 
+                            #{u.id}
+                        </h:column>
+                        <h:column>
                             <f:facet name = "header">Username</f:facet> 
                             #{u.username}
                         </h:column>
@@ -37,7 +41,7 @@
                                 <h:inputText a:placeholder="Enter User Name or Id#" value="#{profile.searchUserBy}"/>
                                 <h:commandButton value="Search by Name" action="#{profile.searchForUserByName()}"/>
                                 <h:commandButton value="Search by Id" action="#{profile.searchForUserById()}"/>
-                                <h:commandButton value="Get all users" action="#{profile.queryAllUsers()}"/>
+                                <h:commandButton value="Get all users" action="#{profile.searchForAllUsers()}"/>
                             </ui:insert>
                         </div>
                     </h:form>

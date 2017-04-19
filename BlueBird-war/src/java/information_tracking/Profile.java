@@ -117,12 +117,14 @@ public class Profile implements Serializable {
             this.statusMessage = this.loggedInUser.getStatusMessage();
             this.balance = this.loggedInUser.getBalance();
             this.newStatusMessage = this.statusMessage;
+            this.isAdministrator = true;
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
 
             redirect = this.INDEX;
         }
         
+        // Return redirect to the appropriate web page
         return redirect;
     }
 
@@ -217,33 +219,6 @@ public class Profile implements Serializable {
         this.sortProducts(filteredProducts, this.sortingOption, this.sortingDirection);  // Sort products
         
         return filteredProducts;
-    }
-    
-    /**
-     * Gets a list of users that match the search parameters
-     * @return searchResults List of users that match the search results
-     */
-    public List<User> getUpdatedUserSearch() {
-        this.updateProducts();
-        List<User> searchResults = new ArrayList<User>();
-        
-        if("".equals(this.searchUserByName) && this.searchUserByID == 0){
-            searchResults = this.user.getAllUsers();
-        }
-        
-        System.out.println("Performing a user search operation now");
-        
-        for(int i =0 ; i < this.users.size(); i++){
-            if( !"".equals(this.searchUserByName) && this.users.get(i).getUsername().toLowerCase().contains(this.searchUserByName.toLowerCase())){
-                searchResults.add(this.users.get(i));
-            }
-            else if(this.searchUserByID != 0 && this.users.get(i).getId() == this.searchUserByID){
-                searchResults.add(this.users.get(i));          
-            }
-        }
-        
-        this.searchUserBy = "";
-        return searchResults;
     }
     
     /**
@@ -527,20 +502,36 @@ public class Profile implements Serializable {
         this.searchUserBy = "";
         this.searchUserByName = "";
         this.searchUserByID = 0;
-        this.users = user.getAllUsers();
         
         // Return browseUser page
         return this.BROWSE_USERS;
     }
     
     /**
-     * Gets a list of all users
-     * @return allUsersList List of all users
+     * Gets a list of users that match the search parameters
+     * @return searchResults List of users that match the search results
      */
-    public List<User> queryAllUsers(){
-        List<User> allUsersList = user.getAllUsers();
+    public List<User> getUpdatedUserSearch() {
+        List<User> searchResults = new ArrayList<User>();
         
-        return allUsersList;
+        if("".equals(this.searchUserByName) && this.searchUserByID == 0){
+            searchResults = this.user.getAllUsers();
+        }
+        else {
+            for(int i =0 ; i < this.users.size(); i++){
+                if( !"".equals(this.searchUserByName) && this.users.get(i).getUsername().toLowerCase().contains(this.searchUserByName.toLowerCase())){
+                    searchResults.add(this.users.get(i));
+                }
+                else if(this.searchUserByID != 0 && this.users.get(i).getId() == this.searchUserByID){
+                    searchResults.add(this.users.get(i));          
+                }
+            }
+        }
+        
+        this.searchUserBy = "";
+        
+        // Return search results
+        return searchResults;
     }
     
     /**
@@ -813,7 +804,7 @@ public class Profile implements Serializable {
     public Profile() {
         // Initialise lists and hashmaps required to hold variables
         this.shoppingList = new ArrayList<Product>();
-        this.isAdministrator = true;
+        this.isAdministrator = false;
         this.quantityOfItem = new HashMap<Integer, Integer>();
         this.adminProducts = new ArrayList<Product>();
     }
