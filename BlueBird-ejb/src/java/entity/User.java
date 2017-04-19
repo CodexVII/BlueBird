@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alan
+ * @author keita
  */
 @Entity
 @Table(name = "user")
@@ -38,9 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByStatusMessage", query = "SELECT u FROM User u WHERE u.statusMessage = :statusMessage")
     , @NamedQuery(name = "User.findByBalance", query = "SELECT u FROM User u WHERE u.balance = :balance")})
 public class User implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<Usergroup> usergroupCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,7 +53,7 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 64)
+    @Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
     @Size(max = 140)
@@ -64,6 +62,10 @@ public class User implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "balance")
     private Double balance;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
+    private Collection<CustomerOrder> customerOrderCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Usergroup usergroup;
 
     public User() {
     }
@@ -118,6 +120,23 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
+    @XmlTransient
+    public Collection<CustomerOrder> getCustomerOrderCollection() {
+        return customerOrderCollection;
+    }
+
+    public void setCustomerOrderCollection(Collection<CustomerOrder> customerOrderCollection) {
+        this.customerOrderCollection = customerOrderCollection;
+    }
+
+    public Usergroup getUsergroup() {
+        return usergroup;
+    }
+
+    public void setUsergroup(Usergroup usergroup) {
+        this.usergroup = usergroup;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -142,13 +161,5 @@ public class User implements Serializable {
     public String toString() {
         return "entity.User[ id=" + id + " ]";
     }
-
-    @XmlTransient
-    public Collection<Usergroup> getUsergroupCollection() {
-        return usergroupCollection;
-    }
-
-    public void setUsergroupCollection(Collection<Usergroup> usergroupCollection) {
-        this.usergroupCollection = usergroupCollection;
-    }
+    
 }
