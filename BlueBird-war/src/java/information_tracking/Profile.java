@@ -62,11 +62,11 @@ public class Profile implements Serializable {
     private int searchUserByID = 0;
     
     // Variables for administrator to edit products
-    private String newProductName = "";  // Stores the name entered for a new product
-    private String newProductDescription = "";  // Stores description entered for a new product
-    private int newProductQuantity = 0;  // Store quantity on hand for new product
-    private double newProductPrice = 0.0;  // Stores price for new product
-    
+    private String newProductName = "New Product";  // Stores the name entered for a new product
+    private String newProductDescription;  // Stores description entered for a new product
+    private int newProductQuantity;  // Store quantity on hand for new product
+    private double newProductPrice;  // Stores price for new product
+
     // List of logged in user
     private User loggedInUser;
     private User viewUser;
@@ -253,7 +253,7 @@ public class Profile implements Serializable {
         
         // Reset user fields to empty
         this.newProductDescription="";
-        this.newProductName="";
+        this.newProductName="New Product";
         this.newProductPrice=0.00;
         this.newProductQuantity=0;
         this.updateProducts();
@@ -933,7 +933,14 @@ public class Profile implements Serializable {
 
     // Getter for orders
     public List<CustomerOrder> getOrders() {
-        return user.getAllOrders();
+        this.orders = new ArrayList<CustomerOrder>();
+        List<CustomerOrder> ord =  user.getAllOrders();
+        for(int i =0; i < ord.size();i++){
+            if(ord.get(i).getCustomerId().getId() == this.loggedInUser.getId()){
+                this.orders.add(ord.get(i));
+            }
+        }
+        return this.orders;
     }
 
     // Setter for orders

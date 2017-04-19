@@ -121,3 +121,4 @@ nb-configuration.xml
 *.ear
 /BlueBird-ejb/nbproject/private/
 /BlueBird-war/nbproject/private/
+/BlueBird-ejb/dist/

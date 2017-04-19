@@ -42,7 +42,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText value="#{profile.quantityOfItem[p.id]}" />
+                    <h:inputText value="#{profile.quantityOfItem[p.id]}"><f:validateLongRange minimum="1"/></h:inputText>
                 </h:column>
                 <h:column>
                     <div align="center">
