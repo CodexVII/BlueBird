@@ -19,11 +19,11 @@
                         </div>
                         <div>
                             Account details:<br />
-                            ID:       #{profile.id}<br />
-                            Password: #{profile.password}<br />
-                            Balance : #{profile.balance}<br />
+                            ID      : #{profile.id}<br />
+                            Status  : #{profile.userStatus}<br />
+                            Balance : #{profile.balance}<br /><br />
                         </div>
-                        <h:commandButton value="Edit Profile" action="editUserProfile"/>
+                        <h:commandButton value="Edit Profile" action="editUserProfile"/><br /><br />
                         Current Orders:
                         <h:dataTable class="separate" value="#{profile.orders}" var="u">
                             <h:column>
