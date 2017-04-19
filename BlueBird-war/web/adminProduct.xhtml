@@ -50,10 +50,10 @@
                 </h:dataTable>
                 <br/><br/><br/><br/>
                 Add Product:<br/>
-                <h:inputText a:placeholder="Product Name" value="#{profile.npName}"/>
-                <h:inputText a:placeholder="Product Description" value="#{profile.npDescription}"/>
-                <h:inputText a:placeholder="Product Quantity Available" value="#{profile.npQuantity}"/>
-                <h:inputText a:placeholder="Product Price" value="#{profile.npPrice}"/>
+                <h:inputText a:placeholder="Product Name" value="#{profile.newProductName}"/>
+                <h:inputText a:placeholder="Product Description" value="#{profile.newProductDescription}"/>
+                <h:inputText a:placeholder="Product Quantity Available" value="#{profile.newProductQuantity}"/>
+                <h:inputText a:placeholder="Product Price" value="#{profile.newProductPrice}"/>
                 <h:commandButton value="Add New Product" action="#{profile.addProduct()}"/>
                 </h:form>
             </ui:define>

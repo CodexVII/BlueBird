@@ -48,11 +48,6 @@ public class DataBean implements Serializable {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
-    /**
-     * Creates a new instance of DataBean
-     */
-    public DataBean() {
-    }
     
     public void addProduct(){
         Product product = new Product();
@@ -92,7 +87,6 @@ public class DataBean implements Serializable {
         user.purchaseProduct(prod, amount, users.get(0));
     }
     
-    
     public void testing(){
         System.out.println("testing() called");
         Product product = new Product();
@@ -106,17 +100,11 @@ public class DataBean implements Serializable {
         for(int i = 0; i < returnList.size(); i++) {
             System.out.println("Value: " + returnList.get(i).getId());
         }
-        
-//        product.setId(1);
-//        product.setName("Sparkling Water");
-//        product.setQuantityOnHand(20); 
-//        product.setPrice(1.50);
-        
-//        user.purchaseProduct(product, 5);
-//        admin.removeProduct(product);
-//        admin.updateProduct(product);
-//        admin.removeProduct(product);
-//        admin.addProduct(product);
-//        System.out.println("Testing button pressed");
+    }
+    
+    /**
+     * Creates a new instance of DataBean
+     */
+    public DataBean() {
     }
 }

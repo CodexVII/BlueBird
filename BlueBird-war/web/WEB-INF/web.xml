@@ -21,4 +21,45 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin</web-resource-name>
+            <url-pattern>/faces/adminProduct.xhtml</url-pattern>
+            <url-pattern>/faces/browseUsers.xhtml</url-pattern>
+            <url-pattern>/faces/editUserProfile.xhtml</url-pattern>
+            <url-pattern>/faces/shoppingCart.xhtml</url-pattern>
+            <url-pattern>/faces/userProduct.xhtml</url-pattern>
+            <url-pattern>/faces/userProfile.xhtml</url-pattern>
+        </web-resource-collection>
+        
+        <auth-constraint>
+            <role-name>Admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>User</web-resource-name>
+            <url-pattern>/faces/browseUsers.xhtml</url-pattern>
+            <url-pattern>/faces/editUserProfile.xhtml</url-pattern>
+            <url-pattern>/faces/shoppingCart.xhtml</url-pattern>
+            <url-pattern>/faces/userProduct.xhtml</url-pattern>
+            <url-pattern>/faces/userProfile.xhtml</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>User</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>JDBCRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/index.xhtml</form-login-page>
+            <form-error-page>/faces/index.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    
 </web-app>

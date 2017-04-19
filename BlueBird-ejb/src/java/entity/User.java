@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByBalance", query = "SELECT u FROM User u WHERE u.balance = :balance")})
 public class User implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<Usergroup> usergroupCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +55,7 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 64)
     @Column(name = "password")
     private String password;
     @Size(max = 140)
@@ -61,10 +64,6 @@ public class User implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "balance")
     private Double balance;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<CustomerOrder> customerOrderCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<Usergroup> usergroupCollection;
 
     public User() {
     }
@@ -119,24 +118,6 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
-    @XmlTransient
-    public Collection<CustomerOrder> getCustomerOrderCollection() {
-        return customerOrderCollection;
-    }
-
-    public void setCustomerOrderCollection(Collection<CustomerOrder> customerOrderCollection) {
-        this.customerOrderCollection = customerOrderCollection;
-    }
-
-    @XmlTransient
-    public Collection<Usergroup> getUsergroupCollection() {
-        return usergroupCollection;
-    }
-
-    public void setUsergroupCollection(Collection<Usergroup> usergroupCollection) {
-        this.usergroupCollection = usergroupCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -161,5 +142,13 @@ public class User implements Serializable {
     public String toString() {
         return "entity.User[ id=" + id + " ]";
     }
-    
+
+    @XmlTransient
+    public Collection<Usergroup> getUsergroupCollection() {
+        return usergroupCollection;
+    }
+
+    public void setUsergroupCollection(Collection<Usergroup> usergroupCollection) {
+        this.usergroupCollection = usergroupCollection;
+    }
 }
