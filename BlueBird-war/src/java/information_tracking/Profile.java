@@ -338,6 +338,16 @@ public class Profile implements Serializable {
         shoppingList = new ArrayList<Product>();
         return this.SHOPPING_CART;
     }
+    
+    /**
+     * Cancel the order of items by clearing the shopping cart
+     * @return SHOPPING_CART Redirect to the shoppingCart web page
+     */
+    public String cancelOrder(){
+        System.out.println("Clearing the shopping list");
+        shoppingList = new ArrayList<Product>();
+        return this.SHOPPING_CART;
+    }
 
     /**
      * Setting the sorting configuration
