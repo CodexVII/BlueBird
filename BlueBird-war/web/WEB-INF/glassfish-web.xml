@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
 <glassfish-web-app error-url="">
+<<<<<<< HEAD
+  <context-root>/BlueBird-war</context-root>
+  
+  <!-- Map roles from web.xml to match DB ones -->
+    <security-role-mapping>
+    	<role-name>role_admin</role-name>
+    	<group-name>admin</group-name>
+    </security-role-mapping>
+=======
     <security-role-mapping>
         <role-name>Admin</role-name>
         <group-name>admin</group-name>
@@ -15,4 +24,5 @@
       <description>Keep a copy of the generated servlet class' java code.</description>
     </property>
   </jsp-config>
+>>>>>>> BlackBird
 </glassfish-web-app>
