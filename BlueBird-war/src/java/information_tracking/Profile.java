@@ -91,6 +91,10 @@ public class Profile implements Serializable {
     private final String SHOPPING_CART = "shoppingCart";
     private final String USER_PRODUCT = "userProduct";
     
+    // Variable for Shopping Order error message
+    //private OrderErrorUI orderErrorUI;
+    private Boolean orderErrorDisplay = false;
+    
     // Secure login method
     /**
      * 
@@ -311,6 +315,15 @@ public class Profile implements Serializable {
     }
     
     /**
+     * Go to the shopping cart page and refresh without the error message
+     * @return SHOPPING_CART Redirect to the shoppingCart web page
+     */
+    public String goToCart(){
+        orderErrorDisplay = false;
+        return this.SHOPPING_CART; //refresh
+    }
+    
+    /**
      * Calculate the total value of the shopping cart
      * @return total Total cost of items
      */
@@ -329,13 +342,26 @@ public class Profile implements Serializable {
      * @return SHOPPING_CART Redirect to the shoppingCart web page
      */
     public String processOrder(){
+        Boolean OrderValid = true;
         for (Product p : shoppingList) {
-            System.out.println("Sending an order");
-            user.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), user.getUserByName(this.getUsername()).get(0));
-            
+            if (p.getQuantityOnHand() < Integer.parseInt("" + this.quantityOfItem.get(p.getId()))){
+                System.out.println("Order is impossible");
+                OrderValid = false;
+            }
         }
-        System.out.println("Finished sending orders");
-        shoppingList = new ArrayList<Product>();
+        
+        if (OrderValid == true) {
+            for (Product p : shoppingList) {            
+                    System.out.println("Sending an order");
+                    user.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), user.getUserByName(this.getUsername()).get(0));            
+                    System.out.println("Finished sending orders");
+                    shoppingList = new ArrayList<Product>();                        
+            }
+        } 
+        else {
+            orderErrorDisplay = true;
+        }
+        
         return this.SHOPPING_CART;
     }
     
@@ -588,6 +614,16 @@ public class Profile implements Serializable {
         this.newStatusMessage = newStatusMessage;
     }
 
+    // Getter for OrderErrorDisplay
+    public Boolean getOrderErrorDisplay() {
+        return orderErrorDisplay;
+    }
+
+    // Setter for OrderErrorDisplay
+    public void setOrderErrorDisplay(Boolean orderErrorDisplay) {
+        this.orderErrorDisplay = orderErrorDisplay;
+    }
+    
     // Getter for id
     public int getId() {
         return id;
