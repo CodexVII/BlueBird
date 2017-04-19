@@ -100,6 +100,12 @@
 
             </h:dataTable>
         </h:form>
+        
+        <h:form>
+            <h:inputText value ="#{dataBean.username}"/>
+            <h:outputText value="#{dataBean.adminPrivelege}"/>
+            <h:commandButton value="Check Privileges" action="#{dataBean.checkPrivileges}"/>
+        </h:form>
 
     </h:body>
 </html>
