@@ -29,10 +29,29 @@ public class DataBean implements Serializable {
     @Inject
     private UserEJB user;
     
-    List<Product> products;
-    List<User> users;
-    List<CustomerOrder> orders;
+    private List<Product> products;
+    private List<User> users;
+    private List<CustomerOrder> orders;
+    
+    private String username;
+    private boolean adminPrivelege;
 
+    public boolean isAdminPrivelege() {
+        return adminPrivelege;
+    }
+
+    public void setAdminPrivelege(boolean adminPrivelege) {
+        this.adminPrivelege = adminPrivelege;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
     public List<CustomerOrder> getOrders() {
         return orders;
     }
@@ -102,6 +121,11 @@ public class DataBean implements Serializable {
         }
     }
     
+    public void checkPrivileges(){
+        User u= new User();
+        u.setUsername(username);
+        adminPrivelege = user.isAdmin(u);
+    }
     /**
      * Creates a new instance of DataBean
      */

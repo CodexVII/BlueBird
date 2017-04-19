@@ -1,8 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `bluebird` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bluebird`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: bluebird
+-- Host: 127.0.0.1    Database: bluebird
 -- ------------------------------------------------------
 -- Server version	5.7.17-log
 
@@ -115,8 +115,9 @@ DROP TABLE IF EXISTS `usergroup`;
 CREATE TABLE `usergroup` (
   `username` varchar(50) NOT NULL,
   `domain` varchar(50) NOT NULL,
-  PRIMARY KEY (`username`,`domain`),
-  CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`username`),
+  KEY `username_idx` (`username`),
+  CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='	';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -126,7 +127,7 @@ CREATE TABLE `usergroup` (
 
 LOCK TABLES `usergroup` WRITE;
 /*!40000 ALTER TABLE `usergroup` DISABLE KEYS */;
-INSERT INTO `usergroup` VALUES ('Alan','user'),('Dylan','admin'),('Ian','admin');
+INSERT INTO `usergroup` VALUES ('Àlan','user'),('Dylan','admin'),('Ian','admin');
 /*!40000 ALTER TABLE `usergroup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -139,4 +140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-19 12:09:02
+-- Dump completed on 2017-04-19 15:18:45
