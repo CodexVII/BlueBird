@@ -11,15 +11,16 @@
                 <ui:define name="content">
                     <h:form>
                         <div>
-                            #{profile.username}, you are currently viewing #{profile.viewUsername}'s profile<br /><br />
+                            #{profile.username}, you are currently viewing #{profile.viewUserUsername}'s profile<br /><br />
                         </div>
                         <div>
                             Account details:<br />
-                            ID:       #{profile.viewId}<br /><br />
+                            ID:       #{profile.viewUserId}<br />
+                            Status  : #{profile.viewUserStatus}<br /><br />
                         </div>
                         <div>
                             Profile message:<br />
-                            #{profile.viewStatusMessage}<br /><br />
+                            #{profile.viewUserStatusMessage}<br /><br />
                         </div>
                     </h:form>
                 </ui:define>
