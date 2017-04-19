@@ -340,10 +340,14 @@ public class Profile implements Serializable {
         for (Product p : shoppingList) {
             System.out.println("Sending an order");
             user.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), user.getUserByName(this.getUsername()).get(0));
-            
         }
+        
+        this.balance = this.loggedInUser.getBalance();
+        
         System.out.println("Finished sending orders");
         shoppingList = new ArrayList<Product>();
+        
+        // Return shoppingCart page
         return this.SHOPPING_CART;
     }
     
