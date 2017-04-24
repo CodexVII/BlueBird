@@ -69,9 +69,11 @@ public class Profile implements Serializable {
     
     // List of logged in user
     private User loggedInUser;
+    private User viewUser;
     
     // Flag indicating if normal user or administrator
     private Boolean isAdministrator;
+    private Boolean viewUserIsAdministrator;
     
     // Fields for the logged in user
     private int id = 0;
@@ -79,6 +81,11 @@ public class Profile implements Serializable {
     private String password = null;
     private String statusMessage = null;
     private double balance  = 0.0;
+    
+    // Fields for the user profile being viewed
+    private int viewId = 0;
+    private String viewUsername = null;
+    private String viewStatusMessage = null;
     
     // Variable for new status message for editing profile
     private String newStatusMessage = null;
@@ -90,6 +97,7 @@ public class Profile implements Serializable {
     private final String INDEX = "index";
     private final String SHOPPING_CART = "shoppingCart";
     private final String USER_PRODUCT = "userProduct";
+    private final String VIEW_PROFILE = "viewProfile";
     
     // Secure login method
     /**
@@ -112,17 +120,19 @@ public class Profile implements Serializable {
             
             // Get the logged-in user's details
             this.username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-            this.loggedInUser = queryUserByName().get(0);
+            this.loggedInUser = queryUserByName(this.username).get(0);
             this.id = this.loggedInUser.getId();
             this.statusMessage = this.loggedInUser.getStatusMessage();
             this.balance = this.loggedInUser.getBalance();
             this.newStatusMessage = this.statusMessage;
+            this.isAdministrator = true;
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
 
             redirect = this.INDEX;
         }
         
+        // Return redirect to the appropriate web page
         return redirect;
     }
 
@@ -217,33 +227,6 @@ public class Profile implements Serializable {
         this.sortProducts(filteredProducts, this.sortingOption, this.sortingDirection);  // Sort products
         
         return filteredProducts;
-    }
-    
-    /**
-     * Gets a list of users that match the search parameters
-     * @return searchResults List of users that match the search results
-     */
-    public List<User> getUpdatedUserSearch() {
-        this.updateProducts();
-        List<User> searchResults = new ArrayList<User>();
-        
-        if("".equals(this.searchUserByName) && this.searchUserByID == 0){
-            searchResults = this.user.getAllUsers();
-        }
-        
-        System.out.println("Performing a user search operation now");
-        
-        for(int i =0 ; i < this.users.size(); i++){
-            if( !"".equals(this.searchUserByName) && this.users.get(i).getUsername().toLowerCase().contains(this.searchUserByName.toLowerCase())){
-                searchResults.add(this.users.get(i));
-            }
-            else if(this.searchUserByID != 0 && this.users.get(i).getId() == this.searchUserByID){
-                searchResults.add(this.users.get(i));          
-            }
-        }
-        
-        this.searchUserBy = "";
-        return searchResults;
     }
     
     /**
@@ -360,6 +343,16 @@ public class Profile implements Serializable {
             
         }
         System.out.println("Finished sending orders");
+        shoppingList = new ArrayList<Product>();
+        return this.SHOPPING_CART;
+    }
+    
+    /**
+     * Cancel the order of items by clearing the shopping cart
+     * @return SHOPPING_CART Redirect to the shoppingCart web page
+     */
+    public String cancelOrder(){
+        System.out.println("Clearing the shopping list");
         shoppingList = new ArrayList<Product>();
         return this.SHOPPING_CART;
     }
@@ -527,28 +520,62 @@ public class Profile implements Serializable {
         this.searchUserBy = "";
         this.searchUserByName = "";
         this.searchUserByID = 0;
-        this.users = user.getAllUsers();
         
         // Return browseUser page
         return this.BROWSE_USERS;
     }
     
     /**
-     * Gets a list of all users
-     * @return allUsersList List of all users
+     * Gets a list of users that match the search parameters
+     * @return searchResults List of users that match the search results
      */
-    public List<User> queryAllUsers(){
-        List<User> allUsersList = user.getAllUsers();
+    public List<User> getUpdatedUserSearch() {
+        List<User> searchResults = new ArrayList<User>();
         
-        return allUsersList;
+        if("".equals(this.searchUserByName) && this.searchUserByID == 0){
+            searchResults = this.user.getAllUsers();
+        }
+        else {
+            for(int i =0 ; i < this.users.size(); i++){
+                if( !"".equals(this.searchUserByName) && this.users.get(i).getUsername().toLowerCase().contains(this.searchUserByName.toLowerCase())){
+                    searchResults.add(this.users.get(i));
+                }
+                else if(this.searchUserByID != 0 && this.users.get(i).getId() == this.searchUserByID){
+                    searchResults.add(this.users.get(i));          
+                }
+            }
+        }
+        
+        this.searchUserBy = "";
+        
+        // Return search results
+        return searchResults;
+    }
+    
+    /**
+     * Add a product to the shopping cart(basket)
+     * @param p the product being added
+     * @return USER_PRODUCT Redirect to the userProduct web page
+     */
+    public String viewOtherProfile(User u){
+        String redirect = this.VIEW_PROFILE;
+        
+        this.viewUser = queryUserByName(u.getUsername()).get(0);
+        this.viewId = this.viewUser.getId();
+        this.viewUsername = this.viewUser.getUsername();
+        this.viewStatusMessage = this.viewUser.getStatusMessage();
+        this.viewUserIsAdministrator = false;
+
+        // Return redirect
+        return redirect;
     }
     
     /**
      * Gets the logged-in user by name
      * @return userByName The logged-in user
      */
-    public List<User> queryUserByName(){
-        List<User> userByName = user.getUserByName(this.username);
+    public List<User> queryUserByName(String name){
+        List<User> userByName = user.getUserByName(name);
         
         return userByName;
     }
@@ -587,6 +614,16 @@ public class Profile implements Serializable {
         this.newStatusMessage = newStatusMessage;
     }
 
+    // Getter for loggedInUser
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    // Setter for loggedInUser
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+    
     // Getter for id
     public int getId() {
         return id;
@@ -635,6 +672,66 @@ public class Profile implements Serializable {
     // Setter for balance
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+    
+    // Getter for isAdministrator
+    public Boolean getIsAdministrator() {
+        return isAdministrator;
+    }
+
+    // Setter for isAdministrator
+    public void setIsAdministrator(Boolean isAdministrator) {
+        this.isAdministrator = isAdministrator;
+    }
+
+    // Getter for viewUser
+    public User getViewUser() {
+        return viewUser;
+    }
+
+    // Setter for viewUser
+    public void setViewUser(User viewUser) {
+        this.viewUser = viewUser;
+    }
+
+    // Getter for viewId
+    public int getViewId() {
+        return viewId;
+    }
+
+    // Setter for viewId
+    public void setViewId(int viewId) {
+        this.viewId = viewId;
+    }
+    
+    // Getter for viewUsername
+    public String getViewUsername() {
+        return viewUsername;
+    }
+
+    // Setter for viewUsername
+    public void setViewUsername(String viewUsername) {
+        this.viewUsername = viewUsername;
+    }
+
+    // Getter for viewStatusMessage
+    public String getViewStatusMessage() {
+        return viewStatusMessage;
+    }
+    
+    // Setter for viewStatusMessage
+    public void setViewStatusMessage(String viewStatusMessage) {
+        this.viewStatusMessage = viewStatusMessage;
+    }
+
+    // Getter for viewUserIsAdministrator
+    public Boolean getViewUserIsAdministrator() {
+        return viewUserIsAdministrator;
+    }
+
+    // Setter for viewUserIsAdministrator
+    public void setViewUserIsAdministrator(Boolean viewUserIsAdministrator) {
+        this.viewUserIsAdministrator = viewUserIsAdministrator;
     }
     
     // Getter for sortingDirection
@@ -736,17 +833,7 @@ public class Profile implements Serializable {
     public void setAdminProducts(List<Product> adminProducts) {
         this.adminProducts = adminProducts;
     }
-
-    // Getter for isAdministrator
-    public Boolean getIsAdministrator() {
-        return isAdministrator;
-    }
-
-    // Setter for isAdministrator
-    public void setIsAdministrator(Boolean isAdministrator) {
-        this.isAdministrator = isAdministrator;
-    }
-
+    
     // Getter for newProductName
     public String getNewProductName() {
         return newProductName;
@@ -813,7 +900,7 @@ public class Profile implements Serializable {
     public Profile() {
         // Initialise lists and hashmaps required to hold variables
         this.shoppingList = new ArrayList<Product>();
-        this.isAdministrator = true;
+        this.isAdministrator = false;
         this.quantityOfItem = new HashMap<Integer, Integer>();
         this.adminProducts = new ArrayList<Product>();
     }

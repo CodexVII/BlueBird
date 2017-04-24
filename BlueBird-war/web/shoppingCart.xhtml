@@ -46,6 +46,7 @@
         <div align="right">
             Total Cost of Order: #{profile.getShoppingTotal()}
             <br></br>
+            <h:commandButton value="Cancel Order" action="#{profile.cancelOrder()}"/>
             <h:commandButton value="Order Items" action="#{profile.processOrder()}"/>
         </div>
     </ui:define>
