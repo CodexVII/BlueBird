@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author keita
+ * @author Gearoid
  */
 @Entity
 @Table(name = "product")
