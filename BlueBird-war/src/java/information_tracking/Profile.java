@@ -952,11 +952,13 @@ public class Profile implements Serializable {
     public List<CustomerOrder> getOrders() {
         this.orders = new ArrayList<CustomerOrder>();
         List<CustomerOrder> ord =  user.getAllOrders();
+        
         for(int i =0; i < ord.size();i++){
             if(ord.get(i).getCustomerId().getId() == this.loggedInUser.getId()){
                 this.orders.add(ord.get(i));
             }
         }
+        
         return this.orders;
     }
 

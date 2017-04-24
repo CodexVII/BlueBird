@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -22,8 +23,8 @@
         <h:form>
             <div class="login">
                 Please Log In:<br/>
-                Enter Username: <h:inputText value="#{profile.username}"></h:inputText><br/>
-                Enter Password: <h:inputSecret value="#{profile.password}"></h:inputSecret><br/>
+                Enter Username: <h:inputText value="#{profile.username}"><f:validateLength minimum="1" maximum="50"/></h:inputText><br/>
+                Enter Password: <h:inputSecret value="#{profile.password}"><f:validateLength minimum="1" maximum="50"/></h:inputSecret><br/>
                 <h:commandButton value="Login" action="#{profile.login()}"/>
             </div>
         </h:form>

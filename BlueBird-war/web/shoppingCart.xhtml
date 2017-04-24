@@ -1,57 +1,56 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./navigationTemplate.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="top">
-        <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
-    </ui:define>
-
-    <ui:define name="content">
-        Items in your shopping cart:
-        <h:dataTable class="tabelle" value="#{profile.shoppingList}" var="p">
-            <h:column>
-                <f:facet name = "header">Name</f:facet> 
-                #{p.name}
-            </h:column>
-            <h:column>
-                <f:facet name = "header">Description</f:facet>
-                #{p.description}
-            </h:column>
-            <h:column>
-                <f:facet name = "header">Available Stock</f:facet> 
-                #{p.quantityOnHand}
-            </h:column>
-            <h:column>
-                <f:facet name = "header">Price</f:facet>
-                #{p.price}
-            </h:column>
-            <h:column>
-                <f:facet name = "header">Quantity</f:facet>
-                #{profile.quantityOfItem.get(p.id)}
-            </h:column>
-            <h:column>
-                <f:facet name = "header">Total</f:facet>
-                #{profile.quantityOfItem.get(p.id)*p.price}
-            </h:column>
-            <h:column>
-                <div align="center">
-                    <f:facet name = "header">Remove from Basket</f:facet>
-                    <h:commandButton value="Remove" action="#{profile.removeFromBasket(p)}"/>
+    <body>
+        <ui:composition template="./navigationTemplate.xhtml">
+            <ui:define name="content">
+                Items in your shopping cart:
+                <h:dataTable class="tabelle" value="#{profile.shoppingList}" var="p">
+                    <h:column>
+                        <f:facet name = "header">Name</f:facet> 
+                        #{p.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Description</f:facet>
+                        #{p.description}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Available Stock</f:facet> 
+                        #{p.quantityOnHand}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Price</f:facet>
+                        #{p.price}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Quantity</f:facet>
+                        #{profile.quantityOfItem.get(p.id)}
+                    </h:column>
+                    <h:column>
+                        <f:facet name = "header">Total</f:facet>
+                        #{profile.quantityOfItem.get(p.id)*p.price}
+                    </h:column>
+                    <h:column>
+                        <div align="center">
+                            <f:facet name = "header">Remove from Basket</f:facet>
+                            <h:commandButton value="Remove" action="#{profile.removeFromBasket(p)}"/>
+                        </div>
+                    </h:column>
+                </h:dataTable>
+                <div align="right">
+                    Total Cost of Order: #{profile.getShoppingTotal()}
+                    <br></br>
+                    <h:commandButton value="Cancel Order" action="#{profile.cancelOrder()}"/>
+                    <h:commandButton value="Order Items" action="#{profile.processOrder()}"/>
+                    <br></br>
+                    <h:outputText value="Sorry. You are attempting to order more of an item than we have in Stock"
+                                  id="OrderErrorOutput" rendered="#{profile.orderErrorDisplay}"/>
                 </div>
-            </h:column>
-        </h:dataTable>
-        <div align="right">
-            Total Cost of Order: #{profile.getShoppingTotal()}
-            <br></br>
-            <h:commandButton value="Cancel Order" action="#{profile.cancelOrder()}"/>
-            <h:commandButton value="Order Items" action="#{profile.processOrder()}"/>
-            <br></br>
-            <h:outputText value="Sorry. You are attempting to order more of an item than we have in Stock"
-                          id="OrderErrorOutput" rendered="#{profile.orderErrorDisplay}"/>
-        </div>
-    </ui:define>
-</ui:composition>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

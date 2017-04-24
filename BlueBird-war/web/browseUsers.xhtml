@@ -1,58 +1,46 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-    
-    <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                    template="./navigationTemplate.xhtml"
-                    xmlns:h="http://xmlns.jcp.org/jsf/html"
-                    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-        <body>
-            <div id="top" align="center">
-            <ui:insert name="top">
-                BlueBird - Web Shopping Application for the Discerning User
-            </ui:insert>
-        </div>
-            <ui:composition template="./navigationTemplate.xhtml">
-                <ui:define name="top">
-                    <ui:insert name="top">BlueBird - Web Shopping Application for the Discerning User</ui:insert>
-                </ui:define>
-                <ui:define name="content">
-                    <h:form>
-                        Registered Users:
-                        <h:dataTable class="separate" value="#{profile.updatedUserSearch}" var="u">
-                            <h:column>
-                                <f:facet name = "header">ID</f:facet> 
-                                #{u.id}
-                            </h:column>
-                            <h:column>
-                                <f:facet name = "header">Username</f:facet> 
-                                #{u.username}
-                            </h:column>
-                            <h:column>
-                                <f:facet name = "header">Message</f:facet> 
-                                #{u.statusMessage}
-                            </h:column>
-                            <h:column>
-                                <div align="center">
-                                    <f:facet name = "header">View Profile</f:facet>
-                                    <h:commandButton value="View Profile" action="#{profile.viewOtherProfile(u)}" />
-                                </div>
-                            </h:column>
-                        </h:dataTable>
-                        <div>
-                            <ui:insert name="top">
-                                <h:inputText a:placeholder="Enter User Name or Id#" value="#{profile.searchUserBy}"/>
-                                <h:commandButton value="Search by Name" action="#{profile.searchForUserByName()}"/>
-                                <h:commandButton value="Search by Id" action="#{profile.searchForUserById()}"/>
-                                <h:commandButton value="Get all users" action="#{profile.searchForAllUsers()}"/>
-                            </ui:insert>
-                        </div>
-                    </h:form>
-                </ui:define>
-            </ui:composition>
-        </body>
-    </ui:composition>
+    <body>
+        <ui:composition template="./navigationTemplate.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    Registered Users:
+                    <h:dataTable class="separate" value="#{profile.updatedUserSearch}" var="u">
+                        <h:column>
+                            <f:facet name = "header">ID</f:facet> 
+                            #{u.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Username</f:facet> 
+                            #{u.username}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Message</f:facet> 
+                            #{u.statusMessage}
+                        </h:column>
+                        <h:column>
+                            <div align="center">
+                                <f:facet name = "header">View Profile</f:facet>
+                                <h:commandButton value="View Profile" action="#{profile.viewOtherProfile(u)}" />
+                            </div>
+                        </h:column>
+                    </h:dataTable>
+                    <div>
+                        <ui:insert name="top">
+                            <h:inputText a:placeholder="Enter User Name or Id#" value="#{profile.searchUserBy}"/>
+                            <h:commandButton value="Search by Name" action="#{profile.searchForUserByName()}"/>
+                            <h:commandButton value="Search by Id" action="#{profile.searchForUserById()}"/>
+                            <h:commandButton value="Get all users" action="#{profile.searchForAllUsers()}"/>
+                        </ui:insert>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
 </html>
