@@ -1,8 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `bluebird` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bluebird`;
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: bluebird
+-- Host: localhost    Database: bluebird
 -- ------------------------------------------------------
 -- Server version	5.7.17-log
 
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `customer_order`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer_order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `product_id` int(10) unsigned NOT NULL,
   `customer_id` int(10) unsigned NOT NULL,
   `quantity` int(10) unsigned NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `customer_order` (
   KEY `customer_fk_idx` (`customer_id`),
   CONSTRAINT `customer_fk` FOREIGN KEY (`customer_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `product_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `customer_order` (
 
 LOCK TABLES `customer_order` WRITE;
 /*!40000 ALTER TABLE `customer_order` DISABLE KEYS */;
+INSERT INTO `customer_order` VALUES (3,'2017-04-24 10:35:45',11,10,1,45.00),(4,'2017-04-24 10:36:45',11,10,1,45.00);
 /*!40000 ALTER TABLE `customer_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +74,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (4,'Water',5,1.25,'Just plain water'),(11,'Fight Milk',10,45.00,'Fight like a crow!');
+INSERT INTO `product` VALUES (4,'Water',5,1.25,'Just plain water'),(11,'Fight Milk',9,45.00,'Fight like a crow!');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +102,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Alan','testpw','Alan\'s message',100.00),(4,'Ian','testpw2','Test',200.00),(10,'Dylan','pass','Dylan\'s new message',50.00);
+INSERT INTO `user` VALUES (1,'Alan','testpw','Alan\'s message',100.00),(4,'Ian','testpw2','Test',200.00),(10,'Dylan','pass','Dylan\'s new message',5.00);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-19 15:18:45
+-- Dump completed on 2017-04-24 11:37:51
