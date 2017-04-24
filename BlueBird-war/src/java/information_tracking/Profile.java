@@ -27,7 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author Dylan
+ * @author Alan Noonan, Ian Lodovica, Dylan O'Connor Desmond, Gearoid Cremin, Trevor McSweeney
+ *
+ * Stores all the session information for the logged in user and performs all
+ * the functions for the logic of the website front-end
  */
 @Named(value = "profile")
 @SessionScoped
@@ -725,58 +728,72 @@ public class Profile implements Serializable {
         this.userIsAdministrator = userIsAdministrator;
     }
 
+    // Getter for userStatus
     public String getUserStatus() {
         return userStatus;
     }
 
+    // Getter for userStatus
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 
+    // Getter for viewUser
     public User getViewUser() {
         return viewUser;
     }
 
+    // Setter for viewUser
     public void setViewUser(User viewUser) {
         this.viewUser = viewUser;
     }
 
+    // Getter for viewUserId
     public int getViewUserId() {
         return viewUserId;
     }
 
+    // Setter for viewUserId
     public void setViewUserId(int viewUserId) {
         this.viewUserId = viewUserId;
     }
 
+    // Getter for viewUserUsername
     public String getViewUserUsername() {
         return viewUserUsername;
     }
 
+    // Setter for viewUserUsername
     public void setViewUserUsername(String viewUserUsername) {
         this.viewUserUsername = viewUserUsername;
     }
 
+    // Getter for viewUserStatusMessage
     public String getViewUserStatusMessage() {
         return viewUserStatusMessage;
     }
 
+    // Setter for viewUserStatusMessage
     public void setViewUserStatusMessage(String viewUserStatusMessage) {
         this.viewUserStatusMessage = viewUserStatusMessage;
     }
 
+    // Getter for viewUserIsAdministrator
     public Boolean getViewUserIsAdministrator() {
         return viewUserIsAdministrator;
     }
 
+    // Setter for viewUserIsAdministrator
     public void setViewUserIsAdministrator(Boolean viewUserIsAdministrator) {
         this.viewUserIsAdministrator = viewUserIsAdministrator;
     }
 
+    // Getter for viewUserStatus
     public String getViewUserStatus() {
         return viewUserStatus;
     }
 
+    // Setter for viewUserStaus
     public void setViewUserStatus(String viewUserStatus) {
         this.viewUserStatus = viewUserStatus;
     }
