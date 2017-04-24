@@ -21,7 +21,7 @@
                 <div align="right">
                     <br/>
                     <ui:insert name="top">
-                        <h:commandButton value="Shopping Cart: #{profile.shoppingList.size()}" action="shoppingCart"/>
+                        <h:commandButton value="Shopping Cart: #{profile.shoppingList.size()}" action="#{profile.goToCart}"/>
                     </ui:insert>
                 </div>
                 <div>

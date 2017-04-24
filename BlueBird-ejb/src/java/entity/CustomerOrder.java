@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author keita
+ * @author Gearoid
  */
 @Entity
 @Table(name = "customer_order")
@@ -44,8 +44,6 @@ public class CustomerOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
@@ -71,9 +69,8 @@ public class CustomerOrder implements Serializable {
         this.id = id;
     }
 
-    public CustomerOrder(Integer id, Date timestamp, int quantity, double cost) {
+    public CustomerOrder(Integer id, int quantity, double cost) {
         this.id = id;
-        this.timestamp = timestamp;
         this.quantity = quantity;
         this.cost = cost;
     }

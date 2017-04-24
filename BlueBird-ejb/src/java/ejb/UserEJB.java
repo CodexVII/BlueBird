@@ -101,6 +101,7 @@ public class UserEJB {
 
         // Find user
         User u = em.find(User.class, user.getId());
+        
          // Subtract total cost from user balance
         double totalCost = amount * prod.getPrice();
         u.setBalance(u.getBalance() - totalCost);
