@@ -42,7 +42,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name = "header">Quantity to Purchase</f:facet>
-                    <h:inputText value="#{profile.quantityOfItem[p.id]}" />
+                    <h:inputText value="#{profile.quantityOfItem[p.id]}"><f:validateLongRange minimum="1"/></h:inputText>
                 </h:column>
                 <h:column>
                     <div align="center">
@@ -51,7 +51,7 @@
                     </div>
                 </h:column>
             </h:dataTable>
-            <h:commandButton action ="adminProduct" rendered="#{profile.isAdministrator}" value="Edit Products"/>
+            <h:commandButton action ="adminProduct" rendered="#{profile.userIsAdministrator}" value="Edit Products"/>
         </h:form>
    </ui:define>
 </ui:composition>

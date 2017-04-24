@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author keita
+ * @author keita & alan <3
  */
 @Stateless
 @LocalBean

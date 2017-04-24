@@ -19,7 +19,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author keita
+ * @author keita & alan <3
  */
 @Stateless
 @LocalBean
@@ -61,6 +61,7 @@ public class UserEJB {
         Product prod = em.find(Product.class, product.getId());
         
         User u = em.find(User.class, user.getId());
+        
          // Subtract total cost from user balance
         double totalCost = amount * prod.getPrice();
         u.setBalance(u.getBalance() - totalCost);
