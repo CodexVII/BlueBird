@@ -36,7 +36,7 @@ CREATE TABLE `customer_order` (
   KEY `customer_fk_idx` (`customer_id`),
   CONSTRAINT `customer_fk` FOREIGN KEY (`customer_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `product_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `customer_order` (
 
 LOCK TABLES `customer_order` WRITE;
 /*!40000 ALTER TABLE `customer_order` DISABLE KEYS */;
-INSERT INTO `customer_order` VALUES (3,'2017-04-24 10:35:45',11,10,1,45.00),(4,'2017-04-24 10:36:45',11,10,1,45.00);
+INSERT INTO `customer_order` VALUES (3,'2017-04-24 12:29:23',11,3,1,45.00),(4,'2017-04-24 12:29:23',11,3,1,45.00),(5,'2017-04-24 12:29:23',11,4,1,45.00);
 /*!40000 ALTER TABLE `customer_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +74,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (4,'Water',5,1.25,'Just plain water'),(11,'Fight Milk',9,45.00,'Fight like a crow!');
+INSERT INTO `product` VALUES (4,'Water',5,1.25,'Just plain water'),(11,'Fight Milk',8,45.00,'Fight like a crow!');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,7 +102,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Alan','testpw','Alan\'s message',100.00),(4,'Ian','testpw2','Test',200.00),(10,'Dylan','pass','Dylan\'s new message',5.00);
+INSERT INTO `user` VALUES (1,'Alan','apass','Alan Noonan',200.00),(2,'Ian','ipass','Ian Lodovica',225.00),(3,'Gearoid','gpass','Gearoid Cremin',250.00),(4,'Trevor','tpass','Trevor McSweeney',275.00),(5,'Dylan','dpass','Dylan O\' Connor Desmond',300.00),(6,'joe','1D10T?','Joe\'s message',325.00),(7,'toor','4uIdo0!','This is the toor',305.00);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,7 @@ CREATE TABLE `usergroup` (
 
 LOCK TABLES `usergroup` WRITE;
 /*!40000 ALTER TABLE `usergroup` DISABLE KEYS */;
-INSERT INTO `usergroup` VALUES ('Àlan','user'),('Dylan','admin'),('Ian','admin');
+INSERT INTO `usergroup` VALUES ('Alan','user'),('Dylan','user'),('Gearoid','admin'),('Ian','admin'),('joe','user'),('toor','admin'),('Trevor','user');
 /*!40000 ALTER TABLE `usergroup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-24 11:37:51
+-- Dump completed on 2017-04-24 13:31:42
