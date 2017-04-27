@@ -42,8 +42,8 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>User</web-resource-name>
-            <url-pattern>/fbrowseUsers.xhtml</url-pattern>
-            <url-pattern>/feditUserProfile.xhtml</url-pattern>
+            <url-pattern>/browseUsers.xhtml</url-pattern>
+            <url-pattern>/editUserProfile.xhtml</url-pattern>
             <url-pattern>/shoppingCart.xhtml</url-pattern>
             <url-pattern>/userProduct.xhtml</url-pattern>
             <url-pattern>/userProfile.xhtml</url-pattern>
