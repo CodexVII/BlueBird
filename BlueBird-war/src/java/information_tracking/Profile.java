@@ -24,14 +24,10 @@ import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.MessageProducer;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
-import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Alan Noonan, Ian Lodovica, Dylan O'Connor Desmond, Gearoid Cremin, Trevor McSweeney
  *
  * Stores all the session information for the logged in user and performs all
- * the functions for the logic of the website front-end
+ * the functions for the logic of the web site front-end
  */
 @Named(value = "profile")
 @SessionScoped
@@ -220,6 +216,66 @@ public class Profile implements Serializable {
     }
     
     /**
+     * Sets the page to search by the product name box
+     * @return USER_PRODUCT Redirect to the userProduct web page
+     */
+    public String searchForProductByName(){
+        if("".equals(this.searchProductBy)){
+            // Unable to parse, default to browse all products
+            browseAllProducts();
+        } else {
+            // Set the search parammeter for product name to the entered value
+            this.searchProductByName = this.searchProductBy;
+            
+            // Set the search parameter for ID to 0 as we do not require it
+            this.searchProductByID = 0;
+        }
+        
+        System.out.println("Searching for Product with Name: " + this.searchProductByName);
+        
+        // Return userProduct page
+        return this.USER_PRODUCT;
+    }
+    
+    /**
+     * Sets the page to search by the product id box
+     * @return USER_PRODUCT Redirect to the userProduct web page
+     */
+    public String searchForProductById(){
+        try{
+            // Set the search parammeter for product Ids to the entered value
+            this.searchProductByID = Integer.parseInt(this.searchProductBy);
+            
+            // Set the search parameter for name to empty as we do not require it
+            this.searchProductByName = "";
+        } catch (Exception e) {
+            // No entry in name field, default to browse all products
+            browseAllProducts();
+        }
+        
+        System.out.println("Searching for Product with Id: " + this.searchProductByID);
+        
+        // Return userProduct page with new search details
+        return this.USER_PRODUCT;
+    }
+    
+    /**
+     * Sets the userProduct page to display all the products and ignore search 
+     * options
+     * @return USER_PRODUCT Redirect to the userProduct web page with no search
+     * options. Called when the user selects the browse all menu option
+     */
+    public String browseAllProducts(){
+        // Clear all possible search parameters
+        this.searchProductByID = 0;
+        this.searchProductByName = "";
+        this.searchProductBy = "";
+        
+        // Return userProduct page
+        return this.USER_PRODUCT;
+    }
+    
+    /**
      * Gets a list of filtered products if a filter is applied. Otherwise, the
      * list is returned without any filtering
      * @return filteredProducts List of products in the order they are to be displayed
@@ -282,7 +338,8 @@ public class Profile implements Serializable {
         this.newProductPrice=0.00;
         this.newProductQuantity=0;
         this.updateProducts();
-        this.sendMessage("Administrator " + this.username + " adding product");
+        //Send logging message to notify
+        this.sendMessage("Administrator " + this.username + " adding product: " + newProduct.getName());
         //  Refresh the admin product page
         return this.ADMIN_PRODUCT;
     }
@@ -344,7 +401,7 @@ public class Profile implements Serializable {
         
         // Update product list to reflect changes
         this.updateProducts();
-        
+        this.sendMessage("Administrator " + this.username + " removing product: " + p.getName());
         // Refresh
         return this.ADMIN_PRODUCT; //refresh
     }
@@ -394,6 +451,8 @@ public class Profile implements Serializable {
             System.out.println("Finished sending orders");
             shoppingList = new ArrayList<Product>();
             
+            // Get updated User object and update local balance variable
+            this.loggedInUser = queryUserByName(this.username).get(0);
             this.balance = this.loggedInUser.getBalance();  
         } 
         else {
@@ -497,57 +556,21 @@ public class Profile implements Serializable {
     }
     
     /**
-     * Sets the page to search by the product name box
-     * @return USER_PRODUCT Redirect to the userProduct web page
-     */
-    public String searchForProductByName(){
-        this.searchProductByName = this.searchProductBy;
-        this.searchProductByID = 0;
-        System.out.println("Searching for Product with Name: " + this.searchProductByName);
-        
-        // Return userProduct page
-        return this.USER_PRODUCT;
-    }
-    
-    /**
-     * Sets the page to search by the product id box
-     * @return USER_PRODUCT Redirect to the userProduct web page
-     */
-    public String searchForProductById(){
-        // Set the search parammeter for product Ids to the entered value
-        this.searchProductByID = Integer.parseInt(this.searchProductBy);
-        
-        // Set the search parameter for name to empty as we do not require it
-        this.searchProductByName = "";
-        System.out.println("Searching for Product with Id: " + this.searchProductByID);
-        
-        // Return userProduct page with new search details
-        return this.USER_PRODUCT;
-    }
-    
-    /**
-     * Sets the userProduct page to display all the products and ignore search 
-     * options
-     * @return USER_PRODUCT Redirect to the userProduct web page with no search
-     * options. Called when the user selects the browse all menu option
-     */
-    public String browseAllProducts(){
-        // Clear all possible search parameters
-        this.searchProductByID = 0;
-        this.searchProductByName = "";
-        this.searchProductBy = "";
-        
-        // Return userProduct page
-        return this.USER_PRODUCT + "?faces-redirect=true";
-    }
-    
-    /**
      * Sets the page to search by the user name box
      * @return 
      */
     public String searchForUserByName(){
-        this.searchUserByName = this.searchUserBy;
-        this.searchUserByID = 0;
+        if("".equals(this.searchUserBy)){
+            // No entry in name field, default to search for all Users
+            searchForAllUsers();
+        } else {
+            // Set the search parammeter for User name to the entered value
+            this.searchUserByName = this.searchUserBy;
+            
+            // Set the search parameter for User ID to 0 as we do not require it
+            this.searchUserByID = 0;
+        }
+        
         System.out.println("Searching for User with Name: " + this.searchUserByName);
         
         // Return browseUser page
@@ -559,8 +582,17 @@ public class Profile implements Serializable {
      * @return 
      */
     public String searchForUserById(){
-        this.searchUserByID = Integer.parseInt(this.searchUserBy);
-        this.searchUserByName = "";
+        try{
+            // Set the search parammeter for User name to empty as we do not require it
+            this.searchUserByName = "";
+            
+            // Set the search parameter for User ID to the entered value
+            this.searchUserByID = Integer.parseInt(this.searchUserBy);
+        } catch (Exception e) {
+            // Unable to parse, default to search for all users
+            searchForAllUsers();
+        }
+
         System.out.println("Searching for User with Id: " + this.searchUserByID);
         
         // Return browseUser page
@@ -1004,6 +1036,7 @@ public class Profile implements Serializable {
     }
     
     public void sendMessage(String message){
+        // Initialise the JMS Connection and send the message to the JMS Queue
         try{
             connection = factory.createQueueConnection();
             session = connection.createQueueSession(false, 
