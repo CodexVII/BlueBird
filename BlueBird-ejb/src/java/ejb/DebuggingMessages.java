@@ -16,7 +16,7 @@ import javax.jms.MessageListener;
 
 /**
  *
- * @author Gearoid
+ * @author Gearoid, Trevor, Alan and Ian
  */
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "mdb")
@@ -33,13 +33,17 @@ public class DebuggingMessages implements MessageListener {
         }
     }
     
+    /**
+     * writes messages received from JMS queue to log.txt file
+     * @param message message to be written to file
+     */
     @Override
     public void onMessage(Message message) {
         try{
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        String toSend = timeStamp +": " + message.getStringProperty("log") + "\n";
-        this.f1.write(toSend.getBytes());
-        this.f1.flush();
+            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()); // Get current timestamp
+            String toSend = timeStamp +": " + message.getStringProperty("log") + "\n"; //Build debug message with timestamp
+            this.f1.write(toSend.getBytes()); // Write to file
+            this.f1.flush(); // Flush to file
         }catch(Exception QueueError){
             System.out.println("Error received from message queue: " + QueueError.toString());
         }

@@ -278,7 +278,8 @@ public class Profile implements Serializable {
         this.newProductPrice=0.00;
         this.newProductQuantity=0;
         this.updateProducts();
-        this.sendMessage("Administrator " + this.username + " adding product");
+        //Send logging message to notify
+        this.sendMessage("Administrator " + this.username + " adding product: " + newProduct.getName());
         //  Refresh the admin product page
         return this.ADMIN_PRODUCT;
     }
@@ -340,7 +341,7 @@ public class Profile implements Serializable {
         
         // Update product list to reflect changes
         this.updateProducts();
-        
+        this.sendMessage("Administrator " + this.username + " removing product: " + p.getName());
         // Refresh
         return this.ADMIN_PRODUCT; //refresh
     }
@@ -1000,6 +1001,7 @@ public class Profile implements Serializable {
     }
     
     public void sendMessage(String message){
+        // Initialise the JMS Connection and send the message to the JMS Queue
         try{
             connection = factory.createQueueConnection();
             session = connection.createQueueSession(false, 
