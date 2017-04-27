@@ -19,21 +19,46 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.jms.Queue;
+import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.MessageProducer;
+import javax.jms.QueueConnection;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSender;
+import javax.jms.QueueSession;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author Dylan
+ * @author Alan Noonan, Ian Lodovica, Dylan O'Connor Desmond, Gearoid Cremin, Trevor McSweeney
+ *
+ * Stores all the session information for the logged in user and performs all
+ * the functions for the logic of the website front-end
  */
 @Named(value = "profile")
 @SessionScoped
 
 public class Profile implements Serializable {
     // Inject required beans
+    
+    @Resource(mappedName="jms/__defaultConnectionFactory")
+    private QueueConnectionFactory factory;
+
+    @Resource(mappedName="mdb")
+    private Queue queue;
+  
+    QueueConnection connection = null;
+    QueueSender sender = null;
+    QueueSession session = null;
+    
     @Inject
     private UserEJB user;
     
@@ -257,7 +282,7 @@ public class Profile implements Serializable {
         this.newProductPrice=0.00;
         this.newProductQuantity=0;
         this.updateProducts();
-        
+        this.sendMessage("Administrator " + this.username + " adding product");
         //  Refresh the admin product page
         return this.ADMIN_PRODUCT;
     }
@@ -269,6 +294,7 @@ public class Profile implements Serializable {
      */
     public String removeFromBasket(Product p){
         this.shoppingList.remove(p);
+        this.sendMessage("Administrator " + this.username + " removing product");
         return this.SHOPPING_CART;
     }
     
@@ -363,16 +389,16 @@ public class Profile implements Serializable {
             for (Product p : shoppingList) {            
                     System.out.println("Sending an order");
                     user.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), user.getUserByName(this.getUsername()).get(0));            
-                    System.out.println("Finished sending orders");
-                    shoppingList = new ArrayList<Product>();                        
+                    this.sendMessage("Order from " + this.username + " for item " + p.getName());
             }
+            System.out.println("Finished sending orders");
+            shoppingList = new ArrayList<Product>();
             
             this.balance = this.loggedInUser.getBalance();  
         } 
         else {
             orderErrorDisplay = true;
         }
-                      
         // Return shoppingCart page
         return this.SHOPPING_CART;
     }
@@ -384,6 +410,7 @@ public class Profile implements Serializable {
     public String cancelOrder(){
         System.out.println("Clearing the shopping list");
         shoppingList = new ArrayList<Product>();
+        this.sendMessage("Cancelling order from " + this.username);
         return this.SHOPPING_CART;
     }
 
@@ -725,58 +752,72 @@ public class Profile implements Serializable {
         this.userIsAdministrator = userIsAdministrator;
     }
 
+    // Getter for userStatus
     public String getUserStatus() {
         return userStatus;
     }
 
+    // Getter for userStatus
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 
+    // Getter for viewUser
     public User getViewUser() {
         return viewUser;
     }
 
+    // Setter for viewUser
     public void setViewUser(User viewUser) {
         this.viewUser = viewUser;
     }
 
+    // Getter for viewUserId
     public int getViewUserId() {
         return viewUserId;
     }
 
+    // Setter for viewUserId
     public void setViewUserId(int viewUserId) {
         this.viewUserId = viewUserId;
     }
 
+    // Getter for viewUserUsername
     public String getViewUserUsername() {
         return viewUserUsername;
     }
 
+    // Setter for viewUserUsername
     public void setViewUserUsername(String viewUserUsername) {
         this.viewUserUsername = viewUserUsername;
     }
 
+    // Getter for viewUserStatusMessage
     public String getViewUserStatusMessage() {
         return viewUserStatusMessage;
     }
 
+    // Setter for viewUserStatusMessage
     public void setViewUserStatusMessage(String viewUserStatusMessage) {
         this.viewUserStatusMessage = viewUserStatusMessage;
     }
 
+    // Getter for viewUserIsAdministrator
     public Boolean getViewUserIsAdministrator() {
         return viewUserIsAdministrator;
     }
 
+    // Setter for viewUserIsAdministrator
     public void setViewUserIsAdministrator(Boolean viewUserIsAdministrator) {
         this.viewUserIsAdministrator = viewUserIsAdministrator;
     }
 
+    // Getter for viewUserStatus
     public String getViewUserStatus() {
         return viewUserStatus;
     }
 
+    // Setter for viewUserStaus
     public void setViewUserStatus(String viewUserStatus) {
         this.viewUserStatus = viewUserStatus;
     }
@@ -935,11 +976,13 @@ public class Profile implements Serializable {
     public List<CustomerOrder> getOrders() {
         this.orders = new ArrayList<CustomerOrder>();
         List<CustomerOrder> ord =  user.getAllOrders();
+        
         for(int i =0; i < ord.size();i++){
             if(ord.get(i).getCustomerId().getId() == this.loggedInUser.getId()){
                 this.orders.add(ord.get(i));
             }
         }
+        
         return this.orders;
     }
 
@@ -957,5 +1000,24 @@ public class Profile implements Serializable {
         this.userIsAdministrator = false;
         this.quantityOfItem = new HashMap<Integer, Integer>();
         this.adminProducts = new ArrayList<Product>();
+        
+    }
+    
+    public void sendMessage(String message){
+        try{
+            connection = factory.createQueueConnection();
+            session = connection.createQueueSession(false, 
+            QueueSession.AUTO_ACKNOWLEDGE);
+            sender = session.createSender(queue);
+            //create and set a message to send
+            TextMessage msg = session.createTextMessage();
+            msg.setStringProperty("log", message);
+            sender.send(msg);
+            System.out.println("Sending message"); 
+            session.close ();
+        }catch (Exception idontcare){
+            System.out.println("Error sending mdb from client: " + idontcare.toString() );
+        }
+
     }
 }
