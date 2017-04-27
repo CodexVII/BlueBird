@@ -48,9 +48,7 @@
                     <h:commandButton value="Order Items" action="#{profile.processOrder()}"/>
                     <br></br>
                     <h:outputText value="Sorry. You are attempting to order more of an item than we have in Stock"
-                                  id="OrderStockErrorOutput" rendered="#{profile.orderStockErrorDisplay}"/>
-                    <h:outputText value="Sorry. You do not have enough money for this order"
-                                  id="OrderMoneyErrorOutput" rendered="#{profile.orderMoneyErrorDisplay}"/>
+                                  id="OrderErrorOutput" rendered="#{profile.orderErrorDisplay}"/>
                 </div>
             </ui:define>
         </ui:composition>
