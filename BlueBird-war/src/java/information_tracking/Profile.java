@@ -216,6 +216,66 @@ public class Profile implements Serializable {
     }
     
     /**
+     * Sets the page to search by the product name box
+     * @return USER_PRODUCT Redirect to the userProduct web page
+     */
+    public String searchForProductByName(){
+        if("".equals(this.searchProductBy)){
+            // Unable to parse, default to browse all products
+            browseAllProducts();
+        } else {
+            // Set the search parammeter for product name to the entered value
+            this.searchProductByName = this.searchProductBy;
+            
+            // Set the search parameter for ID to 0 as we do not require it
+            this.searchProductByID = 0;
+        }
+        
+        System.out.println("Searching for Product with Name: " + this.searchProductByName);
+        
+        // Return userProduct page
+        return this.USER_PRODUCT;
+    }
+    
+    /**
+     * Sets the page to search by the product id box
+     * @return USER_PRODUCT Redirect to the userProduct web page
+     */
+    public String searchForProductById(){
+        try{
+            // Set the search parammeter for product Ids to the entered value
+            this.searchProductByID = Integer.parseInt(this.searchProductBy);
+            
+            // Set the search parameter for name to empty as we do not require it
+            this.searchProductByName = "";
+        } catch (Exception e) {
+            // No entry in name field, default to browse all products
+            browseAllProducts();
+        }
+        
+        System.out.println("Searching for Product with Id: " + this.searchProductByID);
+        
+        // Return userProduct page with new search details
+        return this.USER_PRODUCT;
+    }
+    
+    /**
+     * Sets the userProduct page to display all the products and ignore search 
+     * options
+     * @return USER_PRODUCT Redirect to the userProduct web page with no search
+     * options. Called when the user selects the browse all menu option
+     */
+    public String browseAllProducts(){
+        // Clear all possible search parameters
+        this.searchProductByID = 0;
+        this.searchProductByName = "";
+        this.searchProductBy = "";
+        
+        // Return userProduct page
+        return this.USER_PRODUCT;
+    }
+    
+    /**
      * Gets a list of filtered products if a filter is applied. Otherwise, the
      * list is returned without any filtering
      * @return filteredProducts List of products in the order they are to be displayed
@@ -496,57 +556,21 @@ public class Profile implements Serializable {
     }
     
     /**
-     * Sets the page to search by the product name box
-     * @return USER_PRODUCT Redirect to the userProduct web page
-     */
-    public String searchForProductByName(){
-        this.searchProductByName = this.searchProductBy;
-        this.searchProductByID = 0;
-        System.out.println("Searching for Product with Name: " + this.searchProductByName);
-        
-        // Return userProduct page
-        return this.USER_PRODUCT;
-    }
-    
-    /**
-     * Sets the page to search by the product id box
-     * @return USER_PRODUCT Redirect to the userProduct web page
-     */
-    public String searchForProductById(){
-        // Set the search parammeter for product Ids to the entered value
-        this.searchProductByID = Integer.parseInt(this.searchProductBy);
-        
-        // Set the search parameter for name to empty as we do not require it
-        this.searchProductByName = "";
-        System.out.println("Searching for Product with Id: " + this.searchProductByID);
-        
-        // Return userProduct page with new search details
-        return this.USER_PRODUCT;
-    }
-    
-    /**
-     * Sets the userProduct page to display all the products and ignore search 
-     * options
-     * @return USER_PRODUCT Redirect to the userProduct web page with no search
-     * options. Called when the user selects the browse all menu option
-     */
-    public String browseAllProducts(){
-        // Clear all possible search parameters
-        this.searchProductByID = 0;
-        this.searchProductByName = "";
-        this.searchProductBy = "";
-        
-        // Return userProduct page
-        return this.USER_PRODUCT + "?faces-redirect=true";
-    }
-    
-    /**
      * Sets the page to search by the user name box
      * @return 
      */
     public String searchForUserByName(){
-        this.searchUserByName = this.searchUserBy;
-        this.searchUserByID = 0;
+        if("".equals(this.searchUserBy)){
+            // No entry in name field, default to search for all Users
+            searchForAllUsers();
+        } else {
+            // Set the search parammeter for User name to the entered value
+            this.searchUserByName = this.searchUserBy;
+            
+            // Set the search parameter for User ID to 0 as we do not require it
+            this.searchUserByID = 0;
+        }
+        
         System.out.println("Searching for User with Name: " + this.searchUserByName);
         
         // Return browseUser page
@@ -558,8 +582,17 @@ public class Profile implements Serializable {
      * @return 
      */
     public String searchForUserById(){
-        this.searchUserByID = Integer.parseInt(this.searchUserBy);
-        this.searchUserByName = "";
+        try{
+            // Set the search parammeter for User name to empty as we do not require it
+            this.searchUserByName = "";
+            
+            // Set the search parameter for User ID to the entered value
+            this.searchUserByID = Integer.parseInt(this.searchUserBy);
+        } catch (Exception e) {
+            // Unable to parse, default to search for all users
+            searchForAllUsers();
+        }
+
         System.out.println("Searching for User with Id: " + this.searchUserByID);
         
         // Return browseUser page
