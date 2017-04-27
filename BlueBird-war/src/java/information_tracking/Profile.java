@@ -24,14 +24,10 @@ import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.MessageProducer;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
-import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Alan Noonan, Ian Lodovica, Dylan O'Connor Desmond, Gearoid Cremin, Trevor McSweeney
  *
  * Stores all the session information for the logged in user and performs all
- * the functions for the logic of the website front-end
+ * the functions for the logic of the web site front-end
  */
 @Named(value = "profile")
 @SessionScoped
