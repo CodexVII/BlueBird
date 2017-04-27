@@ -391,6 +391,8 @@ public class Profile implements Serializable {
             System.out.println("Finished sending orders");
             shoppingList = new ArrayList<Product>();
             
+            // Get updated User object and update local balance variable
+            this.loggedInUser = queryUserByName(this.username).get(0);
             this.balance = this.loggedInUser.getBalance();  
         } 
         else {
