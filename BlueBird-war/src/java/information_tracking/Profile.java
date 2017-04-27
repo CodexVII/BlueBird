@@ -120,9 +120,9 @@ public class Profile implements Serializable {
     private final String USER_PRODUCT = "userProduct";
     private final String VIEW_PROFILE = "viewProfile";
     
-    // Variable for Shopping Order error message
-    //private OrderErrorUI orderErrorUI;
-    private Boolean orderErrorDisplay = false;
+    // Variables for Shopping Order error messages
+    private Boolean orderStockErrorDisplay = false;
+    private Boolean orderMoneyErrorDisplay = false;
     
     // Secure login method
     /**
@@ -411,7 +411,7 @@ public class Profile implements Serializable {
      * @return SHOPPING_CART Redirect to the shoppingCart web page
      */
     public String goToCart(){
-        orderErrorDisplay = false;
+        orderStockErrorDisplay = false;
         return this.SHOPPING_CART; //refresh
     }
     
@@ -434,20 +434,39 @@ public class Profile implements Serializable {
      * @return SHOPPING_CART Redirect to the shoppingCart web page
      */
     public String processOrder(){
-        Boolean OrderValid = true;
+        Boolean orderValid = true;
+        // Check if the required amount of product are in stock
         for (Product p : shoppingList) {
             if (p.getQuantityOnHand() < Integer.parseInt("" + this.quantityOfItem.get(p.getId()))){
                 System.out.println("Order is impossible");
-                OrderValid = false;
+                
+                // Set error flag
+                this.orderStockErrorDisplay = true;
             }
         }
         
-        if (OrderValid == true) {
+        // Total cost of items
+        double totalCost = 0.0;
+        
+        // Check if User can afford all items in shopping cart
+        for (Product p : shoppingList) {
+            int amount = Integer.parseInt("" + this.quantityOfItem.get(p.getId()));
+            totalCost += amount * p.getPrice();
+        }
+        
+        // If not, set error flag
+        if (totalCost > this.loggedInUser.getBalance()){
+            this.orderMoneyErrorDisplay = true;
+        }
+        
+        // If User can check out shopping cart, proceed
+        if (this.orderStockErrorDisplay == false && this.orderMoneyErrorDisplay == false) {
             for (Product p : shoppingList) {            
                     System.out.println("Sending an order");
                     user.purchaseProduct(p, Integer.parseInt("" + this.quantityOfItem.get(p.getId())), user.getUserByName(this.getUsername()).get(0));            
                     this.sendMessage("Order from " + this.username + " for item " + p.getName());
             }
+            
             System.out.println("Finished sending orders");
             shoppingList = new ArrayList<Product>();
             
@@ -455,9 +474,7 @@ public class Profile implements Serializable {
             this.loggedInUser = queryUserByName(this.username).get(0);
             this.balance = this.loggedInUser.getBalance();  
         } 
-        else {
-            orderErrorDisplay = true;
-        }
+
         // Return shoppingCart page
         return this.SHOPPING_CART;
     }
@@ -704,15 +721,27 @@ public class Profile implements Serializable {
         this.newStatusMessage = newStatusMessage;
     }
 
-    // Getter for OrderErrorDisplay
-    public Boolean getOrderErrorDisplay() {
-        return orderErrorDisplay;
+    // Getter for OrderStockErrorDisplay
+    public Boolean getOrderStockErrorDisplay() {
+        return orderStockErrorDisplay;
     }
 
-    // Setter for OrderErrorDisplay
-    public void setOrderErrorDisplay(Boolean orderErrorDisplay) {
-        this.orderErrorDisplay = orderErrorDisplay;
+    // Setter for OrderStockErrorDisplay
+    public void setOrderStockErrorDisplay(Boolean orderStockErrorDisplay) {
+        this.orderStockErrorDisplay = orderStockErrorDisplay;
     }
+
+    // Getter for OrderMoneyErrorDisplay
+    public Boolean getOrderMoneyErrorDisplay() {
+        return orderMoneyErrorDisplay;
+    }
+
+    // Setter for OrderMoneyErrorDisplay
+    public void setOrderMoneyErrorDisplay(Boolean orderMoneyErrorDisplay) {
+        this.orderMoneyErrorDisplay = orderMoneyErrorDisplay;
+    }
+    
+    
     
     // Getter for loggedInUser
     public User getLoggedInUser() {
