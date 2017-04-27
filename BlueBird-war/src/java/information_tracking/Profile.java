@@ -434,7 +434,9 @@ public class Profile implements Serializable {
      * @return SHOPPING_CART Redirect to the shoppingCart web page
      */
     public String processOrder(){
-        Boolean orderValid = true;
+        this.orderStockErrorDisplay = false;
+        this.orderMoneyErrorDisplay = false;
+        
         // Check if the required amount of product are in stock
         for (Product p : shoppingList) {
             if (p.getQuantityOnHand() < Integer.parseInt("" + this.quantityOfItem.get(p.getId()))){
