@@ -486,8 +486,6 @@ public class Profile implements Serializable {
      * @return SHOPPING_CART Redirect to the shoppingCart web page
      */
     public String cancelOrder(){
-        this.orderMoneyErrorDisplay = false;
-        this.orderStockErrorDisplay = false;
         System.out.println("Clearing the shopping list");
         shoppingList = new ArrayList<Product>();
         this.sendMessage("Cancelling order from " + this.username);
