@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gearoid
+ * @author keita
  */
+@Cacheable(value=false)
 @Entity
 @Table(name = "customer_order")
 @XmlRootElement
@@ -44,6 +46,7 @@ public class CustomerOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
@@ -69,8 +72,9 @@ public class CustomerOrder implements Serializable {
         this.id = id;
     }
 
-    public CustomerOrder(Integer id, int quantity, double cost) {
+    public CustomerOrder(Integer id, Date timestamp, int quantity, double cost) {
         this.id = id;
+        this.timestamp = timestamp;
         this.quantity = quantity;
         this.cost = cost;
     }
@@ -145,7 +149,7 @@ public class CustomerOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CustomerOrder[ id=" + id + " ]";
-    }
+        return "CustomerOrder{" + "id=" + id + ", timestamp=" + timestamp + ", quantity=" + quantity + ", cost=" + cost + ", customerId=" + customerId + ", productId=" + productId + '}';
+    }    
     
 }
