@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `bluebird` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `bluebird`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: bluebird
@@ -74,7 +72,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (4,'Water',5,1.25,'Just plain water'),(11,'Fight Milk',8,45.00,'Fight like a crow!');
+INSERT INTO `product` VALUES (1,'Naan bread',20,15.00,'Bread for old ladies'),(2,'Water',5,1.25,'Just plain water'),(3,'Fight milk',15,45.00,'Fight like a crow!');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,4 +139,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-24 13:31:42
+-- Dump completed on 2017-04-27 17:02:13
