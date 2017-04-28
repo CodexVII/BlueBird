@@ -115,7 +115,7 @@ public class Profile implements Serializable {
     private final String ADMIN_PRODUCT = "adminProduct";
     private final String BROWSE_USERS = "browseUsers";
     private final String EDIT_USER_PROFILE = "editUserProfile";
-    private final String INDEX = "index";
+    private final String LOGIN = "login";
     private final String SHOPPING_CART = "shoppingCart";
     private final String USER_PRODUCT = "userProduct";
     private final String VIEW_PROFILE = "viewProfile";
@@ -155,7 +155,7 @@ public class Profile implements Serializable {
         } catch (ServletException se) {
             context.addMessage(null, new FacesMessage("Login failed"));
 
-            redirect = this.INDEX;
+            redirect = this.LOGIN;
         }
         
         // Return redirect to the appropriate web page
@@ -177,7 +177,7 @@ public class Profile implements Serializable {
             context.addMessage(null, new FacesMessage("Login failed"));
         }
         
-        return this.INDEX;
+        return this.LOGIN;
     }
     
     /**
